@@ -1564,11 +1564,11 @@ self.addEventListener("notificationclick", (s) => {
         const g = w.find(
           (B) => B.focused || B.visibilityState === "visible"
         ) || w[0];
-        console.log("NOTIFICATION CLICK navigate", y), g ? (console.log("NOTIFICATION CLICK postMessage", g), (v = g.postMessage) == null || v.call(g, {
+        console.log("NOTIFICATION CLICK navigate", y), g ? (console.log("NOTIFICATION CLICK postMessage", g), g.focus(), (v = g.postMessage) == null || v.call(g, {
           type: "notification",
           id: c,
           accessToken: h
-        }), g.focus()) : (console.log("NOTIFICATION CLICK openWindow", y), await self.clients.openWindow(y));
+        })) : (console.log("NOTIFICATION CLICK openWindow", y), await self.clients.openWindow(y));
       } else
         console.log("NOTIFICATION CLICK openWindow", y), await self.clients.openWindow(y);
       await s.notification.close();
