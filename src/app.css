@@ -86,6 +86,7 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
   width: var(--main-width);
   max-width: 100%;
   background-color: var(--bg-color);
+  overflow-anchor: auto;
 }
 .deck.contained {
   overflow: auto;
@@ -273,6 +274,11 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
   background-color: var(--bg-color);
   box-shadow: inset 0 -3px var(--comment-line-color),
     inset 0 3px var(--comment-line-color);
+  overscroll-behavior-x: contain;
+
+  .status-link {
+    width: fit-content;
+  }
 }
 .timeline.contextual .replies[data-comments-level='4'] {
   overflow-x: auto;
@@ -1051,13 +1057,13 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
   width: 100%;
   height: 100vh;
   height: 100dvh;
-  background-color: var(--average-color-alpha);
-  background-image: radial-gradient(
+  background-color: var(--accent-alpha-color);
+  /* background-image: radial-gradient(
     closest-side,
-    var(--average-color) 10%,
-    var(--average-color-alpha) 40%,
+    var(--accent-color) 10%,
+    var(--accent-alpha-color) 40%,
     transparent 100%
-  );
+  ); */
 }
 .carousel .carousel-item :is(img, video) {
   width: auto;
@@ -2123,6 +2129,14 @@ ul.link-list li a .icon {
   );
   align-items: center;
   transition: opacity 0.3s ease-out;
+
+  &.expandable:not(#columns &) {
+    @media (min-width: 40em) {
+      width: 95vw;
+      max-width: calc(320px * 3.3);
+      transform: translateX(calc(-50% + var(--main-width) / 2));
+    }
+  }
 
   &.loading,
   .loading > & {
