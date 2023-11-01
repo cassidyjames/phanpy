@@ -60,6 +60,14 @@ const scrollIntoViewOptions = {
   behavior: 'smooth',
 };
 
+// Select all statuses except those inside collapsed details/summary
+// Hat-tip to @AmeliaBR@front-end.social
+// https://front-end.social/@AmeliaBR/109784776146144471
+const STATUSES_SELECTOR =
+  '.status-link:not(details:not([open]) > summary ~ *, details:not([open]) > summary ~ * *), .status-focus:not(details:not([open]) > summary ~ *, details:not([open]) > summary ~ * *)';
+
+const STATUS_URL_REGEX = /\/s\//i;
+
 function StatusPage(params) {
   const { id } = params;
   const { masto, instance } = api({ instance: params.instance });
@@ -169,7 +177,11 @@ function StatusThread({ id, closeLink = '/', instance: propInstance }) {
   const mediaParam = searchParams.get('media');
   const mediaStatusID = searchParams.get('mediaStatusID');
   const showMedia = parseInt(mediaParam, 10) > 0;
-  const firstLoad = useRef(!states.prevLocation && history.length === 1);
+  const firstLoad = useRef(
+    !states.prevLocation &&
+      (history.length === 1 ||
+        ('navigation' in window && navigation?.entries?.()?.length === 1)),
+  );
   const [viewMode, setViewMode] = useState(
     searchParams.get('view') || firstLoad.current ? 'full' : null,
   );
@@ -555,12 +567,7 @@ function StatusThread({ id, closeLink = '/', instance: propInstance }) {
     );
     const activeStatusRect = activeStatus?.getBoundingClientRect();
     const allStatusLinks = Array.from(
-      // Select all statuses except those inside collapsed details/summary
-      // Hat-tip to @AmeliaBR@front-end.social
-      // https://front-end.social/@AmeliaBR/109784776146144471
-      scrollableRef.current.querySelectorAll(
-        '.status-link:not(details:not([open]) > summary ~ *, details:not([open]) > summary ~ * *), .status-focus:not(details:not([open]) > summary ~ *, details:not([open]) > summary ~ * *)',
-      ),
+      scrollableRef.current.querySelectorAll(STATUSES_SELECTOR),
     );
     console.log({ allStatusLinks });
     if (
@@ -593,9 +600,7 @@ function StatusThread({ id, closeLink = '/', instance: propInstance }) {
     );
     const activeStatusRect = activeStatus?.getBoundingClientRect();
     const allStatusLinks = Array.from(
-      scrollableRef.current.querySelectorAll(
-        '.status-link:not(details:not([open]) > summary ~ *, details:not([open]) > summary ~ * *), .status-focus:not(details:not([open]) > summary ~ *, details:not([open]) > summary ~ * *)',
-      ),
+      scrollableRef.current.querySelectorAll(STATUSES_SELECTOR),
     );
     if (
       activeStatus &&
@@ -873,6 +878,17 @@ function StatusThread({ id, closeLink = '/', instance: propInstance }) {
     ],
   );
 
+  const prevLocationIsStatusPage = useMemo(() => {
+    // Navigation API
+    if ('navigation' in window && navigation?.entries) {
+      const prevEntry = navigation.entries()[navigation.currentEntry.index - 1];
+      if (prevEntry?.url) {
+        return STATUS_URL_REGEX.test(prevEntry.url);
+      }
+    }
+    return STATUS_URL_REGEX.test(states.prevLocation?.pathname);
+  }, [sKey]);
+
   return (
     <div
       tabIndex="-1"
@@ -909,7 +925,7 @@ function StatusThread({ id, closeLink = '/', instance: propInstance }) {
           </div> */}
         <div class="header-grid header-grid-2">
           <h1>
-            {!!/\/s\//i.test(snapStates.prevLocation?.pathname) && (
+            {prevLocationIsStatusPage && (
               <button
                 type="button"
                 class="plain deck-back"

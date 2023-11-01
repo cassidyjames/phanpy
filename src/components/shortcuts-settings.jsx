@@ -22,7 +22,7 @@ import Icon from './icon';
 import MenuConfirm from './menu-confirm';
 import Modal from './modal';
 
-const SHORTCUTS_LIMIT = 9;
+export const SHORTCUTS_LIMIT = 9;
 
 const TYPES = [
   'following',
@@ -103,6 +103,11 @@ const TYPE_PARAMS = {
       type: 'text',
       placeholder: 'e.g. PixelArt (Max 5, space-separated)',
       pattern: '[^#]+',
+    },
+    {
+      text: 'Media only',
+      name: 'media',
+      type: 'checkbox',
     },
     {
       text: 'Instance',
@@ -186,8 +191,10 @@ export const SHORTCUTS_META = {
     id: 'hashtag',
     title: ({ hashtag }) => hashtag,
     subtitle: ({ instance }) => instance || api().instance,
-    path: ({ hashtag, instance }) =>
-      `${instance ? `/${instance}` : ''}/t/${hashtag.split(/\s+/).join('+')}`,
+    path: ({ hashtag, instance, media }) =>
+      `${instance ? `/${instance}` : ''}/t/${hashtag.split(/\s+/).join('+')}${
+        media ? '?media=1' : ''
+      }`,
     icon: 'hashtag',
   },
 };

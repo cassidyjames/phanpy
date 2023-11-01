@@ -10,7 +10,7 @@ import {
 } from 'preact/hooks';
 import { matchPath, Route, Routes, useLocation } from 'react-router-dom';
 import 'swiped-events';
-import { subscribe, useSnapshot } from 'valtio';
+import { subscribe } from 'valtio';
 
 import BackgroundService from './components/background-service';
 import ComposeButton from './components/compose-button';
@@ -55,6 +55,20 @@ import { getCurrentAccount } from './utils/store-utils';
 import './utils/toast-alert';
 
 window.__STATES__ = states;
+window.__STATES_STATS__ = () => {
+  const keys = [
+    'statuses',
+    'accounts',
+    'spoilers',
+    'unfurledLinks',
+    'statusQuotes',
+  ];
+  const counts = {};
+  keys.forEach((key) => {
+    counts[key] = Object.keys(states[key]).length;
+  });
+  console.warn('STATE stats', counts);
+};
 
 // Preload icons
 // There's probably a better way to do this
@@ -70,7 +84,7 @@ setTimeout(() => {
 }, 5000);
 
 (() => {
-  window.__IDLE__ = false;
+  window.__IDLE__ = true;
   const nonIdleEvents = [
     'mousemove',
     'mousedown',
@@ -81,13 +95,14 @@ setTimeout(() => {
     'pointermove',
     'wheel',
   ];
-  const IDLE_TIME = 5_000; // 5 seconds
-  const setIdle = debounce(() => {
+  const setIdle = () => {
     window.__IDLE__ = true;
-  }, IDLE_TIME);
+  };
+  const IDLE_TIME = 3_000; // 3 seconds
+  const debouncedSetIdle = debounce(setIdle, IDLE_TIME);
   const onNonIdle = () => {
     window.__IDLE__ = false;
-    setIdle();
+    debouncedSetIdle();
   };
   nonIdleEvents.forEach((event) => {
     window.addEventListener(event, onNonIdle, {
@@ -95,6 +110,21 @@ setTimeout(() => {
       capture: true,
     });
   });
+  window.addEventListener('blur', setIdle, {
+    passive: true,
+  });
+  // When cursor leaves the window, set idle
+  document.documentElement.addEventListener(
+    'mouseleave',
+    (e) => {
+      if (!e.relatedTarget && !e.toElement) {
+        setIdle();
+      }
+    },
+    {
+      passive: true,
+    },
+  );
   // document.addEventListener(
   //   'visibilitychange',
   //   () => {

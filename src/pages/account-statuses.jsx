@@ -1,5 +1,11 @@
 import { MenuItem } from '@szhsin/react-menu';
-import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'preact/hooks';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useSnapshot } from 'valtio';
 
@@ -195,15 +201,41 @@ function AccountStatuses() {
 
   const [featuredTags, setFeaturedTags] = useState([]);
   useTitle(
-    `${account?.displayName ? account.displayName + ' ' : ''}@${
-      account?.acct ? account.acct : 'Account posts'
-    }`,
+    account?.acct
+      ? `${account?.displayName ? account.displayName + ' ' : ''}@${
+          account.acct
+        }${
+          !excludeReplies
+            ? ' (+ Replies)'
+            : excludeBoosts
+            ? ' (- Boosts)'
+            : tagged
+            ? ` (#${tagged})`
+            : media
+            ? ' (Media)'
+            : month
+            ? ` (${new Date(month).toLocaleString('default', {
+                month: 'long',
+                year: 'numeric',
+              })})`
+            : ''
+        }`
+      : 'Account posts',
     '/:instance?/a/:id',
   );
+
+  const fetchAccountPromiseRef = useRef();
+  const fetchAccount = useCallback(() => {
+    const fetchPromise =
+      fetchAccountPromiseRef.current || masto.v1.accounts.$select(id).fetch();
+    fetchAccountPromiseRef.current = fetchPromise;
+    return fetchPromise;
+  }, [id, masto]);
+
   useEffect(() => {
     (async () => {
       try {
-        const acc = await masto.v1.accounts.$select(id).fetch();
+        const acc = await fetchAccount();
         console.log(acc);
         setAccount(acc);
       } catch (e) {
@@ -223,21 +255,34 @@ function AccountStatuses() {
 
   const { displayName, acct, emojis } = account || {};
 
+  const accountInfoMemo = useMemo(() => {
+    const cachedAccount = snapStates.accounts[`${id}@${instance}`];
+    return (
+      <AccountInfo
+        instance={instance}
+        account={cachedAccount || id}
+        fetchAccount={fetchAccount}
+        authenticated={authenticated}
+        standalone
+      />
+    );
+  }, [id, instance, authenticated, fetchAccount]);
+
   const filterBarRef = useRef();
   const TimelineStart = useMemo(() => {
-    const cachedAccount = snapStates.accounts[`${id}@${instance}`];
     const filtered =
       !excludeReplies || excludeBoosts || tagged || media || !!month;
+
     return (
       <>
-        <AccountInfo
-          instance={instance}
-          account={cachedAccount || id}
-          fetchAccount={() => masto.v1.accounts.$select(id).fetch()}
-          authenticated={authenticated}
-          standalone
-        />
-        <div class="filter-bar" ref={filterBarRef}>
+        {accountInfoMemo}
+        <div
+          class="filter-bar"
+          ref={filterBarRef}
+          style={{
+            position: 'relative',
+          }}
+        >
           {filtered ? (
             <Link
               to={`/${instance}/a/${id}`}
@@ -328,6 +373,15 @@ function AccountStatuses() {
                           }
                         : {},
                     );
+                    showToast(
+                      `Showing posts in ${new Date(value).toLocaleString(
+                        'default',
+                        {
+                          month: 'long',
+                          year: 'numeric',
+                        },
+                      )}`,
+                    );
                   }}
                 />
               </label>
@@ -392,7 +446,7 @@ function AccountStatuses() {
       title={`${account?.acct ? '@' + account.acct : 'Posts'}`}
       titleComponent={
         <h1
-          class="header-account"
+          class="header-double-lines header-account"
           // onClick={() => {
           //   states.showAccount = {
           //     account,
@@ -414,6 +468,7 @@ function AccountStatuses() {
       errorText="Unable to load posts"
       fetchItems={fetchAccountStatuses}
       useItemID
+      view={media ? 'media' : undefined}
       boostsCarousel={snapStates.settings.boostsCarousel}
       timelineStart={TimelineStart}
       refresh={[
