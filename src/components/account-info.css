@@ -254,6 +254,7 @@
 .account-container .note {
   font-size: 95%;
   line-height: 1.4;
+  text-wrap: pretty;
 }
 .account-container .note:not(:has(p)):not(:empty) {
   /* Some notes don't have <p> tags, so we need to add some padding */
@@ -408,6 +409,7 @@
 
 .timeline-start .account-container {
   border-bottom: 1px solid var(--outline-color);
+  position: relative;
 }
 .timeline-start .account-container header {
   padding: 16px 16px 1px;
@@ -432,18 +434,38 @@
     filter: blur(16px) opacity(0.2);
   }
 }
+@keyframes surface-header {
+  0% {
+    border-bottom-color: transparent;
+    box-shadow: none;
+  }
+  100% {
+    border-bottom-color: var(--outline-color);
+    box-shadow: 0 8px 16px -8px var(--drop-shadow-color);
+  }
+}
+@keyframes shrink-avatar {
+  0% {
+    width: 64px;
+    height: 64px;
+  }
+  100% {
+    width: 2.5em;
+    height: 2.5em;
+  }
+}
 .sheet .account-container {
   border-radius: 16px 16px 0 0;
   overflow-x: hidden;
   max-height: 75vh;
   overscroll-behavior: none;
+  scroll-timeline: --account-scroll;
 
   header {
     padding-bottom: 16px;
     position: sticky;
     top: 0;
     z-index: 2;
-    /* --bg-color: red; */
     background-image: linear-gradient(
       to bottom,
       transparent 30%,
@@ -451,6 +473,14 @@
       var(--bg-color) calc(100% - 8px),
       transparent
     );
+
+    .account-block-content {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-clamp: 3;
+      -webkit-line-clamp: 3;
+    }
   }
 
   .faux-header-bg {
@@ -468,6 +498,24 @@
       animation: bye-banner 1s linear both;
       animation-timeline: view();
       animation-range: contain 100% cover 100%;
+    }
+
+    header {
+      background-image: linear-gradient(
+        to bottom,
+        transparent 30%,
+        var(--bg-color) var(--banner-overlap)
+      );
+      border-bottom: 1px solid transparent;
+      animation: surface-header 1s linear both;
+      animation-timeline: --account-scroll;
+      animation-range: 0 150px;
+    }
+
+    header .avatar {
+      animation: shrink-avatar 1s linear both;
+      animation-timeline: --account-scroll;
+      animation-range: 0 150px;
     }
   }
 

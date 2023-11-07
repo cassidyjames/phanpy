@@ -4,6 +4,8 @@ import { InView } from 'react-intersection-observer';
 import { useDebouncedCallback } from 'use-debounce';
 import { useSnapshot } from 'valtio';
 
+import FilterContext from '../utils/filter-context';
+import { isFiltered } from '../utils/filters';
 import states, { statusKey } from '../utils/states';
 import statusPeek from '../utils/status-peek';
 import { groupBoosts, groupContext } from '../utils/timeline-utils';
@@ -13,7 +15,6 @@ import useScroll from '../utils/useScroll';
 
 import Icon from './icon';
 import Link from './link';
-import Media from './media';
 import MediaPost from './media-post';
 import NavMenu from './nav-menu';
 import Status from './status';
@@ -35,13 +36,14 @@ function Timeline({
   boostsCarousel,
   fetchItems = () => {},
   checkForUpdates = () => {},
-  checkForUpdatesInterval = 60_000, // 1 minute
+  checkForUpdatesInterval = 15_000, // 15 seconds
   headerStart,
   headerEnd,
   timelineStart,
-  allowFilters,
+  // allowFilters,
   refresh,
   view,
+  filterContext,
 }) {
   const snapStates = useSnapshot(states);
   const [items, setItems] = useState([]);
@@ -285,173 +287,181 @@ function Timeline({
   const hiddenUI = scrollDirection === 'end' && !nearReachStart;
 
   return (
-    <div
-      id={`${id}-page`}
-      class="deck-container"
-      ref={(node) => {
-        scrollableRef.current = node;
-        jRef.current = node;
-        kRef.current = node;
-        oRef.current = node;
-      }}
-      tabIndex="-1"
-    >
-      <div class="timeline-deck deck">
-        <header
-          hidden={hiddenUI}
-          onClick={(e) => {
-            if (!e.target.closest('a, button')) {
-              scrollableRef.current?.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-              });
-            }
-          }}
-          onDblClick={(e) => {
-            if (!e.target.closest('a, button')) {
-              loadItems(true);
-            }
-          }}
-          class={uiState === 'loading' ? 'loading' : ''}
-        >
-          <div class="header-grid">
-            <div class="header-side">
-              <NavMenu />
-              {headerStart !== null && headerStart !== undefined ? (
-                headerStart
-              ) : (
-                <Link to="/" class="button plain home-button">
-                  <Icon icon="home" size="l" />
-                </Link>
-              )}
-            </div>
-            {title && (titleComponent ? titleComponent : <h1>{title}</h1>)}
-            <div class="header-side">
-              {/* <Loader hidden={uiState !== 'loading'} /> */}
-              {!!headerEnd && headerEnd}
-            </div>
-          </div>
-          {items.length > 0 &&
-            uiState !== 'loading' &&
-            !hiddenUI &&
-            showNew && (
-              <button
-                class="updates-button shiny-pill"
-                type="button"
-                onClick={() => {
-                  loadItems(true);
-                  scrollableRef.current?.scrollTo({
-                    top: 0,
-                    behavior: 'smooth',
-                  });
-                }}
-              >
-                <Icon icon="arrow-up" /> New posts
-              </button>
-            )}
-        </header>
-        {!!timelineStart && (
-          <div
-            class={`timeline-start ${uiState === 'loading' ? 'loading' : ''}`}
+    <FilterContext.Provider value={filterContext}>
+      <div
+        id={`${id}-page`}
+        class="deck-container"
+        ref={(node) => {
+          scrollableRef.current = node;
+          jRef.current = node;
+          kRef.current = node;
+          oRef.current = node;
+        }}
+        tabIndex="-1"
+      >
+        <div class="timeline-deck deck">
+          <header
+            hidden={hiddenUI}
+            onClick={(e) => {
+              if (!e.target.closest('a, button')) {
+                scrollableRef.current?.scrollTo({
+                  top: 0,
+                  behavior: 'smooth',
+                });
+              }
+            }}
+            onDblClick={(e) => {
+              if (!e.target.closest('a, button')) {
+                loadItems(true);
+              }
+            }}
+            class={uiState === 'loading' ? 'loading' : ''}
           >
-            {timelineStart}
-          </div>
-        )}
-        {!!items.length ? (
-          <>
-            <ul class={`timeline ${view ? `timeline-${view}` : ''}`}>
-              {items.map((status) => (
-                <TimelineItem
-                  status={status}
-                  instance={instance}
-                  useItemID={useItemID}
-                  allowFilters={allowFilters}
-                  key={status.id + status?._pinned}
-                  view={view}
-                />
-              ))}
-              {showMore &&
-                uiState === 'loading' &&
-                (view === 'media' ? null : (
-                  <>
-                    <li
-                      style={{
-                        height: '20vh',
-                      }}
-                    >
-                      <Status skeleton />
-                    </li>
-                    <li
-                      style={{
-                        height: '25vh',
-                      }}
-                    >
-                      <Status skeleton />
-                    </li>
-                  </>
-                ))}
-            </ul>
-            {uiState === 'default' &&
-              (showMore ? (
-                <InView
-                  onChange={(inView) => {
-                    if (inView) {
-                      loadItems();
-                    }
+            <div class="header-grid">
+              <div class="header-side">
+                <NavMenu />
+                {headerStart !== null && headerStart !== undefined ? (
+                  headerStart
+                ) : (
+                  <Link to="/" class="button plain home-button">
+                    <Icon icon="home" size="l" />
+                  </Link>
+                )}
+              </div>
+              {title && (titleComponent ? titleComponent : <h1>{title}</h1>)}
+              <div class="header-side">
+                {/* <Loader hidden={uiState !== 'loading'} /> */}
+                {!!headerEnd && headerEnd}
+              </div>
+            </div>
+            {items.length > 0 &&
+              uiState !== 'loading' &&
+              !hiddenUI &&
+              showNew && (
+                <button
+                  class="updates-button shiny-pill"
+                  type="button"
+                  onClick={() => {
+                    loadItems(true);
+                    scrollableRef.current?.scrollTo({
+                      top: 0,
+                      behavior: 'smooth',
+                    });
                   }}
                 >
-                  <button
-                    type="button"
-                    class="plain block"
-                    onClick={() => loadItems()}
-                    style={{ marginBlockEnd: '6em' }}
-                  >
-                    Show more&hellip;
-                  </button>
-                </InView>
-              ) : (
-                <p class="ui-state insignificant">The end.</p>
-              ))}
-          </>
-        ) : uiState === 'loading' ? (
-          <ul class="timeline">
-            {Array.from({ length: 5 }).map((_, i) =>
-              view === 'media' ? (
-                <div
-                  style={{
-                    height: '50vh',
-                  }}
-                />
-              ) : (
-                <li key={i}>
-                  <Status skeleton />
-                </li>
-              ),
-            )}
-          </ul>
-        ) : (
-          uiState !== 'error' && <p class="ui-state">{emptyText}</p>
-        )}
-        {uiState === 'error' && (
-          <p class="ui-state">
-            {errorText}
-            <br />
-            <br />
-            <button
-              class="button plain"
-              onClick={() => loadItems(!items.length)}
+                  <Icon icon="arrow-up" /> New posts
+                </button>
+              )}
+          </header>
+          {!!timelineStart && (
+            <div
+              class={`timeline-start ${uiState === 'loading' ? 'loading' : ''}`}
             >
-              Try again
-            </button>
-          </p>
-        )}
+              {timelineStart}
+            </div>
+          )}
+          {!!items.length ? (
+            <>
+              <ul class={`timeline ${view ? `timeline-${view}` : ''}`}>
+                {items.map((status) => (
+                  <TimelineItem
+                    status={status}
+                    instance={instance}
+                    useItemID={useItemID}
+                    // allowFilters={allowFilters}
+                    filterContext={filterContext}
+                    key={status.id + status?._pinned + view}
+                    view={view}
+                  />
+                ))}
+                {showMore &&
+                  uiState === 'loading' &&
+                  (view === 'media' ? null : (
+                    <>
+                      <li
+                        style={{
+                          height: '20vh',
+                        }}
+                      >
+                        <Status skeleton />
+                      </li>
+                      <li
+                        style={{
+                          height: '25vh',
+                        }}
+                      >
+                        <Status skeleton />
+                      </li>
+                    </>
+                  ))}
+              </ul>
+              {uiState === 'default' &&
+                (showMore ? (
+                  <InView
+                    onChange={(inView) => {
+                      if (inView) {
+                        loadItems();
+                      }
+                    }}
+                  >
+                    <button
+                      type="button"
+                      class="plain block"
+                      onClick={() => loadItems()}
+                      style={{ marginBlockEnd: '6em' }}
+                    >
+                      Show more&hellip;
+                    </button>
+                  </InView>
+                ) : (
+                  <p class="ui-state insignificant">The end.</p>
+                ))}
+            </>
+          ) : uiState === 'loading' ? (
+            <ul class="timeline">
+              {Array.from({ length: 5 }).map((_, i) =>
+                view === 'media' ? (
+                  <div
+                    style={{
+                      height: '50vh',
+                    }}
+                  />
+                ) : (
+                  <li key={i}>
+                    <Status skeleton />
+                  </li>
+                ),
+              )}
+            </ul>
+          ) : (
+            uiState !== 'error' && <p class="ui-state">{emptyText}</p>
+          )}
+          {uiState === 'error' && (
+            <p class="ui-state">
+              {errorText}
+              <br />
+              <br />
+              <button type="button" onClick={() => loadItems(!items.length)}>
+                Try again
+              </button>
+            </p>
+          )}
+        </div>
       </div>
-    </div>
+    </FilterContext.Provider>
   );
 }
 
-function TimelineItem({ status, instance, useItemID, allowFilters, view }) {
+function TimelineItem({
+  status,
+  instance,
+  useItemID,
+  // allowFilters,
+  filterContext,
+  view,
+}) {
   const { id: statusID, reblog, items, type, _pinned } = status;
+  if (_pinned) useItemID = false;
   const actualStatusID = reblog?.id || statusID;
   const url = instance
     ? `/${instance}/s/${actualStatusID}`
@@ -467,10 +477,18 @@ function TimelineItem({ status, instance, useItemID, allowFilters, view }) {
     if (isCarousel) {
       // Here, we don't hide filtered posts, but we sort them last
       items.sort((a, b) => {
-        if (a._filtered && !b._filtered) {
+        // if (a._filtered && !b._filtered) {
+        //   return 1;
+        // }
+        // if (!a._filtered && b._filtered) {
+        //   return -1;
+        // }
+        const aFiltered = isFiltered(a.filtered, filterContext);
+        const bFiltered = isFiltered(b.filtered, filterContext);
+        if (aFiltered && !bFiltered) {
           return 1;
         }
-        if (!a._filtered && b._filtered) {
+        if (!aFiltered && bFiltered) {
           return -1;
         }
         return 0;
@@ -479,11 +497,12 @@ function TimelineItem({ status, instance, useItemID, allowFilters, view }) {
         <li key={`timeline-${statusID}`} class="timeline-item-carousel">
           <StatusCarousel title={title} class={`${type}-carousel`}>
             {items.map((item) => {
-              const { id: statusID, reblog } = item;
+              const { id: statusID, reblog, _pinned } = item;
               const actualStatusID = reblog?.id || statusID;
               const url = instance
                 ? `/${instance}/s/${actualStatusID}`
                 : `/s/${actualStatusID}`;
+              if (_pinned) useItemID = false;
               return (
                 <li key={statusID}>
                   <Link class="status-carousel-link timeline-item-alt" to={url}>
@@ -493,7 +512,7 @@ function TimelineItem({ status, instance, useItemID, allowFilters, view }) {
                         instance={instance}
                         size="s"
                         contentTextWeight
-                        allowFilters={allowFilters}
+                        // allowFilters={allowFilters}
                       />
                     ) : (
                       <Status
@@ -501,7 +520,7 @@ function TimelineItem({ status, instance, useItemID, allowFilters, view }) {
                         instance={instance}
                         size="s"
                         contentTextWeight
-                        allowFilters={allowFilters}
+                        // allowFilters={allowFilters}
                       />
                     )}
                   </Link>
@@ -541,13 +560,13 @@ function TimelineItem({ status, instance, useItemID, allowFilters, view }) {
               <Status
                 statusID={statusID}
                 instance={instance}
-                allowFilters={allowFilters}
+                // allowFilters={allowFilters}
               />
             ) : (
               <Status
                 status={item}
                 instance={instance}
-                allowFilters={allowFilters}
+                // allowFilters={allowFilters}
               />
             )}
           </Link>
@@ -566,7 +585,7 @@ function TimelineItem({ status, instance, useItemID, allowFilters, view }) {
         key={itemKey}
         statusID={statusID}
         instance={instance}
-        allowFilters={allowFilters}
+        // allowFilters={allowFilters}
       />
     ) : (
       <MediaPost
@@ -575,7 +594,7 @@ function TimelineItem({ status, instance, useItemID, allowFilters, view }) {
         key={itemKey}
         status={status}
         instance={instance}
-        allowFilters={allowFilters}
+        // allowFilters={allowFilters}
       />
     );
   }
@@ -587,13 +606,13 @@ function TimelineItem({ status, instance, useItemID, allowFilters, view }) {
           <Status
             statusID={statusID}
             instance={instance}
-            allowFilters={allowFilters}
+            // allowFilters={allowFilters}
           />
         ) : (
           <Status
             status={status}
             instance={instance}
-            allowFilters={allowFilters}
+            // allowFilters={allowFilters}
           />
         )}
       </Link>

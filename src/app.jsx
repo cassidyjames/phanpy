@@ -49,7 +49,7 @@ import {
 } from './utils/api';
 import { getAccessToken } from './utils/auth';
 import focusDeck from './utils/focus-deck';
-import states, { initStates } from './utils/states';
+import states, { initStates, statusKey } from './utils/states';
 import store from './utils/store';
 import { getCurrentAccount } from './utils/store-utils';
 import './utils/toast-alert';
@@ -68,7 +68,51 @@ window.__STATES_STATS__ = () => {
     counts[key] = Object.keys(states[key]).length;
   });
   console.warn('STATE stats', counts);
+
+  const { statuses } = states;
+  const unmountedPosts = [];
+  for (const key in statuses) {
+    const $post = document.querySelector(`[data-state-post-id="${key}"]`);
+    if (!$post) {
+      unmountedPosts.push(key);
+    }
+  }
+  console.warn('Unmounted posts', unmountedPosts.length, unmountedPosts);
 };
+
+// Experimental "garbage collection" for states
+// Every 15 minutes
+// Only posts for now
+setInterval(() => {
+  if (!window.__IDLE__) return;
+  const { statuses, unfurledLinks, notifications } = states;
+  let keysCount = 0;
+  const { instance } = api();
+  for (const key in statuses) {
+    try {
+      const $post = document.querySelector(`[data-state-post-id~="${key}"]`);
+      const postInNotifications = notifications.some(
+        (n) => key === statusKey(n.status?.id, instance),
+      );
+      if (!$post && !postInNotifications) {
+        delete states.statuses[key];
+        delete states.statusQuotes[key];
+        for (const link in unfurledLinks) {
+          const unfurled = unfurledLinks[link];
+          const sKey = statusKey(unfurled.id, unfurled.instance);
+          if (sKey === key) {
+            delete states.unfurledLinks[link];
+            break;
+          }
+        }
+        keysCount++;
+      }
+    } catch (e) {}
+  }
+  if (keysCount) {
+    console.info(`GC: Removed ${keysCount} keys`);
+  }
+}, 15 * 60 * 1000);
 
 // Preload icons
 // There's probably a better way to do this

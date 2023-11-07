@@ -359,6 +359,7 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
   box-shadow: inset 0 -3px var(--comment-line-color),
     inset 0 3px var(--comment-line-color);
   overscroll-behavior-x: contain;
+  touch-action: pan-x;
 }
 .timeline.contextual .replies[data-comments-level='4'] {
   overflow-x: auto;
@@ -551,7 +552,6 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
   border-radius: 8px;
   cursor: pointer;
   text-transform: uppercase;
-  font-weight: 500;
   font-size: 12px;
   color: var(--text-insignificant-color);
   user-select: none;
@@ -559,6 +559,11 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
   position: relative;
   list-style: none;
   white-space: nowrap;
+
+  b {
+    font-weight: 500;
+    color: var(--text-color);
+  }
 }
 .timeline.contextual > li .replies > .replies-summary::-webkit-details-marker {
   display: none;
@@ -568,6 +573,10 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
 }
 .timeline.contextual > li .replies > .replies-summary .avatars {
   margin-right: 8px;
+
+  > *:not(:first-child) {
+    margin: 0 0 0 -4px;
+  }
 }
 .timeline.contextual > li .replies > .replies-summary:active,
 .timeline.contextual > li .replies[open] > .replies-summary {
@@ -1300,6 +1309,9 @@ button.carousel-dot:is(.active, [disabled].active) .icon {
 }
 body:has(.status-deck) .media-post-link {
   display: none;
+}
+.media-modal-count-1 .button-label {
+  display: inline;
 }
 
 /* ✨ New */

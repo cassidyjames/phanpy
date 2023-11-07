@@ -25,8 +25,8 @@ function Shortcuts() {
     return null;
   }
   if (
-    settings.shortcutsColumnsMode ||
-    settings.shortcutsViewMode === 'multi-column'
+    settings.shortcutsViewMode === 'multi-column' ||
+    (!settings.shortcutsViewMode && settings.shortcutsColumnsMode)
   ) {
     return null;
   }
@@ -90,12 +90,18 @@ function Shortcuts() {
   return (
     <div id="shortcuts">
       {snapStates.settings.shortcutsViewMode === 'tab-menu-bar' ? (
-        <nav class="tab-bar">
+        <nav
+          class="tab-bar"
+          onContextMenu={(e) => {
+            e.preventDefault();
+            states.showShortcutsSettings = true;
+          }}
+        >
           <ul>
             {formattedShortcuts.map(
               ({ id, path, title, subtitle, icon }, i) => {
                 return (
-                  <li key={i + title}>
+                  <li key={`${i}-${id}-${title}-${subtitle}-${path}`}>
                     <Link
                       class={subtitle ? 'has-subtitle' : ''}
                       to={path}
@@ -146,6 +152,10 @@ function Shortcuts() {
               type="button"
               id="shortcuts-button"
               class="plain"
+              onContextMenu={(e) => {
+                e.preventDefault();
+                states.showShortcutsSettings = true;
+              }}
               onTransitionStart={(e) => {
                 // Close menu if the button disappears
                 try {
@@ -160,9 +170,13 @@ function Shortcuts() {
             </button>
           }
         >
-          {formattedShortcuts.map(({ path, title, subtitle, icon }, i) => {
+          {formattedShortcuts.map(({ id, path, title, subtitle, icon }, i) => {
             return (
-              <MenuLink to={path} key={i + title} class="glass-menu-item">
+              <MenuLink
+                to={path}
+                key={`${i}-${id}-${title}-${subtitle}-${path}`}
+                class="glass-menu-item"
+              >
                 <Icon icon={icon} size="l" />{' '}
                 <span class="menu-grow">
                   <span>

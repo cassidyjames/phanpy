@@ -10,10 +10,16 @@
     animation: none !important;
   }
 
+  &.filtered[data-filtered-text]:before {
+    content: attr(data-filtered-text);
+  }
+  &.has-spoiler[data-spoiler-text]:before {
+    content: attr(data-spoiler-text);
+  }
+
   &.filtered[data-filtered-text]:before,
   &.has-spoiler[data-spoiler-text]:before {
     pointer-events: none;
-    content: attr(data-spoiler-text);
     position: absolute;
     top: 0;
     left: 0;
@@ -27,7 +33,6 @@
     word-break: break-word;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    opacity: 0.8;
     mix-blend-mode: luminosity;
     -webkit-line-clamp: 3;
     line-clamp: 3;
@@ -36,6 +41,7 @@
     display: -webkit-box;
     display: box;
     overflow: hidden;
+    z-index: 2;
 
     > * {
       pointer-events: none;
@@ -64,6 +70,8 @@
     @media (hover: hover) {
       &:hover {
         --drop-shadow: var(--drop-shadow-color);
+        position: relative;
+        z-index: 1;
         box-shadow: 0 8px 16px -4px var(--drop-shadow),
           0 4px 8px var(--drop-shadow);
 

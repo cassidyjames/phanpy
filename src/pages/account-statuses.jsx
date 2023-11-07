@@ -57,6 +57,7 @@ function AccountStatuses() {
   const tagged = searchParams.get('tagged');
   const media = !!searchParams.get('media');
   const { masto, instance, authenticated } = api({ instance: params.instance });
+  const { masto: currentMasto, instance: currentInstance } = api();
   const accountStatusesIterator = useRef();
 
   const allSearchParams = [month, excludeReplies, excludeBoosts, tagged, media];
@@ -67,8 +68,8 @@ function AccountStatuses() {
   }, allSearchParams);
 
   const sameCurrentInstance = useMemo(
-    () => instance === api().instance,
-    [instance],
+    () => instance === currentInstance,
+    [instance, currentInstance],
   );
   const [searchEnabled, setSearchEnabled] = useState(false);
   useEffect(() => {
@@ -151,16 +152,19 @@ function AccountStatuses() {
 
     const results = [];
     if (firstLoad) {
-      const { value: pinnedStatuses } = await masto.v1.accounts
+      const { value } = await masto.v1.accounts
         .$select(id)
         .statuses.list({
           pinned: true,
         })
         .next();
-      if (pinnedStatuses?.length && !tagged && !media) {
-        pinnedStatuses.forEach((status) => {
-          status._pinned = true;
+      if (value?.length && !tagged && !media) {
+        const pinnedStatuses = value.map((status) => {
           saveStatus(status, instance);
+          return {
+            ...status,
+            _pinned: true,
+          };
         });
         if (pinnedStatuses.length >= 3) {
           const pinnedStatusesIds = pinnedStatuses.map((status) => status.id);
@@ -516,6 +520,29 @@ function AccountStatuses() {
               Switch to account's instance (<b>{accountInstance}</b>)
             </small>
           </MenuItem>
+          {!sameCurrentInstance && (
+            <MenuItem
+              onClick={() => {
+                (async () => {
+                  try {
+                    const acc = await currentMasto.v1.accounts.lookup({
+                      acct: account.acct + '@' + instance,
+                    });
+                    const { id } = acc;
+                    location.hash = `/${currentInstance}/a/${id}`;
+                  } catch (e) {
+                    console.error(e);
+                    alert('Unable to fetch account info');
+                  }
+                })();
+              }}
+            >
+              <Icon icon="transfer" />{' '}
+              <small class="menu-double-lines">
+                Switch to my instance (<b>{currentInstance}</b>)
+              </small>
+            </MenuItem>
+          )}
         </Menu2>
       }
     />
