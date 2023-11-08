@@ -265,7 +265,8 @@ function Timeline({
     (visible) => {
       if (visible) {
         const timeDiff = Date.now() - lastHiddenTime.current;
-        if (!lastHiddenTime.current || timeDiff > 1000 * 60) {
+        if (!lastHiddenTime.current || timeDiff > 1000 * 3) {
+          // 3 seconds
           loadOrCheckUpdates({
             disableIdleCheck: true,
           });
@@ -281,7 +282,9 @@ function Timeline({
   // checkForUpdates interval
   useInterval(
     loadOrCheckUpdates,
-    visible && !showNew ? checkForUpdatesInterval : null,
+    visible && !showNew
+      ? checkForUpdatesInterval * (nearReachStart ? 1 : 2)
+      : null,
   );
 
   const hiddenUI = scrollDirection === 'end' && !nearReachStart;
