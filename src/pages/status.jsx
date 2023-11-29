@@ -810,7 +810,7 @@ function StatusThread({ id, closeLink = '/', instance: propInstance }) {
               />
               {ancestor && isThread && repliesCount > 1 && (
                 <div class="replies-link">
-                  <Icon icon="comment" />{' '}
+                  <Icon icon="comment2" />{' '}
                   <span title={repliesCount}>
                     {shortenNumber(repliesCount)}
                   </span>
@@ -1100,7 +1100,7 @@ function StatusThread({ id, closeLink = '/', instance: propInstance }) {
               <MenuDivider />
               <MenuHeader className="plain">Experimental</MenuHeader>
               <MenuItem
-                disabled={postSameInstance}
+                disabled={!postInstance || postSameInstance}
                 onClick={() => {
                   const statusURL = getInstanceStatusURL(heroStatus.url);
                   if (statusURL) {
@@ -1112,7 +1112,15 @@ function StatusThread({ id, closeLink = '/', instance: propInstance }) {
               >
                 <Icon icon="transfer" />
                 <small class="menu-double-lines">
-                  Switch to post's instance (<b>{postInstance}</b>)
+                  Switch to post's instance
+                  {postInstance ? (
+                    <>
+                      {' '}
+                      (<b>{postInstance}</b>)
+                    </>
+                  ) : (
+                    ''
+                  )}
                 </small>
               </MenuItem>
             </Menu2>
@@ -1137,6 +1145,10 @@ function StatusThread({ id, closeLink = '/', instance: propInstance }) {
                 disabled={uiState === 'loading'}
                 onClick={() => setLimit((l) => l + LIMIT)}
                 style={{ marginBlockEnd: '6em' }}
+                data-state-post-ids={statuses
+                  .slice(limit)
+                  .map((s) => statusKey(s.id, instance))
+                  .join(' ')}
               >
                 <div class="ib avatars-bunch">
                   {/* show avatars for first 5 statuses */}
@@ -1319,7 +1331,7 @@ function SubComments({
               />
               {!r.replies?.length && r.repliesCount > 0 && (
                 <div class="replies-link">
-                  <Icon icon="comment" />{' '}
+                  <Icon icon="comment2" />{' '}
                   <span title={r.repliesCount}>
                     {shortenNumber(r.repliesCount)}
                   </span>
