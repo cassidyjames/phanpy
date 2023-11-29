@@ -1133,7 +1133,7 @@ class ke {
     return n || t && t.status !== 200 && (t = void 0), t;
   }
 }
-class U {
+class v {
   /**
    * Creates a new instance of the strategy and sets all documented option
    * properties as public instance properties.
@@ -1255,7 +1255,7 @@ class U {
       throw i;
   }
 }
-class J extends U {
+class J extends v {
   /**
    * @private
    * @param {Request|string} request A request to run this strategy for.
@@ -1289,7 +1289,7 @@ const X = {
    */
   cacheWillUpdate: async ({ response: s }) => s.status === 200 || s.status === 0 ? s : null
 };
-class Y extends U {
+class Y extends v {
   /**
    * @param {Object} [options]
    * @param {string} [options.cacheName] Cache name to store and retrieve
@@ -1383,7 +1383,7 @@ class Y extends U {
     return e && clearTimeout(e), (r || !i) && (i = await a.cacheMatch(t)), i;
   }
 }
-class Ie extends U {
+class Ie extends v {
   /**
    * @param {Object} [options]
    * @param {string} [options.cacheName] Cache name to store and retrieve
@@ -1554,7 +1554,7 @@ self.addEventListener("notificationclick", (s) => {
   const { badge: t, body: n, data: a, dir: r, icon: i, lang: o, tag: c, timestamp: l, title: m } = e, { access_token: h, notification_type: I } = a, y = `/#/notifications?id=${c}&access_token=${btoa(h)}`;
   s.waitUntil(
     (async () => {
-      var v;
+      var U;
       const w = await self.clients.matchAll({
         type: "window",
         includeUncontrolled: !0
@@ -1564,7 +1564,7 @@ self.addEventListener("notificationclick", (s) => {
         const g = w.find(
           (B) => B.focused || B.visibilityState === "visible"
         ) || w[0];
-        console.log("NOTIFICATION CLICK navigate", y), g ? (console.log("NOTIFICATION CLICK postMessage", g), g.focus(), (v = g.postMessage) == null || v.call(g, {
+        console.log("NOTIFICATION CLICK navigate", y), g ? (console.log("NOTIFICATION CLICK postMessage", g), g.focus(), (U = g.postMessage) == null || U.call(g, {
           type: "notification",
           id: c,
           accessToken: h
