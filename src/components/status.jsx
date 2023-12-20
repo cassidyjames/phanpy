@@ -88,6 +88,8 @@ const isIOS =
   window.ontouchstart !== undefined &&
   /iPad|iPhone|iPod/.test(navigator.userAgent);
 
+const REACTIONS_LIMIT = 80;
+
 function Status({
   statusID,
   status,
@@ -380,7 +382,6 @@ function Status({
   ]);
 
   const [showEdited, setShowEdited] = useState(false);
-  const [showReactions, setShowReactions] = useState(false);
 
   const spoilerContentRef = useTruncated();
   const contentRef = useTruncated();
@@ -560,6 +561,55 @@ function Status({
       (l) => language === l || localeMatch([language], [l]),
     );
 
+  const reblogIterator = useRef();
+  const favouriteIterator = useRef();
+  async function fetchBoostedLikedByAccounts(firstLoad) {
+    if (firstLoad) {
+      reblogIterator.current = masto.v1.statuses
+        .$select(statusID)
+        .rebloggedBy.list({
+          limit: REACTIONS_LIMIT,
+        });
+      favouriteIterator.current = masto.v1.statuses
+        .$select(statusID)
+        .favouritedBy.list({
+          limit: REACTIONS_LIMIT,
+        });
+    }
+    const [{ value: reblogResults }, { value: favouriteResults }] =
+      await Promise.allSettled([
+        reblogIterator.current.next(),
+        favouriteIterator.current.next(),
+      ]);
+    if (reblogResults.value?.length || favouriteResults.value?.length) {
+      const accounts = [];
+      if (reblogResults.value?.length) {
+        accounts.push(
+          ...reblogResults.value.map((a) => {
+            a._types = ['reblog'];
+            return a;
+          }),
+        );
+      }
+      if (favouriteResults.value?.length) {
+        accounts.push(
+          ...favouriteResults.value.map((a) => {
+            a._types = ['favourite'];
+            return a;
+          }),
+        );
+      }
+      return {
+        value: accounts,
+        done: reblogResults.done && favouriteResults.done,
+      };
+    }
+    return {
+      value: [],
+      done: true,
+    };
+  }
+
   const menuInstanceRef = useRef();
   const StatusMenuItems = (
     <>
@@ -620,7 +670,16 @@ function Status({
       )}
       {(!isSizeLarge || !!editedAt) && <MenuDivider />}
       {isSizeLarge && (
-        <MenuItem onClick={() => setShowReactions(true)}>
+        <MenuItem
+          onClick={() => {
+            states.showGenericAccounts = {
+              heading: 'Boosted/Liked by…',
+              fetchAccounts: fetchBoostedLikedByAccounts,
+              instance,
+              showReactions: true,
+            };
+          }}
+        >
           <Icon icon="react" />
           <span>
             Boosted/Liked by<span class="more-insignificant">…</span>
@@ -962,6 +1021,20 @@ function Status({
       enabled: hotkeysEnabled && canBoost,
     },
   );
+  const xRef = useHotkeys('x', (e) => {
+    const activeStatus = document.activeElement.closest(
+      '.status-link, .status-focus',
+    );
+    if (activeStatus) {
+      const spoilerButton = activeStatus.querySelector(
+        'button.spoiler:not(.spoiling)',
+      );
+      if (spoilerButton) {
+        e.stopPropagation();
+        spoilerButton.click();
+      }
+    }
+  });
 
   const displayedMediaAttachments = mediaAttachments.slice(
     0,
@@ -1110,6 +1183,7 @@ function Status({
         fRef.current = nodeRef;
         dRef.current = nodeRef;
         bRef.current = nodeRef;
+        xRef.current = nodeRef;
       }}
       tabindex="-1"
       class={`status ${
@@ -1578,15 +1652,19 @@ function Status({
             </MultipleMediaFigure>
           )}
           {!!card &&
-            card?.url !== status.url &&
-            card?.url !== status.uri &&
             /^https/i.test(card?.url) &&
             !sensitive &&
             !spoilerText &&
             !poll &&
             !mediaAttachments.length &&
             !snapStates.statusQuotes[sKey] && (
-              <Card card={card} instance={currentInstance} />
+              <Card
+                card={card}
+                selfReferential={
+                  card?.url === status.url || card?.url === status.uri
+                }
+                instance={currentInstance}
+              />
             )}
         </div>
         {!isSizeLarge && showCommentCount && (
@@ -1759,22 +1837,6 @@ function Status({
           />
         </Modal>
       )}
-      {showReactions && (
-        <Modal
-          class="light"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setShowReactions(false);
-            }
-          }}
-        >
-          <ReactionsModal
-            statusID={id}
-            instance={instance}
-            onClose={() => setShowReactions(false)}
-          />
-        </Modal>
-      )}
     </article>
   );
 }
@@ -1792,7 +1854,7 @@ function MultipleMediaFigure(props) {
   );
 }
 
-function Card({ card, instance }) {
+function Card({ card, selfReferential, instance }) {
   const snapStates = useSnapshot(states);
   const {
     blurhash,
@@ -1828,7 +1890,7 @@ function Card({ card, instance }) {
   const [cardStatusURL, setCardStatusURL] = useState(null);
   // const [cardStatusID, setCardStatusID] = useState(null);
   useEffect(() => {
-    if (hasText && image && isMastodonLinkMaybe(url)) {
+    if (hasText && image && !selfReferential && isMastodonLinkMaybe(url)) {
       unfurlMastodonLink(instance, url).then((result) => {
         if (!result) return;
         const { id, url } = result;
@@ -1843,7 +1905,7 @@ function Card({ card, instance }) {
         // })();
       });
     }
-  }, [hasText, image]);
+  }, [hasText, image, selfReferential]);
 
   // if (cardStatusID) {
   //   return (
@@ -2040,160 +2102,6 @@ function EditedAtModal({
               );
             })}
           </ol>
-        )}
-      </main>
-    </div>
-  );
-}
-
-const REACTIONS_LIMIT = 80;
-function ReactionsModal({ statusID, instance, onClose }) {
-  const { masto } = api({ instance });
-  const [uiState, setUIState] = useState('default');
-  const [accounts, setAccounts] = useState([]);
-  const [showMore, setShowMore] = useState(false);
-
-  const reblogIterator = useRef();
-  const favouriteIterator = useRef();
-
-  async function fetchAccounts(firstLoad) {
-    setShowMore(false);
-    setUIState('loading');
-    (async () => {
-      try {
-        if (firstLoad) {
-          reblogIterator.current = masto.v1.statuses
-            .$select(statusID)
-            .rebloggedBy.list({
-              limit: REACTIONS_LIMIT,
-            });
-          favouriteIterator.current = masto.v1.statuses
-            .$select(statusID)
-            .favouritedBy.list({
-              limit: REACTIONS_LIMIT,
-            });
-        }
-        const [{ value: reblogResults }, { value: favouriteResults }] =
-          await Promise.allSettled([
-            reblogIterator.current.next(),
-            favouriteIterator.current.next(),
-          ]);
-        if (reblogResults.value?.length || favouriteResults.value?.length) {
-          if (reblogResults.value?.length) {
-            for (const account of reblogResults.value) {
-              const theAccount = accounts.find((a) => a.id === account.id);
-              if (!theAccount) {
-                accounts.push({
-                  ...account,
-                  _types: ['reblog'],
-                });
-              } else {
-                theAccount._types.push('reblog');
-              }
-            }
-          }
-          if (favouriteResults.value?.length) {
-            for (const account of favouriteResults.value) {
-              const theAccount = accounts.find((a) => a.id === account.id);
-              if (!theAccount) {
-                accounts.push({
-                  ...account,
-                  _types: ['favourite'],
-                });
-              } else {
-                theAccount._types.push('favourite');
-              }
-            }
-          }
-          setAccounts(accounts);
-          setShowMore(!reblogResults.done || !favouriteResults.done);
-        } else {
-          setShowMore(false);
-        }
-        setUIState('default');
-      } catch (e) {
-        console.error(e);
-        setUIState('error');
-      }
-    })();
-  }
-
-  useEffect(() => {
-    fetchAccounts(true);
-  }, []);
-
-  return (
-    <div id="reactions-container" class="sheet">
-      {!!onClose && (
-        <button type="button" class="sheet-close" onClick={onClose}>
-          <Icon icon="x" />
-        </button>
-      )}
-      <header>
-        <h2>Boosted/Liked by…</h2>
-      </header>
-      <main>
-        {accounts.length > 0 ? (
-          <>
-            <ul class="reactions-list">
-              {accounts.map((account) => {
-                const { _types } = account;
-                return (
-                  <li key={account.id + _types}>
-                    <div class="reactions-block">
-                      {_types.map((type) => (
-                        <Icon
-                          icon={
-                            {
-                              reblog: 'rocket',
-                              favourite: 'heart',
-                            }[type]
-                          }
-                          class={`${type}-icon`}
-                        />
-                      ))}
-                    </div>
-                    <AccountBlock account={account} instance={instance} />
-                  </li>
-                );
-              })}
-            </ul>
-            {uiState === 'default' ? (
-              showMore ? (
-                <InView
-                  onChange={(inView) => {
-                    if (inView) {
-                      fetchAccounts();
-                    }
-                  }}
-                >
-                  <button
-                    type="button"
-                    class="plain block"
-                    onClick={() => fetchAccounts()}
-                  >
-                    Show more&hellip;
-                  </button>
-                </InView>
-              ) : (
-                <p class="ui-state insignificant">The end.</p>
-              )
-            ) : (
-              uiState === 'loading' && (
-                <p class="ui-state">
-                  <Loader abrupt />
-                </p>
-              )
-            )}
-          </>
-        ) : uiState === 'loading' ? (
-          <p class="ui-state">
-            <Loader abrupt />
-          </p>
-        ) : uiState === 'error' ? (
-          <p class="ui-state">Unable to load accounts</p>
-        ) : (
-          <p class="ui-state insignificant">No one yet.</p>
         )}
       </main>
     </div>
