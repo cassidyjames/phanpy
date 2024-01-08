@@ -7,13 +7,10 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  align-self: stretch;
 }
 .status-deck header h1 .deck-back {
   margin-left: -16px;
-}
-
-.status-deck header.inview h1 {
-  font-weight: bold;
 }
 
 .hero-heading {
@@ -36,7 +33,7 @@
   }
 }
 .ancestors-indicator:not([hidden]) {
-  animation: slide-up 0.3s both ease-out 0.3s;
+  animation: slide-up-smooth 0.3s both var(--spring-timing-funtion) 0.3s;
 }
 .ancestors-indicator[hidden] {
   opacity: 0;

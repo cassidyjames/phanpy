@@ -8,8 +8,8 @@ import {
   MenuHeader,
   MenuItem,
 } from '@szhsin/react-menu';
-import { decodeBlurHash } from 'fast-blurhash';
-import pThrottle from 'p-throttle';
+import { decodeBlurHash, getBlurHashAverageColor } from 'fast-blurhash';
+import { shallowEqual } from 'fast-equals';
 import { memo } from 'preact/compat';
 import {
   useCallback,
@@ -20,10 +20,8 @@ import {
   useState,
 } from 'preact/hooks';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { InView } from 'react-intersection-observer';
 import { useLongPress } from 'use-long-press';
 import { useSnapshot } from 'valtio';
-import { snapshot } from 'valtio/vanilla';
 
 import AccountBlock from '../components/account-block';
 import EmojiText from '../components/emoji-text';
@@ -50,9 +48,11 @@ import pmem from '../utils/pmem';
 import safeBoundingBoxPadding from '../utils/safe-bounding-box-padding';
 import shortenNumber from '../utils/shorten-number';
 import showToast from '../utils/show-toast';
+import { speak, supportsTTS } from '../utils/speech';
 import states, { getStatus, saveStatus, statusKey } from '../utils/states';
 import statusPeek from '../utils/status-peek';
 import store from '../utils/store';
+import unfurlMastodonLink from '../utils/unfurl-link';
 import useTruncated from '../utils/useTruncated';
 import visibilityIconsMap from '../utils/visibility-icons-map';
 
@@ -67,10 +67,6 @@ import TranslationBlock from './translation-block';
 
 const SHOW_COMMENT_COUNT_LIMIT = 280;
 const INLINE_TRANSLATE_LIMIT = 140;
-const throttle = pThrottle({
-  limit: 1,
-  interval: 1000,
-});
 
 function fetchAccount(id, masto) {
   return masto.v1.accounts.$select(id).fetch();
@@ -89,6 +85,26 @@ const isIOS =
   /iPad|iPhone|iPod/.test(navigator.userAgent);
 
 const REACTIONS_LIMIT = 80;
+
+function getPollText(poll) {
+  if (!poll?.options?.length) return '';
+  return `📊:\n${poll.options
+    .map(
+      (option) =>
+        `- ${option.title}${
+          option.votesCount >= 0 ? ` (${option.votesCount})` : ''
+        }`,
+    )
+    .join('\n')}`;
+}
+function getPostText(status) {
+  const { spoilerText, content, poll } = status;
+  return (
+    (spoilerText ? `${spoilerText}\n\n` : '') +
+    getHTMLText(content) +
+    getPollText(poll)
+  );
+}
 
 function Status({
   statusID,
@@ -128,7 +144,7 @@ function Status({
   const { instance: currentInstance } = api();
   const sameInstance = instance === currentInstance;
 
-  let sKey = statusKey(statusID, instance);
+  let sKey = statusKey(statusID || status?.id, instance);
   const snapStates = useSnapshot(states);
   if (!status) {
     status = snapStates.statuses[sKey] || snapStates.statuses[statusID];
@@ -254,8 +270,21 @@ function Status({
     const prefs = store.account.get('preferences') || {};
     return !!prefs['reading:expand:spoilers'];
   }, []);
+  const readingExpandMedia = useMemo(() => {
+    // default | show_all | hide_all
+    // Ignore hide_all because it means hide *ALL* media including non-sensitive ones
+    const prefs = store.account.get('preferences') || {};
+    return prefs['reading:expand:media'] || 'default';
+  }, []);
+  // FOR TESTING:
+  // const readingExpandSpoilers = true;
+  // const readingExpandMedia = 'show_all';
   const showSpoiler =
-    previewMode || readingExpandSpoilers || !!snapStates.spoilers[id] || false;
+    previewMode || readingExpandSpoilers || !!snapStates.spoilers[id];
+  const showSpoilerMedia =
+    previewMode ||
+    readingExpandMedia === 'show_all' ||
+    !!snapStates.spoilersMedia[id];
 
   if (reblog) {
     // If has statusID, means useItemID (cached in states)
@@ -782,23 +811,53 @@ function Status({
         </>
       )}
       {enableTranslate ? (
-        <MenuItem
-          disabled={forceTranslate}
-          onClick={() => {
-            setForceTranslate(true);
-          }}
-        >
-          <Icon icon="translate" />
-          <span>Translate</span>
-        </MenuItem>
-      ) : (
-        (!language || differentLanguage) && (
-          <MenuLink
-            to={`${instance ? `/${instance}` : ''}/s/${id}?translate=1`}
+        <div class={supportsTTS ? 'menu-horizontal' : ''}>
+          <MenuItem
+            disabled={forceTranslate}
+            onClick={() => {
+              setForceTranslate(true);
+            }}
           >
             <Icon icon="translate" />
             <span>Translate</span>
-          </MenuLink>
+          </MenuItem>
+          {supportsTTS && (
+            <MenuItem
+              onClick={() => {
+                const postText = getPostText(status);
+                if (postText) {
+                  speak(postText, language);
+                }
+              }}
+            >
+              <Icon icon="speak" />
+              <span>Speak</span>
+            </MenuItem>
+          )}
+        </div>
+      ) : (
+        (!language || differentLanguage) && (
+          <div class={supportsTTS ? 'menu-horizontal' : ''}>
+            <MenuLink
+              to={`${instance ? `/${instance}` : ''}/s/${id}?translate=1`}
+            >
+              <Icon icon="translate" />
+              <span>Translate</span>
+            </MenuLink>
+            {supportsTTS && (
+              <MenuItem
+                onClick={() => {
+                  const postText = getPostText(status);
+                  if (postText) {
+                    speak(postText, language);
+                  }
+                }}
+              >
+                <Icon icon="speak" />
+                <span>Speak</span>
+              </MenuItem>
+            )}
+          </div>
         )
       )}
       {((!isSizeLarge && sameInstance) || enableTranslate) && <MenuDivider />}
@@ -961,7 +1020,7 @@ function Status({
     },
   );
 
-  const hotkeysEnabled = !readOnly && !previewMode;
+  const hotkeysEnabled = !readOnly && !previewMode && !quoted;
   const rRef = useHotkeys('r, shift+r', replyStatus, {
     enabled: hotkeysEnabled,
   });
@@ -1027,11 +1086,19 @@ function Status({
     );
     if (activeStatus) {
       const spoilerButton = activeStatus.querySelector(
-        'button.spoiler:not(.spoiling)',
+        '.spoiler-button:not(.spoiling)',
       );
       if (spoilerButton) {
         e.stopPropagation();
         spoilerButton.click();
+      } else {
+        const spoilerMediaButton = activeStatus.querySelector(
+          '.spoiler-media-button:not(.spoiling)',
+        );
+        if (spoilerMediaButton) {
+          e.stopPropagation();
+          spoilerMediaButton.click();
+        }
       }
     }
   });
@@ -1436,7 +1503,9 @@ function Status({
         <div
           class={`content-container ${
             spoilerText || sensitive ? 'has-spoiler' : ''
-          } ${showSpoiler ? 'show-spoiler' : ''}`}
+          } ${showSpoiler ? 'show-spoiler' : ''} ${
+            showSpoilerMedia ? 'show-media' : ''
+          }`}
           data-content-text-weight={contentTextWeight ? textWeight() : null}
           style={
             (isSizeLarge || contentTextWeight) && {
@@ -1457,27 +1526,36 @@ function Status({
                   <EmojiText text={spoilerText} emojis={emojis} />
                 </p>
               </div>
-              <button
-                class={`light spoiler ${showSpoiler ? 'spoiling' : ''}`}
-                type="button"
-                disabled={readingExpandSpoilers}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  if (showSpoiler) {
-                    delete states.spoilers[id];
-                  } else {
-                    states.spoilers[id] = true;
-                  }
-                }}
-              >
-                <Icon icon={showSpoiler ? 'eye-open' : 'eye-close'} />{' '}
-                {readingExpandSpoilers
-                  ? 'Content warning'
-                  : showSpoiler
-                  ? 'Show less'
-                  : 'Show more'}
-              </button>
+              {readingExpandSpoilers || previewMode ? (
+                <div class="spoiler-divider">
+                  <Icon icon="eye-open" /> Content warning
+                </div>
+              ) : (
+                <button
+                  class={`light spoiler-button ${
+                    showSpoiler ? 'spoiling' : ''
+                  }`}
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (showSpoiler) {
+                      delete states.spoilers[id];
+                      if (!readingExpandSpoilers) {
+                        delete states.spoilersMedia[id];
+                      }
+                    } else {
+                      states.spoilers[id] = true;
+                      if (!readingExpandSpoilers) {
+                        states.spoilersMedia[id] = true;
+                      }
+                    }
+                  }}
+                >
+                  <Icon icon={showSpoiler ? 'eye-open' : 'eye-close'} />{' '}
+                  {showSpoiler ? 'Show less' : 'Show content'}
+                </button>
+              )}
             </>
           )}
           {!!content && (
@@ -1504,34 +1582,34 @@ function Status({
                             a.removeAttribute('target');
                           }
                         });
-                      if (previewMode) return;
+                      // if (previewMode) return;
                       // Unfurl Mastodon links
-                      Array.from(
-                        dom.querySelectorAll(
-                          'a[href]:not(.u-url):not(.mention):not(.hashtag)',
-                        ),
-                      )
-                        .filter((a) => {
-                          const url = a.href;
-                          const isPostItself =
-                            url === status.url || url === status.uri;
-                          return !isPostItself && isMastodonLinkMaybe(url);
-                        })
-                        .forEach((a, i) => {
-                          unfurlMastodonLink(currentInstance, a.href).then(
-                            (result) => {
-                              if (!result) return;
-                              a.removeAttribute('target');
-                              if (!sKey) return;
-                              if (!Array.isArray(states.statusQuotes[sKey])) {
-                                states.statusQuotes[sKey] = [];
-                              }
-                              if (!states.statusQuotes[sKey][i]) {
-                                states.statusQuotes[sKey].splice(i, 0, result);
-                              }
-                            },
-                          );
-                        });
+                      // Array.from(
+                      //   dom.querySelectorAll(
+                      //     'a[href]:not(.u-url):not(.mention):not(.hashtag)',
+                      //   ),
+                      // )
+                      //   .filter((a) => {
+                      //     const url = a.href;
+                      //     const isPostItself =
+                      //       url === status.url || url === status.uri;
+                      //     return !isPostItself && isMastodonLinkMaybe(url);
+                      //   })
+                      //   .forEach((a, i) => {
+                      //     unfurlMastodonLink(currentInstance, a.href).then(
+                      //       (result) => {
+                      //         if (!result) return;
+                      //         a.removeAttribute('target');
+                      //         if (!sKey) return;
+                      //         if (!Array.isArray(states.statusQuotes[sKey])) {
+                      //           states.statusQuotes[sKey] = [];
+                      //         }
+                      //         if (!states.statusQuotes[sKey][i]) {
+                      //           states.statusQuotes[sKey].splice(i, 0, result);
+                      //         }
+                      //       },
+                      //     );
+                      //   });
                     },
                   }),
                 }}
@@ -1578,42 +1656,33 @@ function Status({
               forceTranslate={forceTranslate || inlineTranslate}
               mini={!isSizeLarge && !withinContext}
               sourceLanguage={language}
-              text={
-                (spoilerText ? `${spoilerText}\n\n` : '') +
-                getHTMLText(content) +
-                (poll?.options?.length
-                  ? `\n\nPoll:\n${poll.options
-                      .map(
-                        (option) =>
-                          `- ${option.title}${
-                            option.votesCount >= 0
-                              ? ` (${option.votesCount})`
-                              : ''
-                          }`,
-                      )
-                      .join('\n')}`
-                  : '')
-              }
+              text={getPostText(status)}
             />
           )}
-          {!spoilerText && sensitive && !!mediaAttachments.length && (
-            <button
-              class={`plain spoiler ${showSpoiler ? 'spoiling' : ''}`}
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                if (showSpoiler) {
-                  delete states.spoilers[id];
-                } else {
-                  states.spoilers[id] = true;
-                }
-              }}
-            >
-              <Icon icon={showSpoiler ? 'eye-open' : 'eye-close'} /> Sensitive
-              content
-            </button>
-          )}
+          {!previewMode &&
+            sensitive &&
+            !!mediaAttachments.length &&
+            readingExpandMedia !== 'show_all' && (
+              <button
+                class={`plain spoiler-media-button ${
+                  showSpoilerMedia ? 'spoiling' : ''
+                }`}
+                type="button"
+                hidden={!readingExpandSpoilers && !!spoilerText}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (showSpoilerMedia) {
+                    delete states.spoilersMedia[id];
+                  } else {
+                    states.spoilersMedia[id] = true;
+                  }
+                }}
+              >
+                <Icon icon={showSpoilerMedia ? 'eye-open' : 'eye-close'} />{' '}
+                {showSpoilerMedia ? 'Show less' : 'Show media'}
+              </button>
+            )}
           {!!mediaAttachments.length && (
             <MultipleMediaFigure
               lang={language}
@@ -1915,11 +1984,27 @@ function Card({ card, selfReferential, instance }) {
 
   if (snapStates.unfurledLinks[url]) return null;
 
+  const hasIframeHTML = /<iframe/i.test(html);
+  const handleClick = useCallback(
+    (e) => {
+      if (hasIframeHTML) {
+        e.preventDefault();
+        states.showEmbedModal = {
+          html,
+          url: url || embedUrl,
+        };
+      }
+    },
+    [hasIframeHTML],
+  );
+
   if (hasText && (image || (type === 'photo' && blurhash))) {
     const domain = new URL(url).hostname
       .replace(/^www\./, '')
       .replace(/\/$/, '');
     let blurhashImage;
+    const rgbAverageColor =
+      image && blurhash ? getBlurHashAverageColor(blurhash) : null;
     if (!image) {
       const w = 44;
       const h = 44;
@@ -1941,6 +2026,11 @@ function Card({ card, selfReferential, instance }) {
         class={`card link ${blurhashImage ? '' : size}`}
         lang={language}
         dir="auto"
+        style={{
+          '--average-color':
+            rgbAverageColor && `rgb(${rgbAverageColor.join(',')})`,
+        }}
+        onClick={handleClick}
       >
         <div class="card-image">
           <img
@@ -1979,6 +2069,7 @@ function Card({ card, selfReferential, instance }) {
         target="_blank"
         rel="nofollow noopener noreferrer"
         class="card photo"
+        onClick={handleClick}
       >
         <img
           src={embedUrl}
@@ -1993,42 +2084,46 @@ function Card({ card, selfReferential, instance }) {
         />
       </a>
     );
-  } else if (type === 'video') {
-    if (/youtube/i.test(providerName)) {
-      // Get ID from e.g. https://www.youtube.com/watch?v=[VIDEO_ID]
-      const videoID = url.match(/watch\?v=([^&]+)/)?.[1];
-      if (videoID) {
-        return <lite-youtube videoid={videoID} nocookie></lite-youtube>;
+  } else {
+    if (type === 'video') {
+      if (/youtube/i.test(providerName)) {
+        // Get ID from e.g. https://www.youtube.com/watch?v=[VIDEO_ID]
+        const videoID = url.match(/watch\?v=([^&]+)/)?.[1];
+        if (videoID) {
+          return <lite-youtube videoid={videoID} nocookie></lite-youtube>;
+        }
       }
+      // return (
+      //   <div
+      //     class="card video"
+      //     style={{
+      //       aspectRatio: `${width}/${height}`,
+      //     }}
+      //     dangerouslySetInnerHTML={{ __html: html }}
+      //   />
+      // );
     }
-    return (
-      <div
-        class="card video"
-        style={{
-          aspectRatio: `${width}/${height}`,
-        }}
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
-    );
-  } else if (hasText && !image) {
-    const domain = new URL(url).hostname.replace(/^www\./, '');
-    return (
-      <a
-        href={cardStatusURL || url}
-        target={cardStatusURL ? null : '_blank'}
-        rel="nofollow noopener noreferrer"
-        class={`card link no-image`}
-        lang={language}
-      >
-        <div class="meta-container">
-          <p class="meta domain">
-            <Icon icon="link" size="s" /> <span>{domain}</span>
-          </p>
-          <p class="title">{title}</p>
-          <p class="meta">{description || providerName || authorName}</p>
-        </div>
-      </a>
-    );
+    if (hasText && !image) {
+      const domain = new URL(url).hostname.replace(/^www\./, '');
+      return (
+        <a
+          href={cardStatusURL || url}
+          target={cardStatusURL ? null : '_blank'}
+          rel="nofollow noopener noreferrer"
+          class={`card link no-image`}
+          lang={language}
+          onClick={handleClick}
+        >
+          <div class="meta-container">
+            <p class="meta domain">
+              <Icon icon="link" size="s" /> <span>{domain}</span>
+            </p>
+            <p class="title">{title}</p>
+            <p class="meta">{description || providerName || authorName}</p>
+          </div>
+        </a>
+      );
+    }
   }
 }
 
@@ -2177,121 +2272,6 @@ export function formatDuration(time) {
   }
 }
 
-const denylistDomains = /(twitter|github)\.com/i;
-const failedUnfurls = {};
-
-function _unfurlMastodonLink(instance, url) {
-  const snapStates = snapshot(states);
-  if (denylistDomains.test(url)) {
-    return;
-  }
-  if (failedUnfurls[url]) {
-    return;
-  }
-  const instanceRegex = new RegExp(instance + '/');
-  if (instanceRegex.test(snapStates.unfurledLinks[url]?.url)) {
-    return Promise.resolve(snapStates.unfurledLinks[url]);
-  }
-  console.debug('🦦 Unfurling URL', url);
-
-  let remoteInstanceFetch;
-  let theURL = url;
-
-  // https://elk.zone/domain.com/@stest/123 -> https://domain.com/@stest/123
-  if (/\/\/elk\.[^\/]+\/[^\/]+\.[^\/]+/i.test(theURL)) {
-    theURL = theURL.replace(/elk\.[^\/]+\//i, '');
-  }
-
-  // https://trunks.social/status/domain.com/@stest/123 -> https://domain.com/@stest/123
-  if (/\/\/trunks\.[^\/]+\/status\/[^\/]+\.[^\/]+/i.test(theURL)) {
-    theURL = theURL.replace(/trunks\.[^\/]+\/status\//i, '');
-  }
-
-  // https://phanpy.social/#/domain.com/s/123 -> https://domain.com/statuses/123
-  if (/\/#\/[^\/]+\.[^\/]+\/s\/.+/i.test(theURL)) {
-    const urlAfterHash = theURL.split('/#/')[1];
-    const finalURL = urlAfterHash.replace(/\/s\//i, '/@fakeUsername/');
-    theURL = `https://${finalURL}`;
-  }
-
-  let urlObj;
-  try {
-    urlObj = new URL(theURL);
-  } catch (e) {
-    return;
-  }
-  const domain = urlObj.hostname;
-  const path = urlObj.pathname;
-  // Regex /:username/:id, where username = @username or @username@domain, id = number
-  const statusRegex = /\/@([^@\/]+)@?([^\/]+)?\/(\d+)$/i;
-  const statusMatch = statusRegex.exec(path);
-  if (statusMatch) {
-    const id = statusMatch[3];
-    const { masto } = api({ instance: domain });
-    remoteInstanceFetch = masto.v1.statuses
-      .$select(id)
-      .fetch()
-      .then((status) => {
-        if (status?.id) {
-          return {
-            status,
-            instance: domain,
-          };
-        } else {
-          throw new Error('No results');
-        }
-      });
-  }
-
-  const { masto } = api({ instance });
-  const mastoSearchFetch = masto.v2.search
-    .fetch({
-      q: theURL,
-      type: 'statuses',
-      resolve: true,
-      limit: 1,
-    })
-    .then((results) => {
-      if (results.statuses.length > 0) {
-        const status = results.statuses[0];
-        return {
-          status,
-          instance,
-        };
-      } else {
-        throw new Error('No results');
-      }
-    });
-
-  function handleFulfill(result) {
-    const { status, instance } = result;
-    const { id } = status;
-    const selfURL = `/${instance}/s/${id}`;
-    console.debug('🦦 Unfurled URL', url, id, selfURL);
-    const data = {
-      id,
-      instance,
-      url: selfURL,
-    };
-    states.unfurledLinks[url] = data;
-    saveStatus(status, instance, {
-      skipThreading: true,
-    });
-    return data;
-  }
-  function handleCatch(e) {
-    failedUnfurls[url] = true;
-  }
-
-  if (remoteInstanceFetch) {
-    return Promise.any([remoteInstanceFetch, mastoSearchFetch])
-      .then(handleFulfill)
-      .catch(handleCatch);
-  } else {
-    return mastoSearchFetch.then(handleFulfill).catch(handleCatch);
-  }
-}
-
 function nicePostURL(url) {
   if (!url) return;
   const urlObj = new URL(url);
@@ -2314,8 +2294,6 @@ function nicePostURL(url) {
     </>
   );
 }
-
-const unfurlMastodonLink = throttle(_unfurlMastodonLink);
 
 function FilteredStatus({
   status,
@@ -2503,4 +2481,12 @@ const QuoteStatuses = memo(({ id, instance, level = 0 }) => {
   });
 });
 
-export default memo(Status);
+export default memo(Status, (oldProps, newProps) => {
+  // Shallow equal all props except 'status'
+  // This will be pure static until status ID changes
+  const { status, ...restOldProps } = oldProps;
+  const { status: newStatus, ...restNewProps } = newProps;
+  return (
+    status?.id === newStatus?.id && shallowEqual(restOldProps, restNewProps)
+  );
+});

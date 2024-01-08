@@ -605,7 +605,9 @@ function AccountInfo({
                           heading: 'Followers',
                           fetchAccounts: fetchFollowers,
                           instance,
-                          excludeRelationshipAttrs: ['followedBy'],
+                          excludeRelationshipAttrs: isSelf
+                            ? ['followedBy']
+                            : [],
                         };
                       }, 0);
                     }}
@@ -640,7 +642,7 @@ function AccountInfo({
                           heading: 'Following',
                           fetchAccounts: fetchFollowing,
                           instance,
-                          excludeRelationshipAttrs: ['following'],
+                          excludeRelationshipAttrs: isSelf ? ['following'] : [],
                         };
                       }, 0);
                     }}
@@ -921,7 +923,7 @@ function RelatedActions({
       <div class="actions">
         <span>
           {followedBy ? (
-            <span class="tag">Following you</span>
+            <span class="tag">Follows you</span>
           ) : !!lastStatusAt ? (
             <small class="insignificant">
               Last post:{' '}

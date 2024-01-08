@@ -1,5 +1,5 @@
-import { memo } from 'preact/compat';
-import { useEffect, useState } from 'preact/hooks';
+import moize from 'moize';
+import { useEffect, useRef, useState } from 'preact/hooks';
 
 const SIZES = {
   s: 12,
@@ -70,6 +70,7 @@ export const ICONS = {
   history: () => import('@iconify-icons/mingcute/history-line'),
   share: () => import('@iconify-icons/mingcute/share-2-line'),
   sparkles: () => import('@iconify-icons/mingcute/sparkles-line'),
+  sparkles2: () => import('@iconify-icons/mingcute/sparkles-2-line'),
   exit: () => import('@iconify-icons/mingcute/exit-line'),
   translate: () => import('@iconify-icons/mingcute/translate-line'),
   play: () => import('@iconify-icons/mingcute/play-fill'),
@@ -104,7 +105,34 @@ export const ICONS = {
   cloud: () => import('@iconify-icons/mingcute/cloud-line'),
   month: () => import('@iconify-icons/mingcute/calendar-month-line'),
   media: () => import('@iconify-icons/mingcute/photo-album-line'),
+  speak: () => import('@iconify-icons/mingcute/radar-line'),
+  building: () => import('@iconify-icons/mingcute/building-5-line'),
 };
+
+const ICONDATA = {};
+
+// Memoize the dangerouslySetInnerHTML of the SVGs
+const SVGICon = moize(
+  function ({ size, width, height, body, rotate, flip }) {
+    return (
+      <svg
+        width={size}
+        height={size}
+        viewBox={`0 0 ${width} ${height}`}
+        dangerouslySetInnerHTML={{ __html: body }}
+        style={{
+          transform: `${rotate ? `rotate(${rotate})` : ''} ${
+            flip ? `scaleX(-1)` : ''
+          }`,
+        }}
+      />
+    );
+  },
+  {
+    isShallowEqual: true,
+    maxSize: Object.keys(ICONS).length,
+  },
+);
 
 function Icon({
   icon,
@@ -118,16 +146,27 @@ function Icon({
 
   const iconSize = SIZES[size];
   let iconBlock = ICONS[icon];
+  if (!iconBlock) {
+    console.warn(`Icon ${icon} not found`);
+    return null;
+  }
+
   let rotate, flip;
   if (Array.isArray(iconBlock)) {
     [iconBlock, rotate, flip] = iconBlock;
   }
 
-  const [iconData, setIconData] = useState(null);
-  useEffect(async () => {
-    const icon = await iconBlock();
-    setIconData(icon.default);
-  }, [iconBlock]);
+  const [iconData, setIconData] = useState(ICONDATA[icon]);
+  const currentIcon = useRef(icon);
+  useEffect(() => {
+    if (iconData && currentIcon.current === icon) return;
+    (async () => {
+      const iconB = await iconBlock();
+      setIconData(iconB.default);
+      ICONDATA[icon] = iconB.default;
+    })();
+    currentIcon.current = icon;
+  }, [icon]);
 
   return (
     <span
@@ -140,20 +179,28 @@ function Icon({
       }}
     >
       {iconData && (
-        <svg
-          width={iconSize}
-          height={iconSize}
-          viewBox={`0 0 ${iconData.width} ${iconData.height}`}
-          dangerouslySetInnerHTML={{ __html: iconData.body }}
-          style={{
-            transform: `${rotate ? `rotate(${rotate})` : ''} ${
-              flip ? `scaleX(-1)` : ''
-            }`,
-          }}
+        // <svg
+        //   width={iconSize}
+        //   height={iconSize}
+        //   viewBox={`0 0 ${iconData.width} ${iconData.height}`}
+        //   dangerouslySetInnerHTML={{ __html: iconData.body }}
+        //   style={{
+        //     transform: `${rotate ? `rotate(${rotate})` : ''} ${
+        //       flip ? `scaleX(-1)` : ''
+        //     }`,
+        //   }}
+        // />
+        <SVGICon
+          size={iconSize}
+          width={iconData.width}
+          height={iconData.height}
+          body={iconData.body}
+          rotate={rotate}
+          flip={flip}
         />
       )}
     </span>
   );
 }
 
-export default memo(Icon);
+export default Icon;
