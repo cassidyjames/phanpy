@@ -1238,10 +1238,38 @@ function RelatedActions({
                     </>
                   )}
                 </MenuConfirm>
-                {/* <MenuItem>
-                <Icon icon="flag" />
-                <span>Report @{username}…</span>
-              </MenuItem> */}
+                <MenuItem
+                  className="danger"
+                  onClick={() => {
+                    states.showReportModal = {
+                      account: currentInfo || info,
+                    };
+                  }}
+                >
+                  <Icon icon="flag" />
+                  <span>Report @{username}…</span>
+                </MenuItem>
+              </>
+            )}
+            {import.meta.env.DEV && currentAuthenticated && isSelf && (
+              <>
+                <MenuDivider />
+                <MenuItem
+                  onClick={async () => {
+                    const relationships =
+                      await currentMasto.v1.accounts.relationships.fetch({
+                        id: [accountID.current],
+                      });
+                    const { note } = relationships[0] || {};
+                    if (note) {
+                      alert(note);
+                      console.log(note);
+                    }
+                  }}
+                >
+                  <Icon icon="pencil" />
+                  <span>See note</span>
+                </MenuItem>
               </>
             )}
           </Menu2>

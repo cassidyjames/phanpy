@@ -1,6 +1,7 @@
 import './nav-menu.css';
 
 import { ControlledMenu, MenuDivider, MenuItem } from '@szhsin/react-menu';
+import { memo } from 'preact/compat';
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { useLongPress } from 'use-long-press';
 import { useSnapshot } from 'valtio';
@@ -83,6 +84,7 @@ function NavMenu(props) {
     return results;
   }
 
+  const buttonClickTS = useRef();
   return (
     <>
       <button
@@ -93,6 +95,7 @@ function NavMenu(props) {
         } ${open ? 'active' : ''}`}
         style={{ position: 'relative' }}
         onClick={() => {
+          buttonClickTS.current = Date.now();
           setMenuState((state) => (!state ? 'open' : undefined));
         }}
         onContextMenu={(e) => {
@@ -124,6 +127,9 @@ function NavMenu(props) {
             zIndex: 10,
           },
           onClick: () => {
+            if (Date.now() - buttonClickTS.current < 300) {
+              return;
+            }
             setMenuState(undefined);
           },
         }}
@@ -170,6 +176,10 @@ function NavMenu(props) {
                   <Icon icon="following" size="l" /> <span>Following</span>
                 </MenuLink>
               )}
+              <MenuLink to="/catchup">
+                <Icon icon="history" size="l" />
+                <span>Catch-up</span>
+              </MenuLink>
               <MenuLink to="/mentions">
                 <Icon icon="at" size="l" /> <span>Mentions</span>
               </MenuLink>
@@ -298,4 +308,4 @@ function NavMenu(props) {
   );
 }
 
-export default NavMenu;
+export default memo(NavMenu);

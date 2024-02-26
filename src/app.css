@@ -103,6 +103,10 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
   max-width: 100%;
   background-color: var(--bg-color);
   overflow-anchor: auto;
+
+  &.wide {
+    width: 60em;
+  }
 }
 .deck.contained {
   overflow: auto;
@@ -1125,7 +1129,7 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
   z-index: 1000;
   display: flex;
   background-color: var(--backdrop-color);
-  animation: appear 0.2s ease-out;
+  animation: appear 0.1s ease-out;
 }
 .deck-backdrop > a {
   flex-grow: 1;
@@ -1254,7 +1258,7 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
   width: 70%;
   flex-grow: 1;
   background-color: var(--backdrop-solid-color);
-  animation: appear 0.3s var(--timing-function) both;
+  animation: appear 0.1s var(--timing-function) both;
   transition: width 0.3s var(--timing-function);
 
   &:only-child {
@@ -2108,7 +2112,7 @@ meter.donut[hidden] {
 :root .toastify {
   user-select: none;
   padding: 8px 16px;
-  border-radius: 999px;
+  border-radius: 44px;
   pointer-events: none;
   color: var(--button-text-color);
   text-shadow: 0 calc(var(--hairline-width) * -1) var(--drop-shadow-color);
