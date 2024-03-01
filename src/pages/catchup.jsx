@@ -22,23 +22,14 @@ import db from '../utils/db';
 import emojifyText from '../utils/emojify-text';
 import { isFiltered } from '../utils/filters';
 import getHTMLText from '../utils/getHTMLText';
+import htmlContentLength from '../utils/html-content-length';
 import niceDateTime from '../utils/nice-date-time';
 import shortenNumber from '../utils/shorten-number';
 import showToast from '../utils/show-toast';
-import states, { getStatus, saveStatus, statusKey } from '../utils/states';
+import states, { statusKey } from '../utils/states';
 import store from '../utils/store';
-import {
-  getCurrentAccount,
-  getCurrentAccountNS,
-  getCurrentInstance,
-  getCurrentInstanceConfiguration,
-} from '../utils/store-utils';
-import {
-  assignFollowedTags,
-  clearFollowedTagsState,
-  dedupeBoosts,
-} from '../utils/timeline-utils';
-import useScrollFn from '../utils/useScrollFn';
+import { getCurrentAccountNS } from '../utils/store-utils';
+import { assignFollowedTags } from '../utils/timeline-utils';
 import useTitle from '../utils/useTitle';
 
 const FILTER_CONTEXT = 'home';
@@ -271,6 +262,7 @@ function Catchup() {
 
       const thePost = post.reblog || post;
       if (
+        post.__FILTER !== 'filtered' &&
         thePost.card?.url &&
         thePost.card?.image &&
         thePost.card?.type === 'link'
@@ -432,8 +424,17 @@ function Catchup() {
       if (sortBy !== 'createdAt') {
         a = a.reblog || a;
         b = b.reblog || b;
-        if (a[sortBy] === b[sortBy]) {
+        if (sortBy !== 'density' && a[sortBy] === b[sortBy]) {
           return a.createdAt > b.createdAt ? 1 : -1;
+        }
+      }
+      if (sortBy === 'density') {
+        const aDensity = postDensity(a);
+        const bDensity = postDensity(b);
+        if (sortOrder === 'asc') {
+          return aDensity > bDensity ? 1 : -1;
+        } else {
+          return bDensity > aDensity ? 1 : -1;
         }
       }
       if (sortOrder === 'asc') {
@@ -469,20 +470,6 @@ function Catchup() {
   }, [posts, filteredPosts]);
 
   const scrollableRef = useRef(null);
-  const headerRef = useRef(null);
-
-  useScrollFn(
-    {
-      scrollableRef,
-    },
-    ({ scrollDirection, nearReachStart }) => {
-      if (headerRef.current) {
-        const hiddenUI = scrollDirection === 'end' && !nearReachStart;
-        headerRef.current.hidden = hiddenUI;
-      }
-    },
-    [],
-  );
 
   // if range value exceeded lastCatchupEndAt, show error
   const lastCatchupRange = useMemo(() => {
@@ -490,6 +477,88 @@ function Catchup() {
     if (!lastCatchupEndAt) return null;
     return (Date.now() - lastCatchupEndAt) / 1000 / 60 / 60;
   }, [lastCatchupEndAt, range]);
+
+  useEffect(() => {
+    if (uiState !== 'results') return;
+    const filterCategoryText = {
+      Filtered: 'filtered posts',
+      Groups: 'group posts',
+      Boosts: 'boosts',
+      Replies: 'replies',
+      'Followed tags': 'followed-tag posts',
+      Original: 'original posts',
+    };
+    const authorUsername =
+      selectedAuthor && authors[selectedAuthor]
+        ? authors[selectedAuthor].username
+        : '';
+    const sortOrderIndex = sortOrder === 'asc' ? 0 : 1;
+    const sortByText = {
+      // asc, desc
+      createdAt: ['oldest', 'latest'],
+      repliesCount: ['fewest replies', 'most replies'],
+      favouritesCount: ['fewest likes', 'most likes'],
+      reblogsCount: ['fewest boosts', 'most boosts'],
+      density: ['least dense', 'most dense'],
+    };
+    const groupByText = {
+      account: 'authors',
+    };
+    let toast = showToast({
+      duration: 5_000, // 5 seconds
+      text: `Showing ${
+        filterCategoryText[selectedFilterCategory] || 'all posts'
+      }${authorUsername ? ` by @${authorUsername}` : ''}, ${
+        sortByText[sortBy][sortOrderIndex]
+      } first${
+        !!groupBy
+          ? `, grouped by ${groupBy === 'account' ? groupByText[groupBy] : ''}`
+          : ''
+      }`,
+    });
+    return () => {
+      toast?.hideToast?.();
+    };
+  }, [
+    uiState,
+    selectedFilterCategory,
+    selectedAuthor,
+    sortBy,
+    sortOrder,
+    groupBy,
+    authors,
+  ]);
+
+  const prevSelectedAuthorMissing = useRef(false);
+  useEffect(() => {
+    console.log({
+      prevSelectedAuthorMissing,
+      selectedAuthor,
+      authors,
+    });
+    let timer;
+    if (selectedAuthor) {
+      if (authors[selectedAuthor]) {
+        if (prevSelectedAuthorMissing.current) {
+          timer = setTimeout(() => {
+            authorsListParent.current
+              .querySelector(`[data-author="${selectedAuthor}"]`)
+              ?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'center',
+              });
+          }, 500);
+          prevSelectedAuthorMissing.current = false;
+        }
+      } else {
+        prevSelectedAuthorMissing.current = true;
+      }
+    }
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [selectedAuthor, authors]);
 
   return (
     <div
@@ -500,7 +569,6 @@ function Catchup() {
     >
       <div class="timeline-deck deck wide">
         <header
-          ref={headerRef}
           class={`${uiState === 'loading' ? 'loading' : ''}`}
           onClick={(e) => {
             if (!e.target.closest('a, button')) {
@@ -884,6 +952,7 @@ function Catchup() {
                   {authorCountsList.map((author) => (
                     <label
                       class="filter-author"
+                      data-author={author}
                       key={`${author}-${authorCounts[author]}`}
                       // Preact messed up the order sometimes, need additional key besides just `author`
                       // https://github.com/preactjs/preact/issues/2849
@@ -907,6 +976,7 @@ function Catchup() {
                           authors[author].avatarStatic || authors[author].avatar
                         }
                         size="xxl"
+                        alt={`${authors[author].displayName} (@${authors[author].username})`}
                       />{' '}
                       <span class="count">{authorCounts[author]}</span>
                       <span class="username">{authors[author].username}</span>
@@ -935,6 +1005,7 @@ function Catchup() {
                       'repliesCount',
                       'favouritesCount',
                       'reblogsCount',
+                      'density',
                       // 'account',
                     ].map((key) => (
                       <label class="filter-sort" key={key}>
@@ -944,11 +1015,10 @@ function Catchup() {
                           checked={sortBy === key}
                           onChange={() => {
                             setSortBy(key);
-                            const order = /(replies|favourites|reblogs)/.test(
-                              key,
-                            )
-                              ? 'desc'
-                              : 'asc';
+                            const order =
+                              /(replies|favourites|reblogs|density)/.test(key)
+                                ? 'desc'
+                                : 'asc';
                             setSortOrder(order);
                           }}
                           // disabled={key === 'account' && selectedAuthor}
@@ -959,7 +1029,7 @@ function Catchup() {
                             repliesCount: 'Replies',
                             favouritesCount: 'Likes',
                             reblogsCount: 'Boosts',
-                            // account: 'Authors',
+                            density: 'Density',
                           }[key]
                         }
                       </label>
@@ -1183,6 +1253,25 @@ const IntersectionPostLine = ({ root, ...props }) => {
   );
 };
 
+// A media speak a thousand words
+const MEDIA_DENSITY = 8;
+const CARD_DENSITY = 8;
+function postDensity(post) {
+  const { spoilerText, content, poll, mediaAttachments, card } = post;
+  const pollContent = poll?.options?.length
+    ? poll.options.reduce((acc, cur) => acc + cur.title, '')
+    : '';
+  const density =
+    (spoilerText.length + htmlContentLength(content) + pollContent.length) /
+      140 +
+    (mediaAttachments?.length
+      ? MEDIA_DENSITY * mediaAttachments.length
+      : card?.image
+      ? CARD_DENSITY
+      : 0);
+  return density;
+}
+
 const MEDIA_SIZE = 48;
 
 function PostPeek({ post, filterInfo }) {
@@ -1261,49 +1350,71 @@ function PostPeek({ post, filterInfo }) {
             </span>
           )}
           {!!mediaAttachments?.length
-            ? mediaAttachments.map((m) => (
-                <span key={m.id} class="post-peek-media">
-                  {{
-                    image:
-                      (m.previewUrl || m.url) && showMedia ? (
-                        <img
-                          src={m.previewUrl || m.url}
-                          width={MEDIA_SIZE}
-                          height={MEDIA_SIZE}
-                          alt={m.description}
-                          loading="lazy"
-                        />
-                      ) : (
-                        <span class="post-peek-faux-media">🖼</span>
-                      ),
-                    gifv:
-                      m.previewUrl && showMedia ? (
-                        <img
-                          src={m.previewUrl}
-                          width={MEDIA_SIZE}
-                          height={MEDIA_SIZE}
-                          alt={m.description}
-                          loading="lazy"
-                        />
-                      ) : (
-                        <span class="post-peek-faux-media">🎞️</span>
-                      ),
-                    video:
-                      m.previewUrl && showMedia ? (
-                        <img
-                          src={m.previewUrl}
-                          width={MEDIA_SIZE}
-                          height={MEDIA_SIZE}
-                          alt={m.description}
-                          loading="lazy"
-                        />
-                      ) : (
-                        <span class="post-peek-faux-media">📹</span>
-                      ),
-                    audio: <span class="post-peek-faux-media">🎵</span>,
-                  }[m.type] || null}
-                </span>
-              ))
+            ? mediaAttachments.map((m) => {
+                const mediaURL = m.previewUrl || m.url;
+                const remoteMediaURL = m.previewRemoteUrl || m.remoteUrl;
+                return (
+                  <span key={m.id} class="post-peek-media">
+                    {{
+                      image:
+                        (mediaURL || remoteMediaURL) && showMedia ? (
+                          <img
+                            src={mediaURL}
+                            width={MEDIA_SIZE}
+                            height={MEDIA_SIZE}
+                            alt={m.description}
+                            loading="lazy"
+                            onError={(e) => {
+                              const { src } = e.target;
+                              if (src === mediaURL) {
+                                e.target.src = remoteMediaURL;
+                              }
+                            }}
+                          />
+                        ) : (
+                          <span class="post-peek-faux-media">🖼</span>
+                        ),
+                      gifv:
+                        (mediaURL || remoteMediaURL) && showMedia ? (
+                          <img
+                            src={mediaURL}
+                            width={MEDIA_SIZE}
+                            height={MEDIA_SIZE}
+                            alt={m.description}
+                            loading="lazy"
+                            onError={(e) => {
+                              const { src } = e.target;
+                              if (src === mediaURL) {
+                                e.target.src = remoteMediaURL;
+                              }
+                            }}
+                          />
+                        ) : (
+                          <span class="post-peek-faux-media">🎞️</span>
+                        ),
+                      video:
+                        (mediaURL || remoteMediaURL) && showMedia ? (
+                          <img
+                            src={mediaURL}
+                            width={MEDIA_SIZE}
+                            height={MEDIA_SIZE}
+                            alt={m.description}
+                            loading="lazy"
+                            onError={(e) => {
+                              const { src } = e.target;
+                              if (src === mediaURL) {
+                                e.target.src = remoteMediaURL;
+                              }
+                            }}
+                          />
+                        ) : (
+                          <span class="post-peek-faux-media">📹</span>
+                        ),
+                      audio: <span class="post-peek-faux-media">🎵</span>,
+                    }[m.type] || null}
+                  </span>
+                );
+              })
             : !!card &&
               card.image &&
               showMedia && (

@@ -1085,7 +1085,7 @@ function Status({
           const { clientX, clientY } = e.touches?.[0] || e;
           // link detection copied from onContextMenu because here it works
           const link = e.target.closest('a');
-          if (link && /^https?:\/\//.test(link.getAttribute('href'))) return;
+          if (link && statusRef.current.contains(link)) return;
           e.preventDefault();
           setContextMenuProps({
             anchorPoint: {
@@ -1331,7 +1331,7 @@ function Status({
           if (e.metaKey) return;
           // console.log('context menu', e);
           const link = e.target.closest('a');
-          if (link && /^https?:\/\//.test(link.getAttribute('href'))) return;
+          if (link && statusRef.current.contains(link)) return;
 
           // If there's selected text, don't show custom context menu
           const selection = window.getSelection?.();
@@ -1783,6 +1783,7 @@ function Status({
                       media={media}
                       autoAnimate={isSizeLarge}
                       showCaption={mediaAttachments.length === 1}
+                      allowLongerCaption={!content}
                       lang={language}
                       altIndex={
                         showMultipleMediaCaptions &&
@@ -2405,13 +2406,21 @@ function StatusCompact({ sKey }) {
     visibility,
     content,
     language,
+    filtered,
   } = status;
   if (sensitive || spoilerText) return null;
   if (!content) return null;
 
   const srKey = statusKey(id, instance);
-
   const statusPeekText = statusPeek(status);
+
+  const filterContext = useContext(FilterContext);
+  const filterInfo = isFiltered(filtered, filterContext);
+
+  if (filterInfo?.action === 'hide') return null;
+
+  const filterTitleStr = filterInfo?.titlesStr || '';
+
   return (
     <article
       class={`status compact-reply ${
@@ -2427,7 +2436,14 @@ function StatusCompact({ sKey }) {
         lang={language}
         dir="auto"
       >
-        {statusPeekText}
+        {filterInfo ? (
+          <b class="status-filtered-badge badge-meta" title={filterTitleStr}>
+            <span>Filtered</span>
+            <span>{filterTitleStr}</span>
+          </b>
+        ) : (
+          <span>{statusPeekText}</span>
+        )}
       </div>
     </article>
   );
