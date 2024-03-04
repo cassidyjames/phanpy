@@ -1124,6 +1124,7 @@ function RelatedActions({
                   </MenuItem>
                 ) : (
                   <SubMenu
+                    menuClassName="menu-blur"
                     openTrigger="clickOnly"
                     direction="bottom"
                     overflow="auto"
@@ -1352,7 +1353,6 @@ function RelatedActions({
       </div>
       {!!showTranslatedBio && (
         <Modal
-          class="light"
           onClose={() => {
             setShowTranslatedBio(false);
           }}
@@ -1366,7 +1366,6 @@ function RelatedActions({
       )}
       {!!showAddRemoveLists && (
         <Modal
-          class="light"
           onClose={() => {
             setShowAddRemoveLists(false);
           }}
@@ -1379,7 +1378,6 @@ function RelatedActions({
       )}
       {!!showPrivateNoteModal && (
         <Modal
-          class="light"
           onClose={() => {
             setShowPrivateNoteModal(false);
           }}
@@ -1571,7 +1569,6 @@ function AddRemoveListsSheet({ accountID, onClose }) {
       </main>
       {showListAddEditModal && (
         <Modal
-          class="light"
           onClick={(e) => {
             if (e.target === e.currentTarget) {
               setShowListAddEditModal(false);

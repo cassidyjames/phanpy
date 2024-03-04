@@ -32,6 +32,57 @@
     max-width: 40em;
     margin-inline: auto;
 
+    details {
+      border-radius: 16px;
+      text-wrap: balance;
+      color: var(--text-insignificant-color);
+      padding: 1em;
+      margin: -1em 0;
+      transition: all 0.3s var(--timing-function);
+      line-height: 1.4;
+
+      &[open] {
+        transform: translateY(-10vh);
+        color: var(--text-color);
+        background-color: var(--bg-color);
+        background-image: radial-gradient(
+            farthest-corner at 25% 0,
+            transparent 80%,
+            var(--bg-faded-color) 95%,
+            var(--bg-color)
+          ),
+          radial-gradient(
+            farthest-corner at 100% 100%,
+            transparent 80%,
+            var(--bg-faded-blur-color)
+          );
+        outline: 1px solid var(--bg-color);
+        box-shadow: 0 16px 32px -16px var(--drop-shadow-color);
+
+        ~ * {
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        img {
+          width: 480px;
+          height: auto;
+          border-radius: 8px;
+          border: 1px solid var(--outline-color);
+        }
+      }
+
+      summary {
+        font-size: 0.9em;
+        cursor: pointer;
+        user-select: none;
+
+        &:hover {
+          color: var(--text-color);
+        }
+      }
+    }
+
     .catchup-info {
       animation: appear 0.3s ease-out;
       display: flex;
@@ -67,6 +118,13 @@
         display: flex;
         gap: 0.25em;
         align-items: center;
+      }
+
+      > span {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-align: end;
       }
     }
   }
@@ -117,14 +175,14 @@
   border-radius: 3px;
   border: 1px solid var(--bg-color);
   display: flex;
-  gap: 1px;
+  gap: var(--hairline-width);
   pointer-events: none;
   justify-content: stretch;
   height: 3px;
 
-  &:has(.post-dot:nth-child(320)) {
+  /* &:has(.post-dot:nth-child(320)) {
     gap: 0;
-  }
+  } */
 
   .post-dot {
     display: block;
@@ -144,6 +202,41 @@
   &:has(.post-dot:not(.post-dot-highlight)) .post-dot-highlight {
     /* transform: scaleY(2); */
     transform: scale3d(1, 2, 1);
+  }
+}
+
+.catchup-posts-viz-time-bar {
+  margin: 0 16px;
+  padding: 1px;
+  display: flex;
+  row-gap: var(--hairline-width);
+  pointer-events: none;
+  justify-content: stretch;
+  background-image: linear-gradient(to bottom, transparent, var(--bg-color));
+
+  @media (min-width: 640px) {
+    column-gap: var(--hairline-width);
+  }
+
+  .posts-bin {
+    display: flex;
+    gap: var(--hairline-width);
+    flex-direction: column-reverse;
+    width: 100%;
+
+    .post-dot {
+      display: block;
+      width: 100%;
+      height: 2px;
+      opacity: 0.2;
+      background-color: var(--link-color);
+      transition: 0.25s ease-in-out;
+      transition-property: opacity, transform;
+
+      &.post-dot-highlight {
+        opacity: 1;
+      }
+    }
   }
 }
 
@@ -885,5 +978,17 @@
     color: var(--text-insignificant-color);
     padding-block: 15vh;
     text-align: center;
+  }
+}
+
+#catchup-help-sheet {
+  dl {
+    dt {
+      font-weight: bold;
+    }
+    dd {
+      margin-block-end: 1em;
+      margin-inline: 1em;
+    }
   }
 }

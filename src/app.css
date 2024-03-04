@@ -1756,7 +1756,7 @@ body > .szh-menu-container {
   max-width: 90vw;
   /* overflow: hidden; */
 }
-.szh-menu[aria-label='Submenu'] {
+.szh-menu[aria-label='Submenu'].menu-blur {
   background-color: var(--bg-blur-color);
   backdrop-filter: blur(4px);
   box-shadow: 0 3px 24px -3px var(--drop-shadow-color);
@@ -1923,6 +1923,10 @@ body > .szh-menu-container {
     .szh-menu__item--hover
   ).danger {
   color: var(--red-color);
+}
+.szh-menu
+  .szh-menu__item.danger:not(.szh-menu__item--disabled).szh-menu__item--hover {
+  background-color: var(--red-color);
 }
 .szh-menu
   .szh-menu__item:not(.szh-menu__item--disabled):not(
