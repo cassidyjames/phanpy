@@ -891,13 +891,12 @@ function Status({
           </div>
         )
       )}
-      {!isSizeLarge ||
-        ((enableTranslate || !language || differentLanguage) && (
-          <MenuDivider />
-        ))}
+      {((!isSizeLarge && sameInstance) ||
+        enableTranslate ||
+        !language ||
+        differentLanguage) && <MenuDivider />}
       {!isSizeLarge && (
         <>
-          <MenuDivider />
           <MenuLink
             to={instance ? `/${instance}/s/${id}` : `/s/${id}`}
             onClick={(e) => {
@@ -2304,8 +2303,12 @@ function Card({ card, selfReferential, instance }) {
             <p class="meta domain">
               <Icon icon="link" size="s" /> <span>{domain}</span>
             </p>
-            <p class="title" title={title}>{title}</p>
-            <p class="meta" title={description || providerName || authorName}>{description || providerName || authorName}</p>
+            <p class="title" title={title}>
+              {title}
+            </p>
+            <p class="meta" title={description || providerName || authorName}>
+              {description || providerName || authorName}
+            </p>
           </div>
         </a>
       );
