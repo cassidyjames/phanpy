@@ -24,8 +24,9 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { useLongPress } from 'use-long-press';
 import { useSnapshot } from 'valtio';
 
-import AccountBlock from '../components/account-block';
+import CustomEmoji from '../components/custom-emoji';
 import EmojiText from '../components/emoji-text';
+import LazyShazam from '../components/lazy-shazam';
 import Loader from '../components/loader';
 import Menu2 from '../components/menu2';
 import MenuConfirm from '../components/menu-confirm';
@@ -241,6 +242,8 @@ function Status({
     _deleted,
     _pinned,
     // _filtered,
+    // Non-Mastodon
+    emojiReactions,
   } = status;
 
   const currentAccount = useMemo(() => {
@@ -724,25 +727,6 @@ function Status({
   const isPinnable = ['public', 'unlisted', 'private'].includes(visibility);
   const StatusMenuItems = (
     <>
-      {isSizeLarge && (
-        <>
-          <MenuItem
-            onClick={() => {
-              states.showGenericAccounts = {
-                heading: 'Boosted/Liked by…',
-                fetchAccounts: fetchBoostedLikedByAccounts,
-                instance,
-                showReactions: true,
-              };
-            }}
-          >
-            <Icon icon="react" />
-            <span>
-              Boosted/Liked by<span class="more-insignificant">…</span>
-            </span>
-          </MenuItem>
-        </>
-      )}
       {!isSizeLarge && sameInstance && (
         <>
           <div class="menu-control-group-horizontal status-menu">
@@ -838,6 +822,29 @@ function Status({
               <span>{bookmarked ? 'Unbookmark' : 'Bookmark'}</span>
             </MenuItem>
           </div>
+        </>
+      )}
+      {!isSizeLarge && sameInstance && (isSizeLarge || showActionsBar) && (
+        <MenuDivider />
+      )}
+      {(isSizeLarge || showActionsBar) && (
+        <>
+          <MenuItem
+            onClick={() => {
+              states.showGenericAccounts = {
+                heading: 'Boosted/Liked by…',
+                fetchAccounts: fetchBoostedLikedByAccounts,
+                instance,
+                showReactions: true,
+                postID: sKey,
+              };
+            }}
+          >
+            <Icon icon="react" />
+            <span>
+              Boosted/Liked by<span class="more-insignificant">…</span>
+            </span>
+          </MenuItem>
         </>
       )}
       {(enableTranslate || !language || differentLanguage) && <MenuDivider />}
@@ -1925,6 +1932,46 @@ function Status({
                   </>
                 )}
               </div>
+              {!!emojiReactions?.length && (
+                <div class="emoji-reactions">
+                  {emojiReactions.map((emojiReaction) => {
+                    const { name, count, me } = emojiReaction;
+                    const isShortCode = /^:.+?:$/.test(name);
+                    if (isShortCode) {
+                      const emoji = emojis.find(
+                        (e) =>
+                          e.shortcode ===
+                          name.replace(/^:/, '').replace(/:$/, ''),
+                      );
+                      if (emoji) {
+                        return (
+                          <span
+                            class={`emoji-reaction tag ${
+                              me ? '' : 'insignificant'
+                            }`}
+                          >
+                            <CustomEmoji
+                              alt={name}
+                              url={emoji.url}
+                              staticUrl={emoji.staticUrl}
+                            />
+                            {count}
+                          </span>
+                        );
+                      }
+                    }
+                    return (
+                      <span
+                        class={`emoji-reaction tag ${
+                          me ? '' : 'insignificant'
+                        }`}
+                      >
+                        {name} {count}
+                      </span>
+                    );
+                  })}
+                </div>
+              )}
               <div class={`actions ${_deleted ? 'disabled' : ''}`}>
                 <div class="action has-count">
                   <StatusButton
@@ -2228,8 +2275,14 @@ function Card({ card, selfReferential, instance }) {
           />
         </div>
         <div class="meta-container">
-          <p class="meta domain" dir="auto">
-            {domain}
+          <p class="meta domain">
+            <span class="domain">{domain}</span>{' '}
+            {!!publishedAt && <>&middot; </>}
+            {!!publishedAt && (
+              <>
+                <RelativeTime datetime={publishedAt} format="micro" />
+              </>
+            )}
           </p>
           <p class="title" dir="auto" title={title}>
             {title}
@@ -2301,7 +2354,15 @@ function Card({ card, selfReferential, instance }) {
         >
           <div class="meta-container">
             <p class="meta domain">
-              <Icon icon="link" size="s" /> <span>{domain}</span>
+              <span class="domain">
+                <Icon icon="link" size="s" /> <span>{domain}</span>
+              </span>{' '}
+              {!!publishedAt && <>&middot; </>}
+              {!!publishedAt && (
+                <>
+                  <RelativeTime datetime={publishedAt} format="micro" />
+                </>
+              )}
             </p>
             <p class="title" title={title}>
               {title}
@@ -3068,20 +3129,22 @@ const QuoteStatuses = memo(({ id, instance, level = 0 }) => {
 
   return uniqueQuotes.map((q) => {
     return (
-      <Link
-        key={q.instance + q.id}
-        to={`${q.instance ? `/${q.instance}` : ''}/s/${q.id}`}
-        class="status-card-link"
-        data-read-more="Read more →"
-      >
-        <Status
-          statusID={q.id}
-          instance={q.instance}
-          size="s"
-          quoted={level + 1}
-          enableCommentHint
-        />
-      </Link>
+      <LazyShazam>
+        <Link
+          key={q.instance + q.id}
+          to={`${q.instance ? `/${q.instance}` : ''}/s/${q.id}`}
+          class="status-card-link"
+          data-read-more="Read more →"
+        >
+          <Status
+            statusID={q.id}
+            instance={q.instance}
+            size="s"
+            quoted={level + 1}
+            enableCommentHint
+          />
+        </Link>
+      </LazyShazam>
     );
   });
 });
