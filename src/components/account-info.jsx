@@ -9,7 +9,9 @@ import {
   useRef,
   useState,
 } from 'preact/hooks';
+import punycode from 'punycode';
 
+import MenuLink from '../components/menu-link';
 import { api } from '../utils/api';
 import enhanceContent from '../utils/enhance-content';
 import getHTMLText from '../utils/getHTMLText';
@@ -228,7 +230,7 @@ function AccountInfo({
 
   const accountInstance = useMemo(() => {
     if (!url) return null;
-    const domain = new URL(url).hostname;
+    const domain = punycode.toUnicode(new URL(url).hostname);
     return domain;
   }, [url]);
 
@@ -581,6 +583,15 @@ function AccountInfo({
                     <Icon icon="external" />
                     <span>Go to original profile page</span>
                   </MenuItem>
+                  <MenuDivider />
+                  <MenuLink href={info.avatar} target="_blank">
+                    <Icon icon="user" />
+                    <span>View profile image</span>
+                  </MenuLink>
+                  <MenuLink href={info.header} target="_blank">
+                    <Icon icon="media" />
+                    <span>View profile header</span>
+                  </MenuLink>
                 </Menu2>
               ) : (
                 <AccountBlock
@@ -659,6 +670,7 @@ function AccountInfo({
                       // states.showAccount = false;
                       setTimeout(() => {
                         states.showGenericAccounts = {
+                          id: 'followers',
                           heading: 'Followers',
                           fetchAccounts: fetchFollowers,
                           instance,
@@ -1328,6 +1340,43 @@ function RelatedActions({
                     </div>
                   </SubMenu>
                 )}
+                {followedBy && (
+                  <MenuConfirm
+                    subMenu
+                    menuItemClassName="danger"
+                    confirmLabel={
+                      <>
+                        <Icon icon="user-x" />
+                        <span>Remove @{username} from followers?</span>
+                      </>
+                    }
+                    onClick={() => {
+                      setRelationshipUIState('loading');
+                      (async () => {
+                        try {
+                          const newRelationship = await currentMasto.v1.accounts
+                            .$select(currentInfo?.id || id)
+                            .removeFromFollowers();
+                          console.log(
+                            'removing from followers',
+                            newRelationship,
+                          );
+                          setRelationship(newRelationship);
+                          setRelationshipUIState('default');
+                          showToast(`@${username} removed from followers`);
+                          states.reloadGenericAccounts.id = 'followers';
+                          states.reloadGenericAccounts.counter++;
+                        } catch (e) {
+                          console.error(e);
+                          setRelationshipUIState('error');
+                        }
+                      })();
+                    }}
+                  >
+                    <Icon icon="user-x" />
+                    <span>Remove follower…</span>
+                  </MenuConfirm>
+                )}
                 <MenuConfirm
                   subMenu
                   confirm={!blocking}
@@ -1598,7 +1647,7 @@ function niceAccountURL(url) {
   const path = pathname.replace(/\/$/, '').replace(/^\//, '');
   return (
     <>
-      <span class="more-insignificant">{host}/</span>
+      <span class="more-insignificant">{punycode.toUnicode(host)}/</span>
       <wbr />
       <span>{path}</span>
     </>
