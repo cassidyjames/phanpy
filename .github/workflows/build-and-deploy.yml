@@ -19,6 +19,7 @@ jobs:
           PHANPY_DEFAULT_INSTANCE=mastodon.blaede.family \
           PHANPY_DEFAULT_INSTANCE_REGISTRATION_URL=https://mastodon.blaede.family/auth/sign_up \
           PHANPY_PRIVACY_POLICY_URL=https://mastodon.blaede.family/privacy-policy \
+          PHANPY_GIPHY_API_KEY=${{ secrets.PHANPY_GIPHY_API_KEY }}
           npm run build
 
       - name: Deploy
