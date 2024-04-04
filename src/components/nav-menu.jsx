@@ -1,11 +1,6 @@
 import './nav-menu.css';
 
-import {
-  ControlledMenu,
-  MenuDivider,
-  MenuItem,
-  SubMenu,
-} from '@szhsin/react-menu';
+import { ControlledMenu, MenuDivider, MenuItem } from '@szhsin/react-menu';
 import { memo } from 'preact/compat';
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { useLongPress } from 'use-long-press';
@@ -20,8 +15,7 @@ import store from '../utils/store';
 import Avatar from './avatar';
 import Icon from './icon';
 import MenuLink from './menu-link';
-
-const supportsTouch = 'ontouchstart' in window;
+import SubMenu2 from './submenu2';
 
 function NavMenu(props) {
   const snapStates = useSnapshot(states);
@@ -150,7 +144,7 @@ function NavMenu(props) {
         }}
         {...props}
         overflow="auto"
-        // viewScroll="close"
+        viewScroll="close"
         position="anchor"
         align="center"
         boundingBoxPadding={boundingBoxPadding}
@@ -211,8 +205,7 @@ function NavMenu(props) {
                 </MenuLink>
               )}
               {lists?.length > 0 ? (
-                <SubMenu
-                  openTrigger={supportsTouch ? 'clickOnly' : undefined}
+                <SubMenu2
                   menuClassName="nav-submenu"
                   overflow="auto"
                   gap={-8}
@@ -237,7 +230,7 @@ function NavMenu(props) {
                       ))}
                     </>
                   )}
-                </SubMenu>
+                </SubMenu2>
               ) : (
                 <MenuLink to="/l">
                   <Icon icon="list" size="l" />
@@ -247,8 +240,7 @@ function NavMenu(props) {
               <MenuLink to="/b">
                 <Icon icon="bookmark" size="l" /> <span>Bookmarks</span>
               </MenuLink>
-              <SubMenu
-                openTrigger={supportsTouch ? 'clickOnly' : undefined}
+              <SubMenu2
                 menuClassName="nav-submenu"
                 overflow="auto"
                 gap={-8}
@@ -297,7 +289,7 @@ function NavMenu(props) {
                   <Icon icon="block" size="l" />
                   Blocked users&hellip;
                 </MenuItem>{' '}
-              </SubMenu>
+              </SubMenu2>
               <MenuDivider />
               <MenuItem
                 onClick={() => {
