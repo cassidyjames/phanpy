@@ -124,14 +124,14 @@ const MENTION_RE = new RegExp(
 
 // AI-generated, all other regexes are too complicated
 const HASHTAG_RE = new RegExp(
-  `(^|[^=\\/\\w])(#[a-z0-9_]+([a-z0-9_.-]+[a-z0-9_]+)?)(?![\\/\\w])`,
+  `(^|[^=\\/\\w])(#[a-z0-9_]+([a-z0-9_.]+[a-z0-9_]+)?)(?![\\/\\w])`,
   'ig',
 );
 
 // https://github.com/mastodon/mastodon/blob/23e32a4b3031d1da8b911e0145d61b4dd47c4f96/app/models/custom_emoji.rb#L31
 const SHORTCODE_RE_FRAGMENT = '[a-zA-Z0-9_]{2,}';
 const SCAN_RE = new RegExp(
-  `([^A-Za-z0-9_:\\n]|^)(:${SHORTCODE_RE_FRAGMENT}:)(?=[^A-Za-z0-9_:]|$)`,
+  `(^|[^=\\/\\w])(:${SHORTCODE_RE_FRAGMENT}:)(?=[^A-Za-z0-9_:]|$)`,
   'g',
 );
 
@@ -988,7 +988,11 @@ function Compose({
                 } else {
                   try {
                     newStatus = await masto.v1.statuses.create(params, {
-                      idempotencyKey: UID.current,
+                      requestInit: {
+                        headers: {
+                          'Idempotency-Key': UID.current,
+                        },
+                      },
                     });
                   } catch (_) {
                     // If idempotency key fails, try again without it
@@ -1215,22 +1219,30 @@ function Compose({
                 />
                 <Icon icon="attachment" />
               </label>{' '}
-              <button
-                type="button"
-                class="toolbar-button"
-                disabled={
-                  uiState === 'loading' || !!poll || !!mediaAttachments.length
-                }
-                onClick={() => {
-                  setPoll({
-                    options: ['', ''],
-                    expiresIn: 24 * 60 * 60, // 1 day
-                    multiple: false,
-                  });
-                }}
-              >
-                <Icon icon="poll" alt="Add poll" />
-              </button>{' '}
+              {/* If maxOptions is not defined or defined and is greater than 1, show poll button */}
+              {maxOptions == null ||
+                (maxOptions > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      class="toolbar-button"
+                      disabled={
+                        uiState === 'loading' ||
+                        !!poll ||
+                        !!mediaAttachments.length
+                      }
+                      onClick={() => {
+                        setPoll({
+                          options: ['', ''],
+                          expiresIn: 24 * 60 * 60, // 1 day
+                          multiple: false,
+                        });
+                      }}
+                    >
+                      <Icon icon="poll" alt="Add poll" />
+                    </button>{' '}
+                  </>
+                ))}
               <button
                 type="button"
                 class="toolbar-button"
@@ -2370,6 +2382,10 @@ function GIFPickerModal({ onClose = () => {}, onSelect = () => {} }) {
     qRef.current?.focus();
   }, []);
 
+  const debouncedOnInput = useDebouncedCallback(() => {
+    fetchGIFs({ offset: 0 });
+  }, 1000);
+
   return (
     <div id="gif-picker-sheet" class="sheet">
       {!!onClose && (
@@ -2396,6 +2412,7 @@ function GIFPickerModal({ onClose = () => {}, onSelect = () => {} }) {
             autocapitalize="off"
             spellCheck="false"
             dir="auto"
+            onInput={debouncedOnInput}
           />
           <input
             type="image"
