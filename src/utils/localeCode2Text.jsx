@@ -25,16 +25,23 @@ function _localeCode2Text(code) {
   try {
     const text = IntlDN(locale || i18n.locale).of(code);
     if (text !== code) return text;
+    if (!fallback) {
+      const anotherText = IntlDN(code).of(code);
+      if (anotherText !== code) return anotherText;
+    }
     return fallback || '';
   } catch (e) {
     if (codeMappings[code]) {
       try {
-        const text = IntlDN(locale || i18n.locale).of(codeMappings[code]);
+        const text = IntlDN(codeMappings[locale] || locale || i18n.locale).of(
+          codeMappings[code],
+        );
         if (text !== codeMappings[code]) return text;
         return fallback || '';
-      } catch (e) {}
+      } catch (e2) {
+        console.warn(code, e2);
+      }
     }
-    console.warn(code, e);
     return fallback || '';
   }
 }

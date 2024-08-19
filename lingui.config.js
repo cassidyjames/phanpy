@@ -1,5 +1,7 @@
+import { LOCALES } from './src/locales';
+
 const config = {
-  locales: ['en', 'pseudo-LOCALE'],
+  locales: LOCALES,
   pseudoLocale: 'pseudo-LOCALE',
   fallbackLocales: {
     default: 'en',
@@ -10,7 +12,7 @@ const config = {
       include: ['src'],
     },
   ],
-  compileNamespace: 'es',
+  // compileNamespace: 'es',
   orderBy: 'origin',
 };
 

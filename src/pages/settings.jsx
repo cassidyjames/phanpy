@@ -317,7 +317,7 @@ function Settings({ onClose }) {
         </h3>
         <section>
           <ul>
-            <li>
+            <li class="block">
               <label>
                 <input
                   type="checkbox"
@@ -329,7 +329,7 @@ function Settings({ onClose }) {
                 <Trans>Auto refresh timeline posts</Trans>
               </label>
             </li>
-            <li>
+            <li class="block">
               <label>
                 <input
                   type="checkbox"
@@ -341,7 +341,7 @@ function Settings({ onClose }) {
                 <Trans>Boosts carousel</Trans>
               </label>
             </li>
-            <li>
+            <li class="block">
               <label>
                 <input
                   type="checkbox"
@@ -365,10 +365,11 @@ function Settings({ onClose }) {
               >
                 <div>
                   <label>
-                    <Trans>Translate to </Trans>
+                    <Trans>Translate to </Trans>{' '}
                     <select
                       value={targetLanguage || ''}
                       disabled={!snapStates.settings.contentTranslation}
+                      style={{ width: '10em' }}
                       onChange={(e) => {
                         states.settings.contentTranslationTargetLanguage =
                           e.target.value || null;
@@ -389,10 +390,10 @@ function Settings({ onClose }) {
                           code: lang.code,
                           locale: lang.code,
                         });
-                        const same = !native || common === native;
+                        const showCommon = common !== native;
                         return (
                           <option value={lang.code}>
-                            {same ? common : `${common} (${native})`}
+                            {showCommon ? `${native} - ${common}` : common}
                           </option>
                         );
                       })}
@@ -418,7 +419,7 @@ function Settings({ onClose }) {
                         code: lang.code,
                         locale: lang.code,
                       });
-                      const same = !native || common === native;
+                      const showCommon = common !== native;
                       return (
                         <label>
                           <input
@@ -440,7 +441,14 @@ function Settings({ onClose }) {
                               }
                             }}
                           />{' '}
-                          {same ? common : `${common} (${native})`}
+                          {showCommon ? (
+                            <span>
+                              {native}{' '}
+                              <span class="insignificant">- {common}</span>
+                            </span>
+                          ) : (
+                            common
+                          )}
                         </label>
                       );
                     })}
@@ -497,7 +505,7 @@ function Settings({ onClose }) {
               </div>
             </li>
             {!!GIPHY_API_KEY && authenticated && (
-              <li>
+              <li class="block">
                 <label>
                   <input
                     type="checkbox"
@@ -530,7 +538,7 @@ function Settings({ onClose }) {
               </li>
             )}
             {!!IMG_ALT_API_URL && authenticated && (
-              <li>
+              <li class="block">
                 <label>
                   <input
                     type="checkbox"
@@ -567,7 +575,7 @@ function Settings({ onClose }) {
               </li>
             )}
             {authenticated && supports('@mastodon/grouped-notifications') && (
-              <li>
+              <li class="block">
                 <label>
                   <input
                     type="checkbox"
@@ -590,7 +598,7 @@ function Settings({ onClose }) {
               </li>
             )}
             {authenticated && (
-              <li>
+              <li class="block">
                 <label>
                   <input
                     type="checkbox"
@@ -626,7 +634,7 @@ function Settings({ onClose }) {
                 </div>
               </li>
             )}
-            <li>
+            <li class="block">
               <label>
                 <input
                   type="checkbox"

@@ -2042,7 +2042,7 @@ body > .szh-menu-container {
   }
 
   .menu-control-group-horizontal:first-child,
-  li[aria-hidden='true'] + .menu-control-group-horizontal {
+  li[role='none'] + .menu-control-group-horizontal {
     margin-top: -8px;
     margin-bottom: -4px;
 
@@ -2852,5 +2852,17 @@ ul.link-list li a .icon {
     &:dir(rtl) {
       transform: translateX(calc(50% - var(--main-width) / 2));
     }
+  }
+}
+
+/* LANG SELECTOR */
+
+.lang-selector {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+
+  select {
+    width: 10em;
   }
 }
