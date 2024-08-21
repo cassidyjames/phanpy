@@ -8,7 +8,7 @@ msgstr ""
 "Language: lt\n"
 "Project-Id-Version: phanpy\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-08-18 09:17\n"
+"PO-Revision-Date: 2024-08-21 16:44\n"
 "Last-Translator: \n"
 "Language-Team: Lithuanian\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && (n%100>19 || n%100<11) ? 0 : (n%10>=2 && n%10<=9) && (n%100>19 || n%100<11) ? 1 : n%1!=0 ? 2: 3);\n"
@@ -40,14 +40,14 @@ msgstr "Automatizuotas"
 #: src/components/status.jsx:439
 #: src/pages/catchup.jsx:1438
 msgid "Group"
-msgstr "Grupė"
+msgstr "Grupuoti"
 
 #: src/components/account-block.jsx:176
 msgid "Mutual"
 msgstr "Bendri"
 
 #: src/components/account-block.jsx:180
-#: src/components/account-info.jsx:1658
+#: src/components/account-info.jsx:1675
 msgid "Requested"
 msgstr "Paprašyta"
 
@@ -55,7 +55,7 @@ msgstr "Paprašyta"
 #: src/components/account-info.jsx:417
 #: src/components/account-info.jsx:743
 #: src/components/account-info.jsx:757
-#: src/components/account-info.jsx:1649
+#: src/components/account-info.jsx:1666
 #: src/components/nav-menu.jsx:193
 #: src/components/shortcuts-settings.jsx:137
 #: src/pages/following.jsx:20
@@ -84,7 +84,7 @@ msgstr "Prisijungė <0>{0}</0>"
 
 #: src/components/account-info.jsx:57
 msgid "Forever"
-msgstr "Visam laikui "
+msgstr "Visam laikui"
 
 #: src/components/account-info.jsx:378
 msgid "Unable to load account."
@@ -110,14 +110,14 @@ msgstr "Įrašai"
 
 #: src/components/account-info.jsx:428
 #: src/components/account-info.jsx:1116
-#: src/components/compose.jsx:2444
+#: src/components/compose.jsx:2451
 #: src/components/media-alt-modal.jsx:45
 #: src/components/media-modal.jsx:283
-#: src/components/status.jsx:1625
-#: src/components/status.jsx:1642
-#: src/components/status.jsx:1766
-#: src/components/status.jsx:2361
+#: src/components/status.jsx:1628
+#: src/components/status.jsx:1645
+#: src/components/status.jsx:1769
 #: src/components/status.jsx:2364
+#: src/components/status.jsx:2367
 #: src/pages/account-statuses.jsx:528
 #: src/pages/accounts.jsx:106
 #: src/pages/hashtag.jsx:199
@@ -133,17 +133,17 @@ msgid "<0>{displayName}</0> has indicated that their new account is now:"
 msgstr "<0>{displayName}</0> nurodė, kad jų naujoji paskyra dabar yra:"
 
 #: src/components/account-info.jsx:585
-#: src/components/account-info.jsx:1272
+#: src/components/account-info.jsx:1274
 msgid "Handle copied"
 msgstr "Nukopijuotas socialinis medijos vardas"
 
 #: src/components/account-info.jsx:588
-#: src/components/account-info.jsx:1275
+#: src/components/account-info.jsx:1277
 msgid "Unable to copy handle"
 msgstr "Nepavyksta nukopijuoti socialinės medijos vardo"
 
 #: src/components/account-info.jsx:594
-#: src/components/account-info.jsx:1281
+#: src/components/account-info.jsx:1283
 msgid "Copy handle"
 msgstr "Kopijuoti socialinės medijos vardą"
 
@@ -174,7 +174,7 @@ msgstr "{0} originalūs įrašai, {1} atsakymai, {2} pasidalinimai"
 
 #: src/components/account-info.jsx:819
 msgid "{0, plural, one {{1, plural, one {Last 1 post in the past 1 day} other {Last 1 post in the past {2} days}}} other {{3, plural, one {Last {4} posts in the past 1 day} other {Last {5} posts in the past {6} days}}}}"
-msgstr ""
+msgstr "{0, plural, one {{1, plural, one {Paskutinis {0} įrašas per pastarąją {1} dieną} few {Paskutinis 1 įrašas per pastarąsias {2} dienas} many {Paskutinis 1 įrašas per pastarąsias {2} dienos} other {Paskutinis 1 įrašas per pastarąsias {2} dienų}}} few {{3, plural, one {Paskutiniai {4} įrašai per pastarąją 1 dieną} few {Paskutiniai {5} įrašai per pastarąsias {6} dienas} many {Paskutinio {5} įrašo per pastaruosius {6} dienos} other {Paskutinių {5} įrašų per pastarąsias {6} dienų}}} many {{3, plural, one {Paskutiniai {4} įrašai per pastarąją 1 dieną} few {Paskutiniai {5} įrašai per pastarąsias {6} dienas} many {Paskutinio {5} įrašo per pastaruosius {6} dienos} other {Paskutinių {5} įrašų per pastarąsias {6} dienų}}} other {{3, plural, one {Paskutiniai {4} įrašai per pastarąją 1 dieną} few {Paskutiniai {5} įrašai per pastarąsias {6} dienas} many {Paskutinio {5} įrašo per pastaruosius {6} dienos} other {Paskutinių {5} įrašų per pastarąsias {6} dienų}}}}"
 
 #: src/components/account-info.jsx:832
 msgid "{0, plural, one {Last 1 post in the past year(s)} other {Last {1} posts in the past year(s)}}"
@@ -186,7 +186,7 @@ msgid "Original"
 msgstr "Originalus"
 
 #: src/components/account-info.jsx:860
-#: src/components/status.jsx:2152
+#: src/components/status.jsx:2155
 #: src/pages/catchup.jsx:71
 #: src/pages/catchup.jsx:1412
 #: src/pages/catchup.jsx:2023
@@ -228,188 +228,188 @@ msgid "Private note"
 msgstr "Privati pastaba"
 
 #: src/components/account-info.jsx:1149
-msgid "Mention @{username}"
-msgstr "Paminėti @{username}"
+msgid "Mention <0>@{username}</0>"
+msgstr "Paminėti <0>@{username}</0>"
 
-#: src/components/account-info.jsx:1159
+#: src/components/account-info.jsx:1161
 msgid "Translate bio"
 msgstr "Versti biografiją"
 
-#: src/components/account-info.jsx:1170
+#: src/components/account-info.jsx:1172
 msgid "Edit private note"
 msgstr "Redaguoti privačią pastabą"
 
-#: src/components/account-info.jsx:1170
+#: src/components/account-info.jsx:1172
 msgid "Add private note"
 msgstr "Pridėti privačią pastabą"
 
-#: src/components/account-info.jsx:1190
+#: src/components/account-info.jsx:1192
 msgid "Notifications enabled for @{username}'s posts."
 msgstr "Įjungti pranešimai apie @{username} įrašus."
 
-#: src/components/account-info.jsx:1191
+#: src/components/account-info.jsx:1193
 msgid "Notifications disabled for @{username}'s posts."
 msgstr "Išjungti pranešimai apie @{username} įrašus."
 
-#: src/components/account-info.jsx:1203
+#: src/components/account-info.jsx:1205
 msgid "Disable notifications"
 msgstr "Išjungti pranešimus"
 
-#: src/components/account-info.jsx:1204
+#: src/components/account-info.jsx:1206
 msgid "Enable notifications"
 msgstr "Įjungti pranešimus"
 
-#: src/components/account-info.jsx:1221
+#: src/components/account-info.jsx:1223
 msgid "Boosts from @{username} enabled."
 msgstr "Įjungti pasidalinimai iš @{username}."
 
-#: src/components/account-info.jsx:1222
+#: src/components/account-info.jsx:1224
 msgid "Boosts from @{username} disabled."
 msgstr "Išjungti pasidalinimai iš @{username}."
 
-#: src/components/account-info.jsx:1233
+#: src/components/account-info.jsx:1235
 msgid "Disable boosts"
 msgstr "Išjungti pasidalinimus"
 
-#: src/components/account-info.jsx:1233
+#: src/components/account-info.jsx:1235
 msgid "Enable boosts"
 msgstr "Įjungti pasidalinimus"
 
-#: src/components/account-info.jsx:1249
-#: src/components/account-info.jsx:1259
-#: src/components/account-info.jsx:1842
+#: src/components/account-info.jsx:1251
+#: src/components/account-info.jsx:1261
+#: src/components/account-info.jsx:1859
 msgid "Add/Remove from Lists"
 msgstr "Pridėti / pašalinti iš sąrašų"
 
-#: src/components/account-info.jsx:1298
-#: src/components/status.jsx:1068
+#: src/components/account-info.jsx:1300
+#: src/components/status.jsx:1071
 msgid "Link copied"
 msgstr "Nukopijuota nuorada"
 
-#: src/components/account-info.jsx:1301
-#: src/components/status.jsx:1071
+#: src/components/account-info.jsx:1303
+#: src/components/status.jsx:1074
 msgid "Unable to copy link"
 msgstr "Nepavyksta atidaryti nuorodos."
 
-#: src/components/account-info.jsx:1307
+#: src/components/account-info.jsx:1309
 #: src/components/shortcuts-settings.jsx:1056
-#: src/components/status.jsx:1077
-#: src/components/status.jsx:3099
+#: src/components/status.jsx:1080
+#: src/components/status.jsx:3102
 msgid "Copy"
 msgstr "Kopijuoti"
 
-#: src/components/account-info.jsx:1322
+#: src/components/account-info.jsx:1324
 #: src/components/shortcuts-settings.jsx:1074
-#: src/components/status.jsx:1093
+#: src/components/status.jsx:1096
 msgid "Sharing doesn't seem to work."
 msgstr "Atrodo, kad bendrinimas neveikia."
 
-#: src/components/account-info.jsx:1328
-#: src/components/status.jsx:1099
+#: src/components/account-info.jsx:1330
+#: src/components/status.jsx:1102
 msgid "Share…"
 msgstr "Bendrinti…"
 
-#: src/components/account-info.jsx:1348
+#: src/components/account-info.jsx:1350
 msgid "Unmuted @{username}"
 msgstr "Atšauktas @{username} nutildymas"
 
-#: src/components/account-info.jsx:1360
-msgid "Unmute @{username}"
-msgstr "Atšaukti nutildymą @{username}"
+#: src/components/account-info.jsx:1362
+msgid "Unmute <0>@{username}</0>"
+msgstr "Atšaukti nutildymą <0>@{username}></0>"
 
-#: src/components/account-info.jsx:1374
-msgid "Mute @{username}…"
-msgstr "Nutildyti @{username}…"
+#: src/components/account-info.jsx:1378
+msgid "Mute <0>@{username}</0>…"
+msgstr "Nutildyti <0>@{username}</0>…"
 
-#: src/components/account-info.jsx:1404
+#: src/components/account-info.jsx:1410
 msgid "Muted @{username} for {0}"
 msgstr "Nutildytas @{username} dėl {0}"
 
-#: src/components/account-info.jsx:1416
+#: src/components/account-info.jsx:1422
 msgid "Unable to mute @{username}"
-msgstr "Nepavyksta nutildyti @{username}"
+msgstr "Nepavyksta nutildyti @{username}."
 
-#: src/components/account-info.jsx:1437
-msgid "Remove @{username} from followers?"
-msgstr "Pašalinti @{username} iš sekėjų?"
+#: src/components/account-info.jsx:1443
+msgid "Remove <0>@{username}</0> from followers?"
+msgstr "Pašalinti <0>@{username}</0> iš sekėjų?"
 
-#: src/components/account-info.jsx:1454
+#: src/components/account-info.jsx:1463
 msgid "@{username} removed from followers"
 msgstr "@{username} pašalintas iš sekėjų"
 
-#: src/components/account-info.jsx:1466
+#: src/components/account-info.jsx:1475
 msgid "Remove follower…"
 msgstr "Pašalinti sekėją…"
 
-#: src/components/account-info.jsx:1477
-msgid "Block @{username}?"
-msgstr "Bluokuoti @{username}?"
+#: src/components/account-info.jsx:1486
+msgid "Block <0>@{username}</0>?"
+msgstr "Bluokuoti <0>@{username}</0>?"
 
-#: src/components/account-info.jsx:1496
+#: src/components/account-info.jsx:1507
 msgid "Unblocked @{username}"
 msgstr "Atblokuotas @{username}"
 
-#: src/components/account-info.jsx:1504
+#: src/components/account-info.jsx:1515
 msgid "Blocked @{username}"
-msgstr ""
+msgstr "Užblokuotas @{username}"
 
-#: src/components/account-info.jsx:1512
+#: src/components/account-info.jsx:1523
 msgid "Unable to unblock @{username}"
-msgstr ""
+msgstr "Nepavyksta atblokuoti @{username}."
 
-#: src/components/account-info.jsx:1514
+#: src/components/account-info.jsx:1525
 msgid "Unable to block @{username}"
-msgstr ""
+msgstr "Nepavyksta užblokuoti @{username}."
 
-#: src/components/account-info.jsx:1524
-msgid "Unblock @{username}"
-msgstr ""
+#: src/components/account-info.jsx:1535
+msgid "Unblock <0>@{username}</0>"
+msgstr "Atblokuoti <0>@{username}</0>"
 
-#: src/components/account-info.jsx:1531
-msgid "Block @{username}…"
-msgstr ""
+#: src/components/account-info.jsx:1544
+msgid "Block <0>@{username}</0>…"
+msgstr "Bluokuoti <0>@{username}</0>…"
 
-#: src/components/account-info.jsx:1546
-msgid "Report @{username}…"
-msgstr ""
+#: src/components/account-info.jsx:1561
+msgid "Report <0>@{username}</0>…"
+msgstr "Pranešti apie <0>@{username}</0>…"
 
-#: src/components/account-info.jsx:1564
-#: src/components/account-info.jsx:2072
+#: src/components/account-info.jsx:1581
+#: src/components/account-info.jsx:2092
 msgid "Edit profile"
-msgstr ""
+msgstr "Redaguoti profilį"
 
-#: src/components/account-info.jsx:1600
+#: src/components/account-info.jsx:1617
 msgid "Withdraw follow request?"
-msgstr ""
+msgstr "Atšaukti sekimo prašymą?"
 
-#: src/components/account-info.jsx:1601
+#: src/components/account-info.jsx:1618
 msgid "Unfollow @{0}?"
-msgstr ""
+msgstr "Nebesekti @{0}?"
 
-#: src/components/account-info.jsx:1652
+#: src/components/account-info.jsx:1669
 msgid "Unfollow…"
-msgstr ""
+msgstr "Nebesekti…"
 
-#: src/components/account-info.jsx:1661
+#: src/components/account-info.jsx:1678
 msgid "Withdraw…"
-msgstr ""
+msgstr "Atšaukti…"
 
-#: src/components/account-info.jsx:1668
-#: src/components/account-info.jsx:1672
+#: src/components/account-info.jsx:1685
+#: src/components/account-info.jsx:1689
 #: src/pages/hashtag.jsx:261
 msgid "Follow"
-msgstr ""
+msgstr "Sekti"
 
-#: src/components/account-info.jsx:1783
-#: src/components/account-info.jsx:1837
-#: src/components/account-info.jsx:1970
-#: src/components/account-info.jsx:2067
+#: src/components/account-info.jsx:1800
+#: src/components/account-info.jsx:1854
+#: src/components/account-info.jsx:1987
+#: src/components/account-info.jsx:2087
 #: src/components/account-sheet.jsx:37
 #: src/components/compose.jsx:797
-#: src/components/compose.jsx:2400
-#: src/components/compose.jsx:2873
-#: src/components/compose.jsx:3081
-#: src/components/compose.jsx:3311
+#: src/components/compose.jsx:2407
+#: src/components/compose.jsx:2880
+#: src/components/compose.jsx:3088
+#: src/components/compose.jsx:3318
 #: src/components/drafts.jsx:58
 #: src/components/embed-modal.jsx:12
 #: src/components/generic-accounts.jsx:142
@@ -422,85 +422,85 @@ msgstr ""
 #: src/components/shortcuts-settings.jsx:227
 #: src/components/shortcuts-settings.jsx:580
 #: src/components/shortcuts-settings.jsx:780
-#: src/components/status.jsx:2824
-#: src/components/status.jsx:3063
-#: src/components/status.jsx:3561
+#: src/components/status.jsx:2827
+#: src/components/status.jsx:3066
+#: src/components/status.jsx:3564
 #: src/pages/accounts.jsx:33
 #: src/pages/catchup.jsx:1548
 #: src/pages/filters.jsx:224
 #: src/pages/list.jsx:274
 #: src/pages/notifications.jsx:840
-#: src/pages/notifications.jsx:1051
+#: src/pages/notifications.jsx:1054
 #: src/pages/settings.jsx:69
 #: src/pages/status.jsx:1256
 msgid "Close"
-msgstr ""
+msgstr "Uždaryti"
 
-#: src/components/account-info.jsx:1788
+#: src/components/account-info.jsx:1805
 msgid "Translated Bio"
-msgstr ""
+msgstr "Išversta biografija"
 
-#: src/components/account-info.jsx:1882
+#: src/components/account-info.jsx:1899
 msgid "Unable to remove from list."
-msgstr ""
+msgstr "Nepavyksta pašalinti iš sąrašo."
 
-#: src/components/account-info.jsx:1883
+#: src/components/account-info.jsx:1900
 msgid "Unable to add to list."
-msgstr ""
+msgstr "Nepavyksta pridėti prie sąrašo."
 
-#: src/components/account-info.jsx:1902
+#: src/components/account-info.jsx:1919
 #: src/pages/lists.jsx:104
 msgid "Unable to load lists."
-msgstr ""
+msgstr "Nepavyksta įkelti sąrašų."
 
-#: src/components/account-info.jsx:1906
+#: src/components/account-info.jsx:1923
 msgid "No lists."
-msgstr ""
+msgstr "Nėra sąrašų."
 
-#: src/components/account-info.jsx:1917
+#: src/components/account-info.jsx:1934
 #: src/components/list-add-edit.jsx:37
 #: src/pages/lists.jsx:58
 msgid "New list"
-msgstr ""
+msgstr "Naujas sąrašas"
 
-#: src/components/account-info.jsx:1975
-msgid "Private note about @{0}"
-msgstr ""
+#: src/components/account-info.jsx:1992
+msgid "Private note about <0>@{0}</0>"
+msgstr "Privati pastaba apie <0>@{0}</0>"
 
-#: src/components/account-info.jsx:2002
+#: src/components/account-info.jsx:2022
 msgid "Unable to update private note."
-msgstr ""
+msgstr "Nepavyksta atnaujinti privačios pastabos."
 
-#: src/components/account-info.jsx:2025
-#: src/components/account-info.jsx:2195
+#: src/components/account-info.jsx:2045
+#: src/components/account-info.jsx:2215
 msgid "Cancel"
-msgstr ""
+msgstr "Atšaukti"
 
-#: src/components/account-info.jsx:2030
+#: src/components/account-info.jsx:2050
 msgid "Save & close"
-msgstr ""
-
-#: src/components/account-info.jsx:2123
-msgid "Unable to update profile."
-msgstr ""
+msgstr "Išsaugoti ir uždaryti"
 
 #: src/components/account-info.jsx:2143
+msgid "Unable to update profile."
+msgstr "Nepavyksta atnaujinti profilio."
+
+#: src/components/account-info.jsx:2163
 msgid "Bio"
 msgstr "Biografija"
 
-#: src/components/account-info.jsx:2156
+#: src/components/account-info.jsx:2176
 msgid "Extra fields"
 msgstr "Papildomi laukai"
 
-#: src/components/account-info.jsx:2162
+#: src/components/account-info.jsx:2182
 msgid "Label"
 msgstr "Etiketė"
 
-#: src/components/account-info.jsx:2165
+#: src/components/account-info.jsx:2185
 msgid "Content"
 msgstr "Turinys"
 
-#: src/components/account-info.jsx:2198
+#: src/components/account-info.jsx:2218
 #: src/components/list-add-edit.jsx:147
 #: src/components/shortcuts-settings.jsx:712
 #: src/pages/filters.jsx:554
@@ -508,21 +508,21 @@ msgstr "Turinys"
 msgid "Save"
 msgstr "Išsaugoti"
 
-#: src/components/account-info.jsx:2251
+#: src/components/account-info.jsx:2271
 msgid "username"
 msgstr "naudotojo vardas"
 
-#: src/components/account-info.jsx:2255
+#: src/components/account-info.jsx:2275
 msgid "server domain name"
 msgstr "serverio domeno vardas"
 
 #: src/components/background-service.jsx:138
 msgid "Cloak mode disabled"
-msgstr ""
+msgstr "Išjungtas slėpimo režimas"
 
 #: src/components/background-service.jsx:138
 msgid "Cloak mode enabled"
-msgstr ""
+msgstr "Įjungtas slėpimo režimas"
 
 #: src/components/columns.jsx:19
 #: src/components/nav-menu.jsx:184
@@ -548,71 +548,71 @@ msgstr "Turi neišsaugotų pakeitimų. Atmesti šią įrašą?"
 #: src/components/compose.jsx:614
 #: src/components/compose.jsx:630
 #: src/components/compose.jsx:1328
-#: src/components/compose.jsx:1582
+#: src/components/compose.jsx:1589
 msgid "{maxMediaAttachments, plural, one {You can only attach up to 1 file.} other {You can only attach up to # files.}}"
-msgstr ""
+msgstr "{maxMediaAttachments, plural, one {Gali pridėti tik iki # failo.} few {Gali pridėti tik iki # failų.} many {Gali pridėti tik iki # failo.} other {Gali pridėti tik iki # failų.}}"
 
 #: src/components/compose.jsx:778
 msgid "Pop out"
-msgstr ""
+msgstr "Išskleisti"
 
 #: src/components/compose.jsx:785
 msgid "Minimize"
-msgstr ""
+msgstr "Sumažinti"
 
 #: src/components/compose.jsx:821
 msgid "Looks like you closed the parent window."
-msgstr ""
+msgstr "Atrodo, kad uždarei pirminį langą."
 
 #: src/components/compose.jsx:828
 msgid "Looks like you already have a compose field open in the parent window and currently publishing. Please wait for it to be done and try again later."
-msgstr ""
+msgstr "Atrodo, kad pirminiame lange jau atidarytas sukūrimo laukas ir šiuo metu skelbiamas. Palauk, kol jis bus baigtas, ir pabandyk dar kartą vėliau."
 
 #: src/components/compose.jsx:833
 msgid "Looks like you already have a compose field open in the parent window. Popping in this window will discard the changes you made in the parent window. Continue?"
-msgstr ""
+msgstr "Atrodo, kad pirminiame lange jau yra atidarytas sukūrimo laukas. Suskleisčius šiame lange, bus atmesti pakeitimai, kuriuos padarėte pirminiame lange. Tęsti?"
 
 #: src/components/compose.jsx:875
 msgid "Pop in"
-msgstr ""
+msgstr "Suskleisti"
 
 #: src/components/compose.jsx:885
 msgid "Replying to @{0}’s post (<0>{1}</0>)"
-msgstr ""
+msgstr "Atsakant į @{0} įrašą (<0>{1}</0>)"
 
 #: src/components/compose.jsx:895
 msgid "Replying to @{0}’s post"
-msgstr ""
+msgstr "Atsakant į @{0} įrašą"
 
 #: src/components/compose.jsx:908
 msgid "Editing source post"
-msgstr ""
+msgstr "Redaguojamas šaltinio įrašas"
 
 #: src/components/compose.jsx:955
 msgid "Poll must have at least 2 options"
-msgstr ""
+msgstr "Apklausa turi turėti bent 2 parinktis."
 
 #: src/components/compose.jsx:959
 msgid "Some poll choices are empty"
-msgstr ""
+msgstr "Kai kurie apklausos pasirinkimai yra tušti."
 
 #: src/components/compose.jsx:972
 msgid "Some media have no descriptions. Continue?"
-msgstr ""
+msgstr "Kai kurios medijos neturi aprašymų. Tęsti?"
 
 #: src/components/compose.jsx:1024
 msgid "Attachment #{i} failed"
-msgstr ""
+msgstr "Nepavyko #{i} priedas."
 
 #: src/components/compose.jsx:1118
-#: src/components/status.jsx:1951
+#: src/components/status.jsx:1954
 #: src/components/timeline.jsx:975
 msgid "Content warning"
-msgstr ""
+msgstr "Turinio įspėjimas"
 
 #: src/components/compose.jsx:1134
 msgid "Content warning or sensitive media"
-msgstr ""
+msgstr "Turinio įspėjimas arba jautri medija"
 
 #: src/components/compose.jsx:1170
 #: src/components/status.jsx:93
@@ -634,313 +634,313 @@ msgstr "Tik sekėjai"
 
 #: src/components/compose.jsx:1179
 #: src/components/status.jsx:96
-#: src/components/status.jsx:1829
+#: src/components/status.jsx:1832
 msgid "Private mention"
 msgstr "Privatus paminėjimas"
 
 #: src/components/compose.jsx:1188
 msgid "Post your reply"
-msgstr ""
+msgstr "Skelbti savo atsakymą"
 
 #: src/components/compose.jsx:1190
 msgid "Edit your post"
-msgstr ""
+msgstr "Redaguoti savo įrašą"
 
 #: src/components/compose.jsx:1191
 msgid "What are you doing?"
-msgstr ""
+msgstr "Ką tu darai?"
 
 #: src/components/compose.jsx:1266
 msgid "Mark media as sensitive"
-msgstr ""
+msgstr "Žymėti mediją kaip jautrią"
 
 #: src/components/compose.jsx:1364
 msgid "Add poll"
-msgstr ""
+msgstr "Pridėti apklausą"
 
 #: src/components/compose.jsx:1386
 msgid "Add custom emoji"
-msgstr ""
+msgstr "Pridėti pasirinktinį jaustuką"
 
-#: src/components/compose.jsx:1469
+#: src/components/compose.jsx:1470
 #: src/components/keyboard-shortcuts-help.jsx:143
 #: src/components/status.jsx:830
-#: src/components/status.jsx:1605
-#: src/components/status.jsx:1606
-#: src/components/status.jsx:2257
+#: src/components/status.jsx:1608
+#: src/components/status.jsx:1609
+#: src/components/status.jsx:2260
 msgid "Reply"
-msgstr ""
+msgstr "Atsakyti"
 
-#: src/components/compose.jsx:1469
+#: src/components/compose.jsx:1472
 msgid "Update"
-msgstr ""
+msgstr "Atnaujinti"
 
-#: src/components/compose.jsx:1469
-#: src/pages/status.jsx:565
+#: src/components/compose.jsx:1473
+msgctxt "Submit button in composer"
 msgid "Post"
-msgstr ""
+msgstr "Skelbti"
 
-#: src/components/compose.jsx:1594
+#: src/components/compose.jsx:1601
 msgid "Downloading GIF…"
-msgstr ""
+msgstr "Atsisiunčiama GIF…"
 
-#: src/components/compose.jsx:1622
+#: src/components/compose.jsx:1629
 msgid "Failed to download GIF"
 msgstr "Nepavyko atsisiųsti GIF."
 
-#: src/components/compose.jsx:1733
-#: src/components/compose.jsx:1810
+#: src/components/compose.jsx:1740
+#: src/components/compose.jsx:1817
 #: src/components/nav-menu.jsx:287
 msgid "More…"
 msgstr "Daugiau…"
 
-#: src/components/compose.jsx:2213
+#: src/components/compose.jsx:2220
 msgid "Uploaded"
 msgstr "Įkelta"
 
-#: src/components/compose.jsx:2226
+#: src/components/compose.jsx:2233
 msgid "Image description"
 msgstr "Vaizdo aprašymas"
 
-#: src/components/compose.jsx:2227
+#: src/components/compose.jsx:2234
 msgid "Video description"
 msgstr "Vaizdo įrašo aprašymas"
 
-#: src/components/compose.jsx:2228
+#: src/components/compose.jsx:2235
 msgid "Audio description"
 msgstr "Garso įrašo aprašymas"
 
-#: src/components/compose.jsx:2264
-#: src/components/compose.jsx:2284
+#: src/components/compose.jsx:2271
+#: src/components/compose.jsx:2291
 msgid "File size too large. Uploading might encounter issues. Try reduce the file size from {0} to {1} or lower."
 msgstr "Per didelis failo dydis. Įkeliant gali kilti problemų. Bandyk sumažinti failo dydį nuo {0} iki {1} arba mažiau."
 
-#: src/components/compose.jsx:2276
-#: src/components/compose.jsx:2296
+#: src/components/compose.jsx:2283
+#: src/components/compose.jsx:2303
 msgid "Dimension too large. Uploading might encounter issues. Try reduce dimension from {0}×{1}px to {2}×{3}px."
 msgstr "Per didelis matmuo. Įkeliant gali kilti problemų. Bandyk sumažinti matmenis nuo {0}×{1} tšk. iki {2}×{3} tšk."
 
-#: src/components/compose.jsx:2304
+#: src/components/compose.jsx:2311
 msgid "Frame rate too high. Uploading might encounter issues."
 msgstr "Per didelis kadrų dažnis. Įkeliant gali kilti problemų."
 
-#: src/components/compose.jsx:2364
-#: src/components/compose.jsx:2614
+#: src/components/compose.jsx:2371
+#: src/components/compose.jsx:2621
 #: src/components/shortcuts-settings.jsx:723
 #: src/pages/catchup.jsx:1058
 #: src/pages/filters.jsx:412
 msgid "Remove"
 msgstr "Pašalinti"
 
-#: src/components/compose.jsx:2381
+#: src/components/compose.jsx:2388
 msgid "Error"
 msgstr "Klaida"
 
-#: src/components/compose.jsx:2406
+#: src/components/compose.jsx:2413
 msgid "Edit image description"
 msgstr "Redaguoti vaizdo aprašymą"
 
-#: src/components/compose.jsx:2407
+#: src/components/compose.jsx:2414
 msgid "Edit video description"
 msgstr "Redaguoti vaizdo įrašo aprašymą"
 
-#: src/components/compose.jsx:2408
+#: src/components/compose.jsx:2415
 msgid "Edit audio description"
 msgstr "Redaguoti garso įrašo aprašymą"
 
-#: src/components/compose.jsx:2453
-#: src/components/compose.jsx:2502
+#: src/components/compose.jsx:2460
+#: src/components/compose.jsx:2509
 msgid "Generating description. Please wait…"
 msgstr "Generuojamas aprašymas. Palauk…"
 
-#: src/components/compose.jsx:2473
+#: src/components/compose.jsx:2480
 msgid "Failed to generate description: {0}"
 msgstr "Nepavyko sugeneruoti aprašymo: {0}"
 
-#: src/components/compose.jsx:2474
+#: src/components/compose.jsx:2481
 msgid "Failed to generate description"
 msgstr "Nepavyko sugeneruoti aprašymo."
 
-#: src/components/compose.jsx:2486
-#: src/components/compose.jsx:2492
-#: src/components/compose.jsx:2538
+#: src/components/compose.jsx:2493
+#: src/components/compose.jsx:2499
+#: src/components/compose.jsx:2545
 msgid "Generate description…"
 msgstr "Generuoti aprašymą…"
 
-#: src/components/compose.jsx:2525
+#: src/components/compose.jsx:2532
 msgid "Failed to generate description{0}"
 msgstr "Nepavyko sugeneruoti aprašymo: {0}"
 
-#: src/components/compose.jsx:2540
+#: src/components/compose.jsx:2547
 msgid "({0}) <0>— experimental</0>"
-msgstr "({0}) <0>- eksperimentinė</0>"
+msgstr "({0}) <0>– eksperimentinė</0>"
 
-#: src/components/compose.jsx:2559
+#: src/components/compose.jsx:2566
 msgid "Done"
 msgstr "Atlikta"
 
-#: src/components/compose.jsx:2595
+#: src/components/compose.jsx:2602
 msgid "Choice {0}"
 msgstr "{0} pasirinkimas"
 
-#: src/components/compose.jsx:2642
+#: src/components/compose.jsx:2649
 msgid "Multiple choices"
 msgstr "Keli pasirinkimai"
 
-#: src/components/compose.jsx:2645
+#: src/components/compose.jsx:2652
 msgid "Duration"
 msgstr "Trukmė"
 
-#: src/components/compose.jsx:2676
+#: src/components/compose.jsx:2683
 msgid "Remove poll"
 msgstr "Pašalinti apklausą"
 
-#: src/components/compose.jsx:2890
+#: src/components/compose.jsx:2897
 msgid "Search accounts"
 msgstr "Ieškoti paskyrų"
 
-#: src/components/compose.jsx:2931
+#: src/components/compose.jsx:2938
 #: src/components/shortcuts-settings.jsx:712
-#: src/pages/list.jsx:356
+#: src/pages/list.jsx:359
 msgid "Add"
 msgstr "Pridėti"
 
-#: src/components/compose.jsx:2944
+#: src/components/compose.jsx:2951
 #: src/components/generic-accounts.jsx:227
 msgid "Error loading accounts"
-msgstr ""
+msgstr "Klaida įkeliant paskyras."
 
-#: src/components/compose.jsx:3087
+#: src/components/compose.jsx:3094
 msgid "Custom emojis"
-msgstr ""
+msgstr "Pasirinktiniai jaustukai"
 
-#: src/components/compose.jsx:3107
+#: src/components/compose.jsx:3114
 msgid "Search emoji"
-msgstr ""
+msgstr "Ieškoti jaustukų"
 
-#: src/components/compose.jsx:3138
+#: src/components/compose.jsx:3145
 msgid "Error loading custom emojis"
-msgstr ""
+msgstr "Klaida įkeliant pasirinktinius jaustukus."
 
-#: src/components/compose.jsx:3149
+#: src/components/compose.jsx:3156
 msgid "Recently used"
-msgstr ""
+msgstr "Neseniai naudoti"
 
-#: src/components/compose.jsx:3150
+#: src/components/compose.jsx:3157
 msgid "Others"
-msgstr ""
+msgstr "Kiti"
 
-#: src/components/compose.jsx:3188
+#: src/components/compose.jsx:3195
 msgid "{0} more…"
-msgstr ""
+msgstr "{0} daugiau…"
 
-#: src/components/compose.jsx:3326
+#: src/components/compose.jsx:3333
 msgid "Search GIFs"
-msgstr ""
+msgstr "Ieškoti GIF"
 
-#: src/components/compose.jsx:3341
+#: src/components/compose.jsx:3348
 msgid "Powered by GIPHY"
-msgstr ""
+msgstr "Veikiama su „GIPHY“"
 
-#: src/components/compose.jsx:3349
+#: src/components/compose.jsx:3356
 msgid "Type to search GIFs"
-msgstr ""
+msgstr "Rašyk, kad ieškotum GIF"
 
-#: src/components/compose.jsx:3447
+#: src/components/compose.jsx:3454
 #: src/components/media-modal.jsx:387
 #: src/components/timeline.jsx:880
 msgid "Previous"
-msgstr ""
+msgstr "Ankstesnis"
 
-#: src/components/compose.jsx:3465
+#: src/components/compose.jsx:3472
 #: src/components/media-modal.jsx:406
 #: src/components/timeline.jsx:897
 msgid "Next"
-msgstr ""
+msgstr "Kitas"
 
-#: src/components/compose.jsx:3482
+#: src/components/compose.jsx:3489
 msgid "Error loading GIFs"
-msgstr ""
+msgstr "Klaida įkeliant GIF."
 
 #: src/components/drafts.jsx:63
 #: src/pages/settings.jsx:672
 msgid "Unsent drafts"
-msgstr ""
+msgstr "Neišsiųsti juodraščiai"
 
 #: src/components/drafts.jsx:68
 msgid "Looks like you have unsent drafts. Let's continue where you left off."
-msgstr ""
+msgstr "Atrodo, kad turi neišsiųstų juodraščių. Tęskime nuo ten, kur baigei."
 
-#: src/components/drafts.jsx:100
+#: src/components/drafts.jsx:102
 msgid "Delete this draft?"
-msgstr ""
+msgstr "Ištrinti šį juodraštį?"
 
-#: src/components/drafts.jsx:115
+#: src/components/drafts.jsx:117
 msgid "Error deleting draft! Please try again."
-msgstr ""
+msgstr "Klaida ištrinant juodraštį. Bandyk dar kartą."
 
-#: src/components/drafts.jsx:125
+#: src/components/drafts.jsx:127
 #: src/components/list-add-edit.jsx:183
-#: src/components/status.jsx:1240
+#: src/components/status.jsx:1243
 #: src/pages/filters.jsx:587
 msgid "Delete…"
-msgstr ""
+msgstr "Ištrinti…"
 
-#: src/components/drafts.jsx:144
+#: src/components/drafts.jsx:146
 msgid "Error fetching reply-to status!"
-msgstr ""
+msgstr "Klaida gaunant atsakymo į būseną."
 
-#: src/components/drafts.jsx:169
+#: src/components/drafts.jsx:171
 msgid "Delete all drafts?"
-msgstr ""
+msgstr "Ištrinti visus juodraščius?"
 
-#: src/components/drafts.jsx:187
+#: src/components/drafts.jsx:189
 msgid "Error deleting drafts! Please try again."
-msgstr ""
+msgstr "Klaida ištrinant juodraščius. Bandyk dar kartą."
 
-#: src/components/drafts.jsx:199
+#: src/components/drafts.jsx:201
 msgid "Delete all…"
-msgstr ""
+msgstr "Ištrinti visus…"
 
-#: src/components/drafts.jsx:207
+#: src/components/drafts.jsx:209
 msgid "No drafts found."
-msgstr ""
+msgstr "Juodraščių nerasta."
 
-#: src/components/drafts.jsx:243
+#: src/components/drafts.jsx:245
 #: src/pages/catchup.jsx:1895
 msgid "Poll"
-msgstr ""
+msgstr "Apklausa"
 
-#: src/components/drafts.jsx:246
+#: src/components/drafts.jsx:248
 #: src/pages/account-statuses.jsx:365
 msgid "Media"
-msgstr ""
+msgstr "Medija"
 
 #: src/components/embed-modal.jsx:22
 msgid "Open in new window"
-msgstr ""
+msgstr "Atidaryti naujame lange"
 
 #: src/components/follow-request-buttons.jsx:42
 #: src/pages/notifications.jsx:890
 msgid "Accept"
-msgstr ""
+msgstr "Priimti"
 
 #: src/components/follow-request-buttons.jsx:68
 msgid "Reject"
-msgstr ""
+msgstr "Atmesti"
 
 #: src/components/follow-request-buttons.jsx:75
-#: src/pages/notifications.jsx:1167
+#: src/pages/notifications.jsx:1173
 msgid "Accepted"
-msgstr ""
+msgstr "Priimta"
 
 #: src/components/follow-request-buttons.jsx:79
 msgid "Rejected"
-msgstr ""
+msgstr "Atmesta"
 
 #: src/components/generic-accounts.jsx:24
 msgid "Nothing to show"
-msgstr ""
+msgstr "Nėra ką rodyti."
 
 #: src/components/generic-accounts.jsx:145
 #: src/components/notification.jsx:429
@@ -948,7 +948,7 @@ msgstr ""
 #: src/pages/search.jsx:227
 #: src/pages/search.jsx:260
 msgid "Accounts"
-msgstr ""
+msgstr "Paskyros"
 
 #: src/components/generic-accounts.jsx:205
 #: src/components/timeline.jsx:513
@@ -957,7 +957,7 @@ msgstr ""
 #: src/pages/search.jsx:454
 #: src/pages/status.jsx:1289
 msgid "Show more…"
-msgstr ""
+msgstr "Rodyti daugiau…"
 
 #: src/components/generic-accounts.jsx:210
 #: src/components/timeline.jsx:518
@@ -1028,7 +1028,7 @@ msgstr "<0>Gr (Esc)</0> arba <1>Naikinimo klavišas (Backspace)</1>"
 
 #: src/components/keyboard-shortcuts-help.jsx:109
 msgid "Focus column in multi-column mode"
-msgstr ""
+msgstr "Fokusuoti stulpelį kelių stulpelių režime"
 
 #: src/components/keyboard-shortcuts-help.jsx:111
 msgid "<0>1</0> to <1>9</1>"
@@ -1062,133 +1062,133 @@ msgstr "<0>Vald (Ctrl)</0> + <1>Įvesti (Enter)</1> arba <2>⌘</2> + <3>Įvesti
 #: src/pages/search.jsx:39
 #: src/pages/search.jsx:209
 msgid "Search"
-msgstr ""
+msgstr "Ieškoti"
 
 #: src/components/keyboard-shortcuts-help.jsx:147
 msgid "Reply (new window)"
-msgstr ""
+msgstr "Atsakyti (naujas langas)"
 
 #: src/components/keyboard-shortcuts-help.jsx:150
 msgid "<0>Shift</0> + <1>r</1>"
-msgstr ""
+msgstr "<0>Lyg2 (Shift)</0> + <1>r</1>"
 
 #: src/components/keyboard-shortcuts-help.jsx:156
 msgid "Like (favourite)"
-msgstr ""
+msgstr "Patinka (pamėgti)"
 
 #: src/components/keyboard-shortcuts-help.jsx:158
 msgid "<0>l</0> or <1>f</1>"
-msgstr ""
+msgstr "<0>l</0> arba <1>f</1>"
 
 #: src/components/keyboard-shortcuts-help.jsx:164
 #: src/components/status.jsx:838
-#: src/components/status.jsx:2283
-#: src/components/status.jsx:2315
-#: src/components/status.jsx:2316
+#: src/components/status.jsx:2286
+#: src/components/status.jsx:2318
+#: src/components/status.jsx:2319
 msgid "Boost"
-msgstr ""
+msgstr "Pasidalinti"
 
 #: src/components/keyboard-shortcuts-help.jsx:166
 msgid "<0>Shift</0> + <1>b</1>"
-msgstr ""
+msgstr "<0>Lyg2 (Shift)</0> + <1>b</1>"
 
 #: src/components/keyboard-shortcuts-help.jsx:172
 #: src/components/status.jsx:923
-#: src/components/status.jsx:2340
-#: src/components/status.jsx:2341
+#: src/components/status.jsx:2343
+#: src/components/status.jsx:2344
 msgid "Bookmark"
-msgstr ""
+msgstr "Pridėti į žymės"
 
 #: src/components/keyboard-shortcuts-help.jsx:176
 msgid "Toggle Cloak mode"
-msgstr ""
+msgstr "Perjungti slėpimo režimą"
 
 #: src/components/keyboard-shortcuts-help.jsx:178
 msgid "<0>Shift</0> + <1>Alt</1> + <2>k</2>"
-msgstr ""
+msgstr "<0>Lyg2 (Shift)</0> + <1>Alt</1> + <2>k</2>"
 
 #: src/components/list-add-edit.jsx:37
 msgid "Edit list"
-msgstr ""
+msgstr "Redaguoti sąrašą"
 
 #: src/components/list-add-edit.jsx:93
 msgid "Unable to edit list."
-msgstr ""
+msgstr "Nepavyksta redaguoti sąrašo."
 
 #: src/components/list-add-edit.jsx:94
 msgid "Unable to create list."
-msgstr ""
+msgstr "Nepavyksta sukurti sąrašo."
 
 #: src/components/list-add-edit.jsx:102
 msgid "Name"
-msgstr ""
+msgstr "Pavadinimas"
 
 #: src/components/list-add-edit.jsx:122
 msgid "Show replies to list members"
-msgstr ""
+msgstr "Rodyti atsakymus sąrašo nariams"
 
 #: src/components/list-add-edit.jsx:125
 msgid "Show replies to people I follow"
-msgstr ""
+msgstr "Rodyti atsakymus žmonėms, kuriuos seku"
 
 #: src/components/list-add-edit.jsx:128
 msgid "Don't show replies"
-msgstr ""
+msgstr "Nerodyti atsakymų"
 
 #: src/components/list-add-edit.jsx:141
 msgid "Hide posts on this list from Home/Following"
-msgstr ""
+msgstr "Paslėpti šio sąrašo pranešimus iš pagrindinio / sekimo"
 
 #: src/components/list-add-edit.jsx:147
 #: src/pages/filters.jsx:554
 msgid "Create"
-msgstr ""
+msgstr "Kurti"
 
 #: src/components/list-add-edit.jsx:154
 msgid "Delete this list?"
-msgstr ""
+msgstr "Ištrinti šį sąrašą?"
 
 #: src/components/list-add-edit.jsx:173
 msgid "Unable to delete list."
-msgstr ""
+msgstr "Nepavyksta ištrinti sąrašo."
 
 #: src/components/media-alt-modal.jsx:38
 #: src/components/media.jsx:50
 msgid "Media description"
-msgstr ""
+msgstr "Medijos aprašymas"
 
 #: src/components/media-alt-modal.jsx:57
 #: src/components/status.jsx:967
 #: src/components/status.jsx:994
 #: src/components/translation-block.jsx:195
 msgid "Translate"
-msgstr ""
+msgstr "Versti"
 
 #: src/components/media-alt-modal.jsx:68
 #: src/components/status.jsx:981
 #: src/components/status.jsx:1008
 msgid "Speak"
-msgstr ""
+msgstr "Kalbėti"
 
 #: src/components/media-modal.jsx:294
 msgid "Open original media in new window"
-msgstr ""
+msgstr "Atidaryti originalią mediją naujame lange"
 
 #: src/components/media-modal.jsx:298
 msgid "Open original media"
-msgstr ""
+msgstr "Atidaryti originalią mediją"
 
 #: src/components/media-modal.jsx:314
 msgid "Attempting to describe image. Please wait…"
-msgstr ""
+msgstr "Bandymas apibūdinti vaizdą. Palauk…"
 
 #: src/components/media-modal.jsx:329
 msgid "Failed to describe image"
-msgstr ""
+msgstr "Nepavyko apibūdinti vaizdo."
 
 #: src/components/media-modal.jsx:339
 msgid "Describe image…"
-msgstr "Apibūdink vaizdą…"
+msgstr "Apibūdinti vaizdą…"
 
 #: src/components/media-modal.jsx:362
 msgid "View post"
@@ -1200,17 +1200,17 @@ msgstr "Jautri medija"
 
 #: src/components/media-post.jsx:132
 msgid "Filtered: {filterTitleStr}"
-msgstr ""
+msgstr "Filtruota: {filterTitleStr}"
 
 #: src/components/media-post.jsx:133
-#: src/components/status.jsx:3391
-#: src/components/status.jsx:3487
-#: src/components/status.jsx:3565
+#: src/components/status.jsx:3394
+#: src/components/status.jsx:3490
+#: src/components/status.jsx:3568
 #: src/components/timeline.jsx:964
 #: src/pages/catchup.jsx:75
 #: src/pages/catchup.jsx:1843
 msgid "Filtered"
-msgstr ""
+msgstr "Filtruota"
 
 #: src/components/modals.jsx:72
 msgid "Post published. Check it out."
@@ -1222,7 +1222,7 @@ msgstr "Atsakymas paskelbtas. Peržiūrėk."
 
 #: src/components/modals.jsx:74
 msgid "Post updated. Check it out."
-msgstr "Pranešimas atnaujintas. Peržiūrėk."
+msgstr "Įrašas atnaujintas. Peržiūrėk."
 
 #: src/components/nav-menu.jsx:126
 msgid "Menu"
@@ -1234,12 +1234,12 @@ msgstr "Perkrauti puslapį dabar, kad atnaujinti?"
 
 #: src/components/nav-menu.jsx:174
 msgid "New update available…"
-msgstr ""
+msgstr "Yra naujas naujinimas…"
 
 #: src/components/nav-menu.jsx:200
 #: src/pages/catchup.jsx:855
 msgid "Catch-up"
-msgstr ""
+msgstr "Pasivijimas"
 
 #: src/components/nav-menu.jsx:207
 #: src/components/shortcuts-settings.jsx:58
@@ -1304,13 +1304,13 @@ msgstr "Žymės"
 #: src/pages/favourites.jsx:23
 #: src/pages/settings.jsx:1012
 msgid "Likes"
-msgstr ""
+msgstr "Patinka"
 
 #: src/components/nav-menu.jsx:302
 #: src/pages/followed-hashtags.jsx:14
 #: src/pages/followed-hashtags.jsx:44
 msgid "Followed Hashtags"
-msgstr ""
+msgstr "Sekamos saitažodžiai"
 
 #: src/components/nav-menu.jsx:310
 #: src/pages/account-statuses.jsx:331
@@ -1318,23 +1318,23 @@ msgstr ""
 #: src/pages/filters.jsx:93
 #: src/pages/hashtag.jsx:339
 msgid "Filters"
-msgstr ""
+msgstr "Filtrai"
 
 #: src/components/nav-menu.jsx:318
 msgid "Muted users"
-msgstr ""
+msgstr "Nutildyti naudotojai"
 
 #: src/components/nav-menu.jsx:326
 msgid "Muted users…"
-msgstr ""
+msgstr "Nutildyti naudotojai…"
 
 #: src/components/nav-menu.jsx:333
 msgid "Blocked users"
-msgstr ""
+msgstr "Užblokuoti naudotojai"
 
 #: src/components/nav-menu.jsx:341
 msgid "Blocked users…"
-msgstr ""
+msgstr "Užblokuoti naudotojai…"
 
 #: src/components/nav-menu.jsx:353
 msgid "Accounts…"
@@ -1387,11 +1387,11 @@ msgstr "Peržiūrėti visus pranešimus"
 
 #: src/components/notification.jsx:68
 msgid "{account} reacted to your post with {emojiObject}"
-msgstr ""
+msgstr "{account} sureagavo į tavo įrašą su {emojiObject}"
 
 #: src/components/notification.jsx:75
 msgid "{account} published a post."
-msgstr ""
+msgstr "{account} paskelbė įrašą."
 
 #: src/components/notification.jsx:83
 msgid "{count, plural, =1 {{postsCount, plural, =1 {{postType, select, reply {{account} boosted your reply.} other {{account} boosted your post.}}} other {{account} boosted {postsCount} of your posts.}}} other {{postType, select, reply {<0><1>{0}</1> people</0> boosted your reply.} other {<2><3>{1}</3> people</2> boosted your post.}}}}"
@@ -1399,11 +1399,11 @@ msgstr ""
 
 #: src/components/notification.jsx:126
 msgid "{count, plural, =1 {{account} followed you.} other {<0><1>{0}</1> people</0> followed you.}}"
-msgstr ""
+msgstr "{count, plural, one {{0} seka tave.} few {<0><1>{0}</1> žmonės</0> seka tave.} many {<0><1>{0}</1> žmones</0> seka tave.}=1 {{account}} other {<0><1>{0}</1> žmonių</0> seka tave.}}"
 
 #: src/components/notification.jsx:140
 msgid "{account} requested to follow you."
-msgstr ""
+msgstr "{account} paprašė tave sekti."
 
 #: src/components/notification.jsx:149
 msgid "{count, plural, =1 {{postsCount, plural, =1 {{postType, select, reply {{account} liked your reply.} other {{account} liked your post.}}} other {{account} liked {postsCount} of your posts.}}} other {{postType, select, reply {<0><1>{0}</1> people</0> liked your reply.} other {<2><3>{1}</3> people</2> liked your post.}}}}"
@@ -1411,7 +1411,7 @@ msgstr ""
 
 #: src/components/notification.jsx:191
 msgid "A poll you have voted in or created has ended."
-msgstr ""
+msgstr "Baigėsi apklausa, kurioje balsavai arba kurią sukūrei."
 
 #: src/components/notification.jsx:192
 msgid "A poll you have created has ended."
@@ -1447,7 +1447,7 @@ msgstr "Prižiūrėjimo įspėjimas"
 
 #: src/components/notification.jsx:267
 msgid "An admin from <0>{from}</0> has suspended <1>{targetName}</1>, which means you can no longer receive updates from them or interact with them."
-msgstr ""
+msgstr "Administratorius (-ė) iš <0>{from}</0> pristabdė <1>{targetName}</1>, o tai reiškia, kad nebegali gauti iš jų naujienų ir su jais bendrauti."
 
 #: src/components/notification.jsx:273
 msgid "An admin from <0>{from}</0> has blocked <1>{targetName}</1>. Affected followers: {followersCount}, followings: {followingCount}."
@@ -1459,63 +1459,63 @@ msgstr ""
 
 #: src/components/notification.jsx:287
 msgid "Your account has received a moderation warning."
-msgstr ""
+msgstr "Tavo paskyra gavo prižiūrėjimo įspėjimą."
 
 #: src/components/notification.jsx:288
 msgid "Your account has been disabled."
-msgstr ""
+msgstr "Tavo paskyra buvo išjungta."
 
 #: src/components/notification.jsx:289
 msgid "Some of your posts have been marked as sensitive."
-msgstr ""
+msgstr "Kai kurie tavo įrašai buvo pažymėtos kaip jautrios."
 
 #: src/components/notification.jsx:290
 msgid "Some of your posts have been deleted."
-msgstr ""
+msgstr "Kai kurios tavo įrašai buvo ištrinti."
 
 #: src/components/notification.jsx:291
 msgid "Your posts will be marked as sensitive from now on."
-msgstr ""
+msgstr "Nuo šiol tavo įrašai bus pažymėti kaip jautrūs."
 
 #: src/components/notification.jsx:292
 msgid "Your account has been limited."
-msgstr ""
+msgstr "Tavo paskyra buvo apribota."
 
 #: src/components/notification.jsx:293
 msgid "Your account has been suspended."
-msgstr ""
+msgstr "Tavo paskyra buvo pristabdyta."
 
 #: src/components/notification.jsx:364
 msgid "[Unknown notification type: {type}]"
-msgstr ""
+msgstr "[Nežinomas pranešimo tipas: {type}]"
 
 #: src/components/notification.jsx:425
 #: src/components/status.jsx:937
 #: src/components/status.jsx:947
 msgid "Boosted/Liked by…"
-msgstr ""
+msgstr "Pasidalino / patiko…"
 
 #: src/components/notification.jsx:426
 msgid "Liked by…"
-msgstr ""
+msgstr "Patiko…"
 
 #: src/components/notification.jsx:427
 msgid "Boosted by…"
-msgstr ""
+msgstr "Pasidalino…"
 
 #: src/components/notification.jsx:428
 msgid "Followed by…"
-msgstr ""
+msgstr "Seka…"
 
 #: src/components/notification.jsx:484
 #: src/components/notification.jsx:500
 msgid "Learn more <0/>"
-msgstr ""
+msgstr "Sužinoti daugiau <0/>"
 
 #: src/components/notification.jsx:680
 #: src/components/status.jsx:189
 msgid "Read more →"
-msgstr ""
+msgstr "Skaityti daugiau →"
 
 #: src/components/poll.jsx:110
 msgid "Voted"
@@ -1658,35 +1658,35 @@ msgstr ""
 msgid "Additional info"
 msgstr ""
 
-#: src/components/report-modal.jsx:255
+#: src/components/report-modal.jsx:256
 msgid "Forward to <0>{domain}</0>"
 msgstr ""
 
-#: src/components/report-modal.jsx:265
+#: src/components/report-modal.jsx:266
 msgid "Send Report"
 msgstr ""
 
-#: src/components/report-modal.jsx:274
+#: src/components/report-modal.jsx:275
 msgid "Muted {username}"
 msgstr ""
 
-#: src/components/report-modal.jsx:277
+#: src/components/report-modal.jsx:278
 msgid "Unable to mute {username}"
 msgstr ""
 
-#: src/components/report-modal.jsx:282
+#: src/components/report-modal.jsx:283
 msgid "Send Report <0>+ Mute profile</0>"
 msgstr ""
 
-#: src/components/report-modal.jsx:293
+#: src/components/report-modal.jsx:294
 msgid "Blocked {username}"
 msgstr ""
 
-#: src/components/report-modal.jsx:296
+#: src/components/report-modal.jsx:297
 msgid "Unable to block {username}"
 msgstr ""
 
-#: src/components/report-modal.jsx:301
+#: src/components/report-modal.jsx:302
 msgid "Send Report <0>+ Block profile</0>"
 msgstr ""
 
@@ -1802,7 +1802,7 @@ msgid "Move down"
 msgstr ""
 
 #: src/components/shortcuts-settings.jsx:376
-#: src/components/status.jsx:1205
+#: src/components/status.jsx:1208
 #: src/pages/list.jsx:170
 msgid "Edit"
 msgstr ""
@@ -2026,18 +2026,18 @@ msgstr ""
 
 #: src/components/status.jsx:838
 #: src/components/status.jsx:900
-#: src/components/status.jsx:2283
-#: src/components/status.jsx:2315
+#: src/components/status.jsx:2286
+#: src/components/status.jsx:2318
 msgid "Unboost"
 msgstr ""
 
 #: src/components/status.jsx:854
-#: src/components/status.jsx:2298
+#: src/components/status.jsx:2301
 msgid "Quote"
 msgstr ""
 
 #: src/components/status.jsx:862
-#: src/components/status.jsx:2307
+#: src/components/status.jsx:2310
 msgid "Some media have no descriptions."
 msgstr ""
 
@@ -2046,12 +2046,12 @@ msgid "Old post (<0>{0}</0>)"
 msgstr ""
 
 #: src/components/status.jsx:888
-#: src/components/status.jsx:1330
+#: src/components/status.jsx:1333
 msgid "Unboosted @{0}'s post"
 msgstr ""
 
 #: src/components/status.jsx:889
-#: src/components/status.jsx:1331
+#: src/components/status.jsx:1334
 msgid "Boosted @{0}'s post"
 msgstr ""
 
@@ -2060,231 +2060,231 @@ msgid "Boost…"
 msgstr ""
 
 #: src/components/status.jsx:913
-#: src/components/status.jsx:1615
-#: src/components/status.jsx:2328
+#: src/components/status.jsx:1618
+#: src/components/status.jsx:2331
 msgid "Unlike"
 msgstr ""
 
 #: src/components/status.jsx:914
-#: src/components/status.jsx:1615
-#: src/components/status.jsx:1616
-#: src/components/status.jsx:2328
-#: src/components/status.jsx:2329
+#: src/components/status.jsx:1618
+#: src/components/status.jsx:1619
+#: src/components/status.jsx:2331
+#: src/components/status.jsx:2332
 msgid "Like"
 msgstr ""
 
 #: src/components/status.jsx:923
-#: src/components/status.jsx:2340
+#: src/components/status.jsx:2343
 msgid "Unbookmark"
 msgstr ""
 
 #: src/components/status.jsx:1031
-msgid "View post by @{0}"
-msgstr ""
-
-#: src/components/status.jsx:1049
-msgid "Show Edit History"
+msgid "View post by <0>@{0}</0>"
 msgstr ""
 
 #: src/components/status.jsx:1052
+msgid "Show Edit History"
+msgstr ""
+
+#: src/components/status.jsx:1055
 msgid "Edited: {editedDateText}"
 msgstr ""
 
-#: src/components/status.jsx:1112
-#: src/components/status.jsx:3068
+#: src/components/status.jsx:1115
+#: src/components/status.jsx:3071
 msgid "Embed post"
 msgstr ""
 
-#: src/components/status.jsx:1126
+#: src/components/status.jsx:1129
 msgid "Conversation unmuted"
 msgstr ""
 
-#: src/components/status.jsx:1126
+#: src/components/status.jsx:1129
 msgid "Conversation muted"
 msgstr ""
 
-#: src/components/status.jsx:1132
+#: src/components/status.jsx:1135
 msgid "Unable to unmute conversation"
 msgstr ""
 
-#: src/components/status.jsx:1133
+#: src/components/status.jsx:1136
 msgid "Unable to mute conversation"
 msgstr ""
 
-#: src/components/status.jsx:1142
+#: src/components/status.jsx:1145
 msgid "Unmute conversation"
 msgstr ""
 
-#: src/components/status.jsx:1149
+#: src/components/status.jsx:1152
 msgid "Mute conversation"
 msgstr ""
 
-#: src/components/status.jsx:1165
+#: src/components/status.jsx:1168
 msgid "Post unpinned from profile"
 msgstr ""
 
-#: src/components/status.jsx:1166
+#: src/components/status.jsx:1169
 msgid "Post pinned to profile"
 msgstr ""
 
-#: src/components/status.jsx:1171
+#: src/components/status.jsx:1174
 msgid "Unable to unpin post"
 msgstr ""
 
-#: src/components/status.jsx:1171
+#: src/components/status.jsx:1174
 msgid "Unable to pin post"
 msgstr ""
 
-#: src/components/status.jsx:1180
+#: src/components/status.jsx:1183
 msgid "Unpin from profile"
 msgstr ""
 
-#: src/components/status.jsx:1187
+#: src/components/status.jsx:1190
 msgid "Pin to profile"
 msgstr ""
 
-#: src/components/status.jsx:1216
+#: src/components/status.jsx:1219
 msgid "Delete this post?"
 msgstr ""
 
-#: src/components/status.jsx:1229
+#: src/components/status.jsx:1232
 msgid "Post deleted"
 msgstr ""
 
-#: src/components/status.jsx:1232
+#: src/components/status.jsx:1235
 msgid "Unable to delete post"
 msgstr ""
 
-#: src/components/status.jsx:1260
+#: src/components/status.jsx:1263
 msgid "Report post…"
 msgstr ""
 
-#: src/components/status.jsx:1616
-#: src/components/status.jsx:1652
-#: src/components/status.jsx:2329
+#: src/components/status.jsx:1619
+#: src/components/status.jsx:1655
+#: src/components/status.jsx:2332
 msgid "Liked"
 msgstr ""
 
-#: src/components/status.jsx:1649
-#: src/components/status.jsx:2316
+#: src/components/status.jsx:1652
+#: src/components/status.jsx:2319
 msgid "Boosted"
 msgstr ""
 
-#: src/components/status.jsx:1659
-#: src/components/status.jsx:2341
+#: src/components/status.jsx:1662
+#: src/components/status.jsx:2344
 msgid "Bookmarked"
 msgstr ""
 
-#: src/components/status.jsx:1663
+#: src/components/status.jsx:1666
 msgid "Pinned"
 msgstr ""
 
-#: src/components/status.jsx:1708
-#: src/components/status.jsx:2160
+#: src/components/status.jsx:1711
+#: src/components/status.jsx:2163
 msgid "Deleted"
 msgstr ""
 
-#: src/components/status.jsx:1749
+#: src/components/status.jsx:1752
 msgid "{repliesCount, plural, one {# reply} other {# replies}}"
 msgstr ""
 
-#: src/components/status.jsx:1838
+#: src/components/status.jsx:1841
 msgid "Thread{0}"
 msgstr ""
 
-#: src/components/status.jsx:1914
-#: src/components/status.jsx:1976
-#: src/components/status.jsx:2061
+#: src/components/status.jsx:1917
+#: src/components/status.jsx:1979
+#: src/components/status.jsx:2064
 msgid "Show less"
 msgstr ""
 
-#: src/components/status.jsx:1914
-#: src/components/status.jsx:1976
+#: src/components/status.jsx:1917
+#: src/components/status.jsx:1979
 msgid "Show content"
 msgstr ""
 
-#: src/components/status.jsx:2061
+#: src/components/status.jsx:2064
 msgid "Show media"
 msgstr ""
 
-#: src/components/status.jsx:2181
+#: src/components/status.jsx:2184
 msgid "Edited"
 msgstr ""
 
-#: src/components/status.jsx:2258
+#: src/components/status.jsx:2261
 msgid "Comments"
 msgstr ""
 
-#: src/components/status.jsx:2829
+#: src/components/status.jsx:2832
 msgid "Edit History"
 msgstr ""
 
-#: src/components/status.jsx:2833
+#: src/components/status.jsx:2836
 msgid "Failed to load history"
 msgstr ""
 
-#: src/components/status.jsx:2838
+#: src/components/status.jsx:2841
 msgid "Loading…"
 msgstr ""
 
-#: src/components/status.jsx:3073
+#: src/components/status.jsx:3076
 msgid "HTML Code"
 msgstr ""
 
-#: src/components/status.jsx:3090
+#: src/components/status.jsx:3093
 msgid "HTML code copied"
 msgstr ""
 
-#: src/components/status.jsx:3093
+#: src/components/status.jsx:3096
 msgid "Unable to copy HTML code"
 msgstr ""
 
-#: src/components/status.jsx:3105
+#: src/components/status.jsx:3108
 msgid "Media attachments:"
 msgstr ""
 
-#: src/components/status.jsx:3127
+#: src/components/status.jsx:3130
 msgid "Account Emojis:"
 msgstr ""
 
-#: src/components/status.jsx:3158
-#: src/components/status.jsx:3203
+#: src/components/status.jsx:3161
+#: src/components/status.jsx:3206
 msgid "static URL"
 msgstr ""
 
-#: src/components/status.jsx:3172
+#: src/components/status.jsx:3175
 msgid "Emojis:"
 msgstr ""
 
-#: src/components/status.jsx:3217
+#: src/components/status.jsx:3220
 msgid "Notes:"
 msgstr ""
 
-#: src/components/status.jsx:3221
+#: src/components/status.jsx:3224
 msgid "This is static, unstyled and scriptless. You may need to apply your own styles and edit as needed."
 msgstr ""
 
-#: src/components/status.jsx:3227
+#: src/components/status.jsx:3230
 msgid "Polls are not interactive, becomes a list with vote counts."
 msgstr ""
 
-#: src/components/status.jsx:3232
+#: src/components/status.jsx:3235
 msgid "Media attachments can be images, videos, audios or any file types."
 msgstr ""
 
-#: src/components/status.jsx:3238
+#: src/components/status.jsx:3241
 msgid "Post could be edited or deleted later."
 msgstr ""
 
-#: src/components/status.jsx:3244
+#: src/components/status.jsx:3247
 msgid "Preview"
 msgstr ""
 
-#: src/components/status.jsx:3253
+#: src/components/status.jsx:3256
 msgid "Note: This preview is lightly styled."
 msgstr ""
 
-#: src/components/status.jsx:3495
+#: src/components/status.jsx:3498
 msgid "<0/> <1/> boosted"
 msgstr ""
 
@@ -2455,18 +2455,18 @@ msgid "Set as default"
 msgstr ""
 
 #: src/pages/accounts.jsx:144
-msgid "Log out @{0}?"
+msgid "Log out <0>@{0}</0>?"
 msgstr ""
 
-#: src/pages/accounts.jsx:161
+#: src/pages/accounts.jsx:167
 msgid "Log out…"
 msgstr ""
 
-#: src/pages/accounts.jsx:174
+#: src/pages/accounts.jsx:180
 msgid "Add an existing account"
 msgstr ""
 
-#: src/pages/accounts.jsx:181
+#: src/pages/accounts.jsx:187
 msgid "Note: <0>Default</0> account will always be used for first load. Switched accounts will persist during the session."
 msgstr ""
 
@@ -3001,10 +3001,10 @@ msgid "Manage members"
 msgstr "Tvarkyti narius"
 
 #: src/pages/list.jsx:313
-msgid "Remove @{0} from list?"
-msgstr "Pašalinti @{0} iš sąrašo?"
+msgid "Remove <0>@{0}</0> from list?"
+msgstr ""
 
-#: src/pages/list.jsx:356
+#: src/pages/list.jsx:359
 msgid "Remove…"
 msgstr "Pašalinti…"
 
@@ -3021,7 +3021,7 @@ msgid "e.g. “mastodon.social”"
 msgstr "pvz., mastodon.social"
 
 #: src/pages/login.jsx:196
-msgid "Failed to log in. Please try again or another instance."
+msgid "Failed to log in. Please try again or try another instance."
 msgstr ""
 
 #: src/pages/login.jsx:208
@@ -3139,38 +3139,38 @@ msgid "Updated <0>{0}</0>"
 msgstr ""
 
 #: src/pages/notifications.jsx:1037
-msgid "View notifications from @{0}"
+msgid "View notifications from <0>@{0}</0>"
 msgstr ""
 
-#: src/pages/notifications.jsx:1055
-msgid "Notifications from @{0}"
+#: src/pages/notifications.jsx:1058
+msgid "Notifications from <0>@{0}</0>"
 msgstr ""
 
-#: src/pages/notifications.jsx:1119
+#: src/pages/notifications.jsx:1125
 msgid "Notifications from @{0} will not be filtered from now on."
 msgstr ""
 
-#: src/pages/notifications.jsx:1124
+#: src/pages/notifications.jsx:1130
 msgid "Unable to accept notification request"
 msgstr ""
 
-#: src/pages/notifications.jsx:1129
+#: src/pages/notifications.jsx:1135
 msgid "Allow"
 msgstr "Leisti"
 
-#: src/pages/notifications.jsx:1149
+#: src/pages/notifications.jsx:1155
 msgid "Notifications from @{0} will not show up in Filtered notifications from now on."
 msgstr ""
 
-#: src/pages/notifications.jsx:1154
+#: src/pages/notifications.jsx:1160
 msgid "Unable to dismiss notification request"
 msgstr ""
 
-#: src/pages/notifications.jsx:1159
+#: src/pages/notifications.jsx:1165
 msgid "Dismiss"
 msgstr ""
 
-#: src/pages/notifications.jsx:1174
+#: src/pages/notifications.jsx:1180
 msgid "Dismissed"
 msgstr ""
 
@@ -3489,6 +3489,10 @@ msgstr ""
 #: src/pages/settings.jsx:1069
 msgid "NOTE: Push notifications only work for <0>one account</0>."
 msgstr ""
+
+#: src/pages/status.jsx:565
+msgid "Post"
+msgstr "Skelbti"
 
 #: src/pages/status.jsx:786
 msgid "You're not logged in. Interactions (reply, boost, etc) are not possible."

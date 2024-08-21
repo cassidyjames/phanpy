@@ -8,7 +8,7 @@ msgstr ""
 "Language: fa\n"
 "Project-Id-Version: phanpy\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-08-19 16:04\n"
+"PO-Revision-Date: 2024-08-21 14:59\n"
 "Last-Translator: \n"
 "Language-Team: Persian\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -98,7 +98,7 @@ msgstr "برو به صفحهٔ حساب کاربری"
 #: src/components/account-info.jsx:703
 #: src/components/account-info.jsx:733
 msgid "Followers"
-msgstr "پی‌گیرنده‌ها"
+msgstr "پی‌گیرنده"
 
 #: src/components/account-info.jsx:420
 #: src/components/account-info.jsx:774
@@ -106,11 +106,11 @@ msgstr "پی‌گیرنده‌ها"
 #: src/pages/search.jsx:237
 #: src/pages/search.jsx:384
 msgid "Posts"
-msgstr "فرسته‌ها"
+msgstr "فرسته"
 
 #: src/components/account-info.jsx:428
 #: src/components/account-info.jsx:1116
-#: src/components/compose.jsx:2444
+#: src/components/compose.jsx:2451
 #: src/components/media-alt-modal.jsx:45
 #: src/components/media-modal.jsx:283
 #: src/components/status.jsx:1628
@@ -241,7 +241,7 @@ msgstr "ویرایش یادداشت خصوصی"
 
 #: src/components/account-info.jsx:1172
 msgid "Add private note"
-msgstr "اضافه کردن یادداشت خصوصی"
+msgstr "افزودن یادداشت خصوصی"
 
 #: src/components/account-info.jsx:1192
 msgid "Notifications enabled for @{username}'s posts."
@@ -279,7 +279,7 @@ msgstr "فعال کردن تقویت‌ها"
 #: src/components/account-info.jsx:1261
 #: src/components/account-info.jsx:1859
 msgid "Add/Remove from Lists"
-msgstr "اضافه/حذف کردن از سیاهه‌ها"
+msgstr "افزودن/حذف کردن از سیاهه‌ها"
 
 #: src/components/account-info.jsx:1300
 #: src/components/status.jsx:1071
@@ -406,10 +406,10 @@ msgstr "پی گرفتن"
 #: src/components/account-info.jsx:2087
 #: src/components/account-sheet.jsx:37
 #: src/components/compose.jsx:797
-#: src/components/compose.jsx:2400
-#: src/components/compose.jsx:2873
-#: src/components/compose.jsx:3081
-#: src/components/compose.jsx:3311
+#: src/components/compose.jsx:2407
+#: src/components/compose.jsx:2880
+#: src/components/compose.jsx:3088
+#: src/components/compose.jsx:3318
 #: src/components/drafts.jsx:58
 #: src/components/embed-modal.jsx:12
 #: src/components/generic-accounts.jsx:142
@@ -446,7 +446,7 @@ msgstr "ناتوانی در حذف از سیاهه."
 
 #: src/components/account-info.jsx:1900
 msgid "Unable to add to list."
-msgstr "ناتوانی در اضافه کردن به سیاهه."
+msgstr "ناتوانی در افزودن به سیاهه."
 
 #: src/components/account-info.jsx:1919
 #: src/pages/lists.jsx:104
@@ -548,7 +548,7 @@ msgstr "شما تغییرات ذخیره‌نشده دارید. این فرست�
 #: src/components/compose.jsx:614
 #: src/components/compose.jsx:630
 #: src/components/compose.jsx:1328
-#: src/components/compose.jsx:1582
+#: src/components/compose.jsx:1589
 msgid "{maxMediaAttachments, plural, one {You can only attach up to 1 file.} other {You can only attach up to # files.}}"
 msgstr ""
 
@@ -630,7 +630,7 @@ msgstr "فهرست‌نشده"
 #: src/components/status.jsx:95
 #: src/pages/settings.jsx:291
 msgid "Followers only"
-msgstr "فقط پی‌گیرنده‌ها"
+msgstr "فقط پی‌گیرنده"
 
 #: src/components/compose.jsx:1179
 #: src/components/status.jsx:96
@@ -656,13 +656,13 @@ msgstr "علامت‌گذاری رسانه به عنوان حساس"
 
 #: src/components/compose.jsx:1364
 msgid "Add poll"
-msgstr "اضافه کردن نظرسنجی"
+msgstr "افزودن نظرسنجی"
 
 #: src/components/compose.jsx:1386
 msgid "Add custom emoji"
-msgstr "اضافه کردن شکلک شخصی‌سازی‌شده"
+msgstr "افزودن شکلک شخصی‌سازی‌شده"
 
-#: src/components/compose.jsx:1469
+#: src/components/compose.jsx:1470
 #: src/components/keyboard-shortcuts-help.jsx:143
 #: src/components/status.jsx:830
 #: src/components/status.jsx:1608
@@ -671,194 +671,194 @@ msgstr "اضافه کردن شکلک شخصی‌سازی‌شده"
 msgid "Reply"
 msgstr "پاسخ دادن"
 
-#: src/components/compose.jsx:1469
+#: src/components/compose.jsx:1472
 msgid "Update"
 msgstr "بروزرسانی"
 
-#: src/components/compose.jsx:1469
-#: src/pages/status.jsx:565
+#: src/components/compose.jsx:1473
+msgctxt "Submit button in composer"
 msgid "Post"
-msgstr "فرسته"
+msgstr ""
 
-#: src/components/compose.jsx:1594
+#: src/components/compose.jsx:1601
 msgid "Downloading GIF…"
 msgstr "بارگیری جیف…"
 
-#: src/components/compose.jsx:1622
+#: src/components/compose.jsx:1629
 msgid "Failed to download GIF"
 msgstr "بارگیری جیف ناموفق بود"
 
-#: src/components/compose.jsx:1733
-#: src/components/compose.jsx:1810
+#: src/components/compose.jsx:1740
+#: src/components/compose.jsx:1817
 #: src/components/nav-menu.jsx:287
 msgid "More…"
 msgstr "بیشتر…"
 
-#: src/components/compose.jsx:2213
+#: src/components/compose.jsx:2220
 msgid "Uploaded"
 msgstr "بارگذاری شد"
 
-#: src/components/compose.jsx:2226
+#: src/components/compose.jsx:2233
 msgid "Image description"
 msgstr "شرح تصویر"
 
-#: src/components/compose.jsx:2227
+#: src/components/compose.jsx:2234
 msgid "Video description"
 msgstr "شرح ویدئو"
 
-#: src/components/compose.jsx:2228
+#: src/components/compose.jsx:2235
 msgid "Audio description"
 msgstr "شرح صدا"
 
-#: src/components/compose.jsx:2264
-#: src/components/compose.jsx:2284
+#: src/components/compose.jsx:2271
+#: src/components/compose.jsx:2291
 msgid "File size too large. Uploading might encounter issues. Try reduce the file size from {0} to {1} or lower."
 msgstr ""
 
-#: src/components/compose.jsx:2276
-#: src/components/compose.jsx:2296
+#: src/components/compose.jsx:2283
+#: src/components/compose.jsx:2303
 msgid "Dimension too large. Uploading might encounter issues. Try reduce dimension from {0}×{1}px to {2}×{3}px."
 msgstr ""
 
-#: src/components/compose.jsx:2304
+#: src/components/compose.jsx:2311
 msgid "Frame rate too high. Uploading might encounter issues."
 msgstr ""
 
-#: src/components/compose.jsx:2364
-#: src/components/compose.jsx:2614
+#: src/components/compose.jsx:2371
+#: src/components/compose.jsx:2621
 #: src/components/shortcuts-settings.jsx:723
 #: src/pages/catchup.jsx:1058
 #: src/pages/filters.jsx:412
 msgid "Remove"
 msgstr ""
 
-#: src/components/compose.jsx:2381
+#: src/components/compose.jsx:2388
 msgid "Error"
 msgstr ""
 
-#: src/components/compose.jsx:2406
+#: src/components/compose.jsx:2413
 msgid "Edit image description"
 msgstr ""
 
-#: src/components/compose.jsx:2407
+#: src/components/compose.jsx:2414
 msgid "Edit video description"
 msgstr ""
 
-#: src/components/compose.jsx:2408
+#: src/components/compose.jsx:2415
 msgid "Edit audio description"
 msgstr ""
 
-#: src/components/compose.jsx:2453
-#: src/components/compose.jsx:2502
+#: src/components/compose.jsx:2460
+#: src/components/compose.jsx:2509
 msgid "Generating description. Please wait…"
 msgstr "تولید شرح. لطفا صبر کنید…"
 
-#: src/components/compose.jsx:2473
+#: src/components/compose.jsx:2480
 msgid "Failed to generate description: {0}"
 msgstr "شکست در تولید شرح: {0}"
 
-#: src/components/compose.jsx:2474
+#: src/components/compose.jsx:2481
 msgid "Failed to generate description"
 msgstr "شکست در تولید شرح"
 
-#: src/components/compose.jsx:2486
-#: src/components/compose.jsx:2492
-#: src/components/compose.jsx:2538
+#: src/components/compose.jsx:2493
+#: src/components/compose.jsx:2499
+#: src/components/compose.jsx:2545
 msgid "Generate description…"
 msgstr "تولید شرح…"
 
-#: src/components/compose.jsx:2525
+#: src/components/compose.jsx:2532
 msgid "Failed to generate description{0}"
 msgstr "شکست در تولید شرح{0}"
 
-#: src/components/compose.jsx:2540
+#: src/components/compose.jsx:2547
 msgid "({0}) <0>— experimental</0>"
 msgstr "({0}) <0>— آزمایشگاهی</0>"
 
-#: src/components/compose.jsx:2559
+#: src/components/compose.jsx:2566
 msgid "Done"
 msgstr "اتمام"
 
-#: src/components/compose.jsx:2595
+#: src/components/compose.jsx:2602
 msgid "Choice {0}"
 msgstr "گزینه {0}"
 
-#: src/components/compose.jsx:2642
+#: src/components/compose.jsx:2649
 msgid "Multiple choices"
 msgstr "گزینه‌های چندگانه"
 
-#: src/components/compose.jsx:2645
+#: src/components/compose.jsx:2652
 msgid "Duration"
 msgstr "طول"
 
-#: src/components/compose.jsx:2676
+#: src/components/compose.jsx:2683
 msgid "Remove poll"
 msgstr "حذف نظرسنجی"
 
-#: src/components/compose.jsx:2890
+#: src/components/compose.jsx:2897
 msgid "Search accounts"
 msgstr "جستجوی حساب‌ها"
 
-#: src/components/compose.jsx:2931
+#: src/components/compose.jsx:2938
 #: src/components/shortcuts-settings.jsx:712
 #: src/pages/list.jsx:359
 msgid "Add"
-msgstr "اضافه کردن"
+msgstr "افزودن"
 
-#: src/components/compose.jsx:2944
+#: src/components/compose.jsx:2951
 #: src/components/generic-accounts.jsx:227
 msgid "Error loading accounts"
 msgstr "خطا در بارگذاری حساب‌ها"
 
-#: src/components/compose.jsx:3087
+#: src/components/compose.jsx:3094
 msgid "Custom emojis"
 msgstr "شکلک‌های شخصی‌سازی‌شده"
 
-#: src/components/compose.jsx:3107
+#: src/components/compose.jsx:3114
 msgid "Search emoji"
 msgstr "جستجوی شکلک"
 
-#: src/components/compose.jsx:3138
+#: src/components/compose.jsx:3145
 msgid "Error loading custom emojis"
 msgstr "خطا در بارگذاری شکلک‌های شخصی‌سازی‌شده"
 
-#: src/components/compose.jsx:3149
+#: src/components/compose.jsx:3156
 msgid "Recently used"
 msgstr "اخیرا استفاده‌شده"
 
-#: src/components/compose.jsx:3150
+#: src/components/compose.jsx:3157
 msgid "Others"
 msgstr "دیگران"
 
-#: src/components/compose.jsx:3188
+#: src/components/compose.jsx:3195
 msgid "{0} more…"
 msgstr "{0} بیشتر…"
 
-#: src/components/compose.jsx:3326
+#: src/components/compose.jsx:3333
 msgid "Search GIFs"
 msgstr "جستجوی جیف‌ها"
 
-#: src/components/compose.jsx:3341
+#: src/components/compose.jsx:3348
 msgid "Powered by GIPHY"
 msgstr "قدرت‌گرفته از GIPHY"
 
-#: src/components/compose.jsx:3349
+#: src/components/compose.jsx:3356
 msgid "Type to search GIFs"
 msgstr "برای جستجوی جیف‌ها بنویسید"
 
-#: src/components/compose.jsx:3447
+#: src/components/compose.jsx:3454
 #: src/components/media-modal.jsx:387
 #: src/components/timeline.jsx:880
 msgid "Previous"
 msgstr "پیشین"
 
-#: src/components/compose.jsx:3465
+#: src/components/compose.jsx:3472
 #: src/components/media-modal.jsx:406
 #: src/components/timeline.jsx:897
 msgid "Next"
 msgstr "پسین"
 
-#: src/components/compose.jsx:3482
+#: src/components/compose.jsx:3489
 msgid "Error loading GIFs"
 msgstr "خطا در بارگذاری جیف‌ها"
 
@@ -1570,17 +1570,17 @@ msgstr "در حال اتمام"
 #. Relative time in seconds, as short as possible
 #: src/components/relative-time.jsx:54
 msgid "{0}s"
-msgstr "{0}س"
+msgstr "{0}ث"
 
 #. Relative time in minutes, as short as possible
 #: src/components/relative-time.jsx:59
 msgid "{0}m"
-msgstr "{0}م"
+msgstr "{0}د"
 
 #. Relative time in hours, as short as possible
 #: src/components/relative-time.jsx:64
 msgid "{0}h"
-msgstr "{0}ه"
+msgstr "{0}س"
 
 #: src/components/report-modal.jsx:29
 msgid "Spam"
@@ -1658,35 +1658,35 @@ msgstr "مشکل این نمایه چیست؟"
 msgid "Additional info"
 msgstr "اطلاعات اضافی"
 
-#: src/components/report-modal.jsx:255
+#: src/components/report-modal.jsx:256
 msgid "Forward to <0>{domain}</0>"
 msgstr "هدایت کرد نبه <0>{domain}</0>"
 
-#: src/components/report-modal.jsx:265
+#: src/components/report-modal.jsx:266
 msgid "Send Report"
 msgstr "ارسال کردن گزارش"
 
-#: src/components/report-modal.jsx:274
+#: src/components/report-modal.jsx:275
 msgid "Muted {username}"
 msgstr "خموشیده {username}"
 
-#: src/components/report-modal.jsx:277
+#: src/components/report-modal.jsx:278
 msgid "Unable to mute {username}"
 msgstr ""
 
-#: src/components/report-modal.jsx:282
+#: src/components/report-modal.jsx:283
 msgid "Send Report <0>+ Mute profile</0>"
 msgstr ""
 
-#: src/components/report-modal.jsx:293
+#: src/components/report-modal.jsx:294
 msgid "Blocked {username}"
 msgstr ""
 
-#: src/components/report-modal.jsx:296
+#: src/components/report-modal.jsx:297
 msgid "Unable to block {username}"
 msgstr ""
 
-#: src/components/report-modal.jsx:301
+#: src/components/report-modal.jsx:302
 msgid "Send Report <0>+ Block profile</0>"
 msgstr ""
 
@@ -1813,11 +1813,11 @@ msgstr "یک میانبر/ستون دیگر اضافه کنید تا این کا
 
 #: src/components/shortcuts-settings.jsx:408
 msgid "No columns yet. Tap on the Add column button."
-msgstr "هنوز ستونی وجود ندارد. روی دکمهٔ اضافه کردن ستون بزنید."
+msgstr "هنوز ستونی وجود ندارد. روی دکمهٔ افزودن ستون بزنید."
 
 #: src/components/shortcuts-settings.jsx:409
 msgid "No shortcuts yet. Tap on the Add shortcut button."
-msgstr "هنوز میانبری وجود ندارد. روی دکمهٔ اضافه کردن میانبر بزنید."
+msgstr "هنوز میانبری وجود ندارد. روی دکمهٔ افزودن میانبر بزنید."
 
 #: src/components/shortcuts-settings.jsx:412
 msgid "Not sure what to add?<0/>Try adding <1>Home / Following and Notifications</1> first."
@@ -1837,11 +1837,11 @@ msgstr "ورود/صدور"
 
 #: src/components/shortcuts-settings.jsx:465
 msgid "Add column…"
-msgstr "اضافه کردن ستون…"
+msgstr "افزودن ستون…"
 
 #: src/components/shortcuts-settings.jsx:466
 msgid "Add shortcut…"
-msgstr "اضافه کردن میانبر…"
+msgstr "افزودن میانبر…"
 
 #: src/components/shortcuts-settings.jsx:513
 msgid "Specific list is optional. For multi-column mode, list is required, else the column will not be shown."
@@ -1861,7 +1861,7 @@ msgstr "ویرایش میانبر"
 
 #: src/components/shortcuts-settings.jsx:584
 msgid "Add shortcut"
-msgstr "اضافه کردن میانبر"
+msgstr "افزودن میانبر"
 
 #: src/components/shortcuts-settings.jsx:620
 msgid "Timeline"
@@ -2464,7 +2464,7 @@ msgstr "خروج…"
 
 #: src/pages/accounts.jsx:180
 msgid "Add an existing account"
-msgstr "اضافه کردن یک حساب کاربری موجود"
+msgstr "افزودن یک حساب کاربری موجود"
 
 #: src/pages/accounts.jsx:187
 msgid "Note: <0>Default</0> account will always be used for first load. Switched accounts will persist during the session."
@@ -2492,35 +2492,35 @@ msgstr "۴ ساعت گذشته"
 
 #: src/pages/catchup.jsx:58
 msgid "last 5 hours"
-msgstr ""
+msgstr "۵ ساعت گذشته"
 
 #: src/pages/catchup.jsx:59
 msgid "last 6 hours"
-msgstr ""
+msgstr "۶ ساعت گذشته"
 
 #: src/pages/catchup.jsx:60
 msgid "last 7 hours"
-msgstr ""
+msgstr "۷ ساعت گذشته"
 
 #: src/pages/catchup.jsx:61
 msgid "last 8 hours"
-msgstr ""
+msgstr "۸ ساعت گذشته"
 
 #: src/pages/catchup.jsx:62
 msgid "last 9 hours"
-msgstr ""
+msgstr "۹ ساعت گذشته"
 
 #: src/pages/catchup.jsx:63
 msgid "last 10 hours"
-msgstr ""
+msgstr "۱۰ ساعت گذشته"
 
 #: src/pages/catchup.jsx:64
 msgid "last 11 hours"
-msgstr ""
+msgstr "۱۱ ساعت گذشته"
 
 #: src/pages/catchup.jsx:65
 msgid "last 12 hours"
-msgstr ""
+msgstr "۱۲ ساعت گذشته"
 
 #: src/pages/catchup.jsx:66
 msgid "beyond 12 hours"
@@ -2528,11 +2528,11 @@ msgstr ""
 
 #: src/pages/catchup.jsx:73
 msgid "Followed tags"
-msgstr ""
+msgstr "برچسب‌های پی‌گرفته‌شده"
 
 #: src/pages/catchup.jsx:74
 msgid "Groups"
-msgstr ""
+msgstr "گروه‌ها"
 
 #: src/pages/catchup.jsx:596
 msgid "Showing {selectedFilterCategory, select, all {all posts} original {original posts} replies {replies} boosts {boosts} followedTags {followed tags} groups {groups} filtered {filtered posts}}, {sortBy, select, createdAt {{sortOrder, select, asc {oldest} desc {latest}}} reblogsCount {{sortOrder, select, asc {fewest boosts} desc {most boosts}}} favouritesCount {{sortOrder, select, asc {fewest likes} desc {most likes}}} repliesCount {{sortOrder, select, asc {fewest replies} desc {most replies}}} density {{sortOrder, select, asc {least dense} desc {most dense}}}} first{groupBy, select, account {, grouped by authors} other {}}"
@@ -2546,11 +2546,11 @@ msgstr ""
 #: src/pages/catchup.jsx:880
 #: src/pages/catchup.jsx:1552
 msgid "Help"
-msgstr ""
+msgstr "راهنما"
 
 #: src/pages/catchup.jsx:896
 msgid "What is this?"
-msgstr ""
+msgstr "اين چيست؟"
 
 #: src/pages/catchup.jsx:899
 msgid "Catch-up is a separate timeline for your followings, offering a high-level view at a glance, with a simple, email-inspired interface to effortlessly sort and filter through posts."
@@ -2574,7 +2574,7 @@ msgstr "تمام فرسته‌های… را به من نشان بده"
 
 #: src/pages/catchup.jsx:951
 msgid "until the max"
-msgstr ""
+msgstr "تا بیشترین"
 
 #: src/pages/catchup.jsx:981
 msgid "Catch up"
@@ -2669,7 +2669,7 @@ msgstr "نیازی نیست همه چیز را بخوانید."
 
 #: src/pages/catchup.jsx:1522
 msgid "That's all."
-msgstr ""
+msgstr "کافیست."
 
 #: src/pages/catchup.jsx:1530
 msgid "Back to top"
@@ -2689,7 +2689,7 @@ msgstr "فرسته‌ها با تراکم یا عمق اطلاعات مرتب‌
 
 #: src/pages/catchup.jsx:1577
 msgid "Group: Authors"
-msgstr ""
+msgstr "گروه: نویسندگان"
 
 #: src/pages/catchup.jsx:1580
 msgid "Posts are grouped by authors, sorted by posts count per author."
@@ -2758,31 +2758,31 @@ msgstr "اصافه کردن پالایه"
 
 #: src/pages/filters.jsx:228
 msgid "Edit filter"
-msgstr ""
+msgstr "ویرایش پالایه"
 
 #: src/pages/filters.jsx:345
 msgid "Unable to edit filter"
-msgstr ""
+msgstr "ناتوان در ویرایش پالایه"
 
 #: src/pages/filters.jsx:346
 msgid "Unable to create filter"
-msgstr ""
+msgstr "ناتوان در ایحاد پالایه"
 
 #: src/pages/filters.jsx:355
 msgid "Title"
-msgstr ""
+msgstr "عنوان"
 
 #: src/pages/filters.jsx:396
 msgid "Whole word"
-msgstr ""
+msgstr "تمام واژه"
 
 #: src/pages/filters.jsx:422
 msgid "No keywords. Add one."
-msgstr ""
+msgstr "کلیدواژهای نیست. یکی اضافه کنید."
 
 #: src/pages/filters.jsx:449
 msgid "Add keyword"
-msgstr ""
+msgstr "افزودن کلیدواژه"
 
 #: src/pages/filters.jsx:453
 msgid "{0, plural, one {# keyword} other {# keywords}}"
@@ -2920,7 +2920,7 @@ msgstr "{TOTAL_TAGS_LIMIT, plural, other {بیشترین # برچسب‌ها}}"
 
 #: src/pages/hashtag.jsx:396
 msgid "Add hashtag"
-msgstr "اضافه کردن برچسب"
+msgstr "افزودن برچسب"
 
 #: src/pages/hashtag.jsx:428
 msgid "Remove hashtag"
@@ -2940,7 +2940,7 @@ msgstr "میانبر برچسب اضافه شد"
 
 #: src/pages/hashtag.jsx:480
 msgid "Add to Shortcuts"
-msgstr "اضافه کردن به میانبرها"
+msgstr "افزودن به میانبرها"
 
 #: src/pages/hashtag.jsx:486
 #: src/pages/public.jsx:139
@@ -3021,7 +3021,7 @@ msgid "e.g. “mastodon.social”"
 msgstr "مثلا \"mastodon.social\""
 
 #: src/pages/login.jsx:196
-msgid "Failed to log in. Please try again or another instance."
+msgid "Failed to log in. Please try again or try another instance."
 msgstr ""
 
 #: src/pages/login.jsx:208
@@ -3100,11 +3100,11 @@ msgstr ""
 
 #: src/pages/notifications.jsx:725
 msgid "Only mentions"
-msgstr ""
+msgstr "فقط اشاره‌ها"
 
 #: src/pages/notifications.jsx:729
 msgid "Today"
-msgstr ""
+msgstr "امروز"
 
 #: src/pages/notifications.jsx:733
 msgid "You're all caught up."
@@ -3112,55 +3112,55 @@ msgstr ""
 
 #: src/pages/notifications.jsx:756
 msgid "Yesterday"
-msgstr ""
+msgstr "دیروز"
 
 #: src/pages/notifications.jsx:792
 msgid "Unable to load notifications"
-msgstr ""
+msgstr "ناتوان در بارگذاری آگاهی‌ها"
 
 #: src/pages/notifications.jsx:871
 msgid "Notifications settings updated"
-msgstr ""
+msgstr "تنظیمات آگاهی‌ها بارگذاری شدند"
 
 #: src/pages/notifications.jsx:879
 msgid "Filter out notifications from people:"
-msgstr ""
+msgstr "پالایش کردن آگاهی‌ها از افراد:"
 
 #: src/pages/notifications.jsx:893
 msgid "Filter"
-msgstr ""
+msgstr "پالایش کردن"
 
 #: src/pages/notifications.jsx:896
 msgid "Ignore"
-msgstr ""
+msgstr "نادیده گرفتن"
 
 #: src/pages/notifications.jsx:969
 msgid "Updated <0>{0}</0>"
-msgstr ""
+msgstr "بروزشده <0>{0}</0>"
 
 #: src/pages/notifications.jsx:1037
 msgid "View notifications from <0>@{0}</0>"
-msgstr ""
+msgstr "نمایش آگاهی‌ها از <0>@{0}</0>"
 
 #: src/pages/notifications.jsx:1058
 msgid "Notifications from <0>@{0}</0>"
-msgstr ""
+msgstr "آگاهی‌ها از <0>@{0}</0>"
 
 #: src/pages/notifications.jsx:1125
 msgid "Notifications from @{0} will not be filtered from now on."
-msgstr ""
+msgstr "آگاهی‌ها از @{0} از الآن پالایش نخواهند شد."
 
 #: src/pages/notifications.jsx:1130
 msgid "Unable to accept notification request"
-msgstr ""
+msgstr "ناتوان در قبول کردن درخواست آگاهی"
 
 #: src/pages/notifications.jsx:1135
 msgid "Allow"
-msgstr ""
+msgstr "اجازه دادن"
 
 #: src/pages/notifications.jsx:1155
 msgid "Notifications from @{0} will not show up in Filtered notifications from now on."
-msgstr ""
+msgstr "آگاهی‌ها از @{0} از الآن در آگاهی‌های پالایش‌شده نمایش داده نخواهند شد."
 
 #: src/pages/notifications.jsx:1160
 msgid "Unable to dismiss notification request"
@@ -3176,66 +3176,66 @@ msgstr ""
 
 #: src/pages/public.jsx:27
 msgid "Local timeline ({instance})"
-msgstr ""
+msgstr "خط زمانی محلی ({instance})"
 
 #: src/pages/public.jsx:28
 msgid "Federated timeline ({instance})"
-msgstr ""
+msgstr "خط زمانی نامتمرکز ({instance})"
 
 #: src/pages/public.jsx:90
 msgid "Local timeline"
-msgstr ""
+msgstr "خط زمانی محلی"
 
 #: src/pages/public.jsx:90
 msgid "Federated timeline"
-msgstr ""
+msgstr "خط زمانی نامتمرکز"
 
 #: src/pages/public.jsx:96
 msgid "No one has posted anything yet."
-msgstr ""
+msgstr "هنوز کسی چیزی ارسال نکرده است."
 
 #: src/pages/public.jsx:123
 msgid "Switch to Federated"
-msgstr ""
+msgstr "تعویض کردن به نامتمرکز"
 
 #: src/pages/public.jsx:130
 msgid "Switch to Local"
-msgstr ""
+msgstr "تعویض کردن به محلی"
 
 #: src/pages/search.jsx:43
 msgid "Search: {q} (Posts)"
-msgstr ""
+msgstr "جستجو: {q} (فرسته‌ها)"
 
 #: src/pages/search.jsx:46
 msgid "Search: {q} (Accounts)"
-msgstr ""
+msgstr "جستجو: {q} (حساب‌های کاربری)"
 
 #: src/pages/search.jsx:49
 msgid "Search: {q} (Hashtags)"
-msgstr ""
+msgstr "جستجو: {q} (برچسب‌ها)"
 
 #: src/pages/search.jsx:52
 msgid "Search: {q}"
-msgstr ""
+msgstr "جستجو: {q}"
 
 #: src/pages/search.jsx:232
 #: src/pages/search.jsx:314
 msgid "Hashtags"
-msgstr ""
+msgstr "برچسب‌ها"
 
 #: src/pages/search.jsx:264
 #: src/pages/search.jsx:318
 #: src/pages/search.jsx:388
 msgid "See more"
-msgstr ""
+msgstr "بیشتر ببینید"
 
 #: src/pages/search.jsx:290
 msgid "See more accounts"
-msgstr ""
+msgstr "حساب‌های کاربری بیشتری را ببینید"
 
 #: src/pages/search.jsx:304
 msgid "No accounts found."
-msgstr ""
+msgstr "حسابی یافت نشد."
 
 #: src/pages/search.jsx:360
 msgid "See more hashtags"
@@ -3489,6 +3489,10 @@ msgstr ""
 #: src/pages/settings.jsx:1069
 msgid "NOTE: Push notifications only work for <0>one account</0>."
 msgstr ""
+
+#: src/pages/status.jsx:565
+msgid "Post"
+msgstr "ارسال"
 
 #: src/pages/status.jsx:786
 msgid "You're not logged in. Interactions (reply, boost, etc) are not possible."
