@@ -13,7 +13,7 @@
       'top top'
       'left right';
     padding: 0;
-    width: 22em;
+    /* min-width: 22em; */
     max-width: calc(100vw - 16px);
   }
   .nav-menu .top-menu {
@@ -22,7 +22,7 @@
     margin-bottom: -8px;
   }
   .nav-menu section {
-    padding: 8px 0;
+    padding: 4px 0;
     /* width: 50%; */
   }
   @keyframes phanpying {
