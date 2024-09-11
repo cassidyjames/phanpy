@@ -8,7 +8,7 @@ msgstr ""
 "Language: eo\n"
 "Project-Id-Version: phanpy\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-09-10 14:52\n"
+"PO-Revision-Date: 2024-09-11 15:53\n"
 "Last-Translator: \n"
 "Language-Team: Esperanto\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -47,7 +47,7 @@ msgid "Mutual"
 msgstr "Reciproka"
 
 #: src/components/account-block.jsx:180
-#: src/components/account-info.jsx:1674
+#: src/components/account-info.jsx:1677
 msgid "Requested"
 msgstr "Petita"
 
@@ -55,13 +55,13 @@ msgstr "Petita"
 #: src/components/account-info.jsx:416
 #: src/components/account-info.jsx:742
 #: src/components/account-info.jsx:756
-#: src/components/account-info.jsx:1665
+#: src/components/account-info.jsx:1668
 #: src/components/nav-menu.jsx:193
 #: src/components/shortcuts-settings.jsx:137
 #: src/pages/following.jsx:20
 #: src/pages/following.jsx:134
 msgid "Following"
-msgstr "Sekvante"
+msgstr "Sekvatoj"
 
 #: src/components/account-block.jsx:188
 #: src/components/account-info.jsx:1059
@@ -245,11 +245,11 @@ msgstr "Aldoni personan noton"
 
 #: src/components/account-info.jsx:1191
 msgid "Notifications enabled for @{username}'s posts."
-msgstr ""
+msgstr "Ŝaltitaj sciigoj por afiŝoj de @{username}."
 
 #: src/components/account-info.jsx:1192
 msgid "Notifications disabled for @{username}'s posts."
-msgstr ""
+msgstr "Malŝaltitaj sciigoj por afiŝoj de @{username}."
 
 #: src/components/account-info.jsx:1204
 msgid "Disable notifications"
@@ -261,11 +261,11 @@ msgstr "Ŝalti sciigojn"
 
 #: src/components/account-info.jsx:1222
 msgid "Boosts from @{username} enabled."
-msgstr ""
+msgstr "Diskonigoj de @{username} ŝaltitaj."
 
 #: src/components/account-info.jsx:1223
 msgid "Boosts from @{username} disabled."
-msgstr ""
+msgstr "Diskonigoj de @{username} malŝaltitaj."
 
 #: src/components/account-info.jsx:1234
 msgid "Disable boosts"
@@ -277,7 +277,7 @@ msgstr "Ŝalti diskonigojn"
 
 #: src/components/account-info.jsx:1250
 #: src/components/account-info.jsx:1260
-#: src/components/account-info.jsx:1858
+#: src/components/account-info.jsx:1861
 msgid "Add/Remove from Lists"
 msgstr "Aldoni / Forigi el listoj"
 
@@ -345,65 +345,65 @@ msgstr "Forigi sekvanton…"
 msgid "Block <0>@{username}</0>?"
 msgstr "Ĉu bloki <0>@{username}</0>?"
 
-#: src/components/account-info.jsx:1506
+#: src/components/account-info.jsx:1509
 msgid "Unblocked @{username}"
 msgstr "Malbloki @{username}"
 
-#: src/components/account-info.jsx:1514
+#: src/components/account-info.jsx:1517
 msgid "Blocked @{username}"
 msgstr "Blokita @{username}"
 
-#: src/components/account-info.jsx:1522
+#: src/components/account-info.jsx:1525
 msgid "Unable to unblock @{username}"
 msgstr "Ne eblas malbloki @{username}"
 
-#: src/components/account-info.jsx:1524
+#: src/components/account-info.jsx:1527
 msgid "Unable to block @{username}"
 msgstr "Ne eblas bloki @{username}"
 
-#: src/components/account-info.jsx:1534
+#: src/components/account-info.jsx:1537
 msgid "Unblock <0>@{username}</0>"
 msgstr "Malbloki <0>@{username}</0>"
 
-#: src/components/account-info.jsx:1543
+#: src/components/account-info.jsx:1546
 msgid "Block <0>@{username}</0>…"
 msgstr "Bloki <0>@{username}</0>…"
 
-#: src/components/account-info.jsx:1560
+#: src/components/account-info.jsx:1563
 msgid "Report <0>@{username}</0>…"
 msgstr "Raporti <0>@{username}</0>…"
 
-#: src/components/account-info.jsx:1580
-#: src/components/account-info.jsx:2091
+#: src/components/account-info.jsx:1583
+#: src/components/account-info.jsx:2094
 msgid "Edit profile"
 msgstr "Redakti la profilon"
 
-#: src/components/account-info.jsx:1616
+#: src/components/account-info.jsx:1619
 msgid "Withdraw follow request?"
 msgstr ""
 
-#: src/components/account-info.jsx:1617
+#: src/components/account-info.jsx:1620
 msgid "Unfollow @{0}?"
 msgstr "Ĉu ĉesi sekvi @{0}?"
 
-#: src/components/account-info.jsx:1668
+#: src/components/account-info.jsx:1671
 msgid "Unfollow…"
 msgstr "Ĉesi sekvi…"
 
-#: src/components/account-info.jsx:1677
+#: src/components/account-info.jsx:1680
 msgid "Withdraw…"
 msgstr ""
 
-#: src/components/account-info.jsx:1684
-#: src/components/account-info.jsx:1688
+#: src/components/account-info.jsx:1687
+#: src/components/account-info.jsx:1691
 #: src/pages/hashtag.jsx:261
 msgid "Follow"
 msgstr "Sekvi"
 
-#: src/components/account-info.jsx:1799
-#: src/components/account-info.jsx:1853
-#: src/components/account-info.jsx:1986
-#: src/components/account-info.jsx:2086
+#: src/components/account-info.jsx:1802
+#: src/components/account-info.jsx:1856
+#: src/components/account-info.jsx:1989
+#: src/components/account-info.jsx:2089
 #: src/components/account-sheet.jsx:37
 #: src/components/compose.jsx:797
 #: src/components/compose.jsx:2412
@@ -436,76 +436,76 @@ msgstr "Sekvi"
 msgid "Close"
 msgstr "Fermi"
 
-#: src/components/account-info.jsx:1804
+#: src/components/account-info.jsx:1807
 msgid "Translated Bio"
 msgstr "Tradukita biografio"
 
-#: src/components/account-info.jsx:1898
+#: src/components/account-info.jsx:1901
 msgid "Unable to remove from list."
 msgstr "Ne eblas forigi el listo."
 
-#: src/components/account-info.jsx:1899
+#: src/components/account-info.jsx:1902
 msgid "Unable to add to list."
 msgstr "Ne eblas aldoni al listo."
 
-#: src/components/account-info.jsx:1918
+#: src/components/account-info.jsx:1921
 #: src/pages/lists.jsx:104
 msgid "Unable to load lists."
 msgstr "Ne eblas ŝargi listojn."
 
-#: src/components/account-info.jsx:1922
+#: src/components/account-info.jsx:1925
 msgid "No lists."
 msgstr "Ne estas listoj."
 
-#: src/components/account-info.jsx:1933
+#: src/components/account-info.jsx:1936
 #: src/components/list-add-edit.jsx:37
 #: src/pages/lists.jsx:58
 msgid "New list"
 msgstr "Nova listo"
 
-#: src/components/account-info.jsx:1991
+#: src/components/account-info.jsx:1994
 msgid "Private note about <0>@{0}</0>"
 msgstr "Personaj notoj pri <0>@{0}</0>"
 
-#: src/components/account-info.jsx:2021
+#: src/components/account-info.jsx:2024
 msgid "Unable to update private note."
 msgstr "Ne eblas ĝisdatigi la personan noton."
 
-#: src/components/account-info.jsx:2044
-#: src/components/account-info.jsx:2214
+#: src/components/account-info.jsx:2047
+#: src/components/account-info.jsx:2217
 msgid "Cancel"
 msgstr "Nuligi"
 
-#: src/components/account-info.jsx:2049
+#: src/components/account-info.jsx:2052
 msgid "Save & close"
 msgstr "Konservi kaj fermi"
 
-#: src/components/account-info.jsx:2142
+#: src/components/account-info.jsx:2145
 msgid "Unable to update profile."
 msgstr "Ne eblas ĝisdatigi la profilon."
 
-#: src/components/account-info.jsx:2149
+#: src/components/account-info.jsx:2152
 #: src/components/list-add-edit.jsx:102
 msgid "Name"
 msgstr "Nomo"
 
-#: src/components/account-info.jsx:2162
+#: src/components/account-info.jsx:2165
 msgid "Bio"
 msgstr "Sinprezento"
 
-#: src/components/account-info.jsx:2175
+#: src/components/account-info.jsx:2178
 msgid "Extra fields"
 msgstr "Profilaj metadatumoj"
 
-#: src/components/account-info.jsx:2181
+#: src/components/account-info.jsx:2184
 msgid "Label"
 msgstr "Etikedo"
 
-#: src/components/account-info.jsx:2184
+#: src/components/account-info.jsx:2187
 msgid "Content"
 msgstr "Enhavo"
 
-#: src/components/account-info.jsx:2217
+#: src/components/account-info.jsx:2220
 #: src/components/list-add-edit.jsx:147
 #: src/components/shortcuts-settings.jsx:712
 #: src/pages/filters.jsx:554
@@ -513,11 +513,11 @@ msgstr "Enhavo"
 msgid "Save"
 msgstr "Konservi"
 
-#: src/components/account-info.jsx:2270
+#: src/components/account-info.jsx:2273
 msgid "username"
 msgstr "uzantnomo"
 
-#: src/components/account-info.jsx:2274
+#: src/components/account-info.jsx:2277
 msgid "server domain name"
 msgstr "servila domajna nomo"
 
@@ -786,7 +786,7 @@ msgstr "Malsukcesis krei priskribon{0}"
 
 #: src/components/compose.jsx:2552
 msgid "({0}) <0>— experimental</0>"
-msgstr ""
+msgstr "({0}) <0>— eksperimenta</0>"
 
 #: src/components/compose.jsx:2571
 msgid "Done"
@@ -1138,7 +1138,7 @@ msgstr "Montru respondoj al listmembroj"
 
 #: src/components/list-add-edit.jsx:125
 msgid "Show replies to people I follow"
-msgstr "Montru respondojn al homoj, kiujn mi sekvas"
+msgstr "Montri respondojn al homoj, kiujn mi sekvas"
 
 #: src/components/list-add-edit.jsx:128
 msgid "Don't show replies"
@@ -1146,7 +1146,7 @@ msgstr "Ne montru respondojn"
 
 #: src/components/list-add-edit.jsx:141
 msgid "Hide posts on this list from Home/Following"
-msgstr "Kaŝi afiŝojn en ĉi tiu listo de Hejmo/Sekvante"
+msgstr "Kaŝi afiŝojn en ĉi tiu listo de Hejmo/Sekvatoj"
 
 #: src/components/list-add-edit.jsx:147
 #: src/pages/filters.jsx:554
@@ -1459,7 +1459,7 @@ msgstr ""
 
 #: src/components/notification.jsx:279
 msgid "You have blocked <0>{targetName}</0>. Removed followers: {followersCount}, followings: {followingCount}."
-msgstr ""
+msgstr "Vi blokis <0>{targetName}</0>. Forigitaj sekvantoj: {followersCount}, sekvantoj: {followingCount}."
 
 #: src/components/notification.jsx:287
 msgid "Your account has received a moderation warning."
@@ -1720,7 +1720,7 @@ msgstr "Kontoj kun <0>{query}</0>"
 
 #: src/components/shortcuts-settings.jsx:48
 msgid "Home / Following"
-msgstr "Hejmo / Sekvante"
+msgstr "Hejmo / Sekvatoj"
 
 #: src/components/shortcuts-settings.jsx:51
 msgid "Public (Local / Federated)"
@@ -1799,7 +1799,7 @@ msgstr "Plurkolumno"
 
 #: src/components/shortcuts-settings.jsx:329
 msgid "Not available in current view mode"
-msgstr ""
+msgstr "Ne disponebla en nuna vidoreĝimo"
 
 #: src/components/shortcuts-settings.jsx:348
 msgid "Move up"
@@ -1817,7 +1817,7 @@ msgstr "Redakti"
 
 #: src/components/shortcuts-settings.jsx:397
 msgid "Add more than one shortcut/column to make this work."
-msgstr "Aldonu pli ol unu fulmoklavon/kolumnon por ke ĉi tio funkciu."
+msgstr "Aldoni pli ol unu fulmoklavon/kolumnon por ke ĉi tio funkciu."
 
 #: src/components/shortcuts-settings.jsx:408
 msgid "No columns yet. Tap on the Add column button."
@@ -1829,7 +1829,7 @@ msgstr "Ankoraŭ neniuj ŝparvojoj. Alklaku la butonon Aldoni fulmoklavon."
 
 #: src/components/shortcuts-settings.jsx:412
 msgid "Not sure what to add?<0/>Try adding <1>Home / Following and Notifications</1> first."
-msgstr "Ĉu vi ne certas, kion aldoni? <0/>Provu unue aldoni <1>Hejmo / Sekvante kaj Sciigoj</1>."
+msgstr "Ĉu vi ne certas, kion aldoni? <0/>Provu unue aldoni <1>Hejmo / Sekvatoj kaj Sciigoj</1>."
 
 #: src/components/shortcuts-settings.jsx:440
 msgid "Max {SHORTCUTS_LIMIT} columns"
@@ -1845,7 +1845,7 @@ msgstr "Importi/eksporti"
 
 #: src/components/shortcuts-settings.jsx:465
 msgid "Add column…"
-msgstr "Aldonu kolumnon…"
+msgstr "Aldoni kolumnon…"
 
 #: src/components/shortcuts-settings.jsx:466
 msgid "Add shortcut…"
@@ -1861,7 +1861,7 @@ msgstr ""
 
 #: src/components/shortcuts-settings.jsx:515
 msgid "Multiple hashtags are supported. Space-separated."
-msgstr "Multoblaj kradvortoj estas subtenataj. Spac-separataj."
+msgstr "Plurkradvortoj estas subtenataj. Spac-separataj."
 
 #: src/components/shortcuts-settings.jsx:584
 msgid "Edit shortcut"
@@ -1909,7 +1909,7 @@ msgstr ""
 
 #: src/components/shortcuts-settings.jsx:914
 msgid "List may not work if it's from a different account."
-msgstr ""
+msgstr "Listo eble ne funkcias se ĝi venas de malsama konto."
 
 #: src/components/shortcuts-settings.jsx:924
 msgid "Invalid settings format"
@@ -2047,7 +2047,7 @@ msgstr "Citaĵo"
 #: src/components/status.jsx:863
 #: src/components/status.jsx:2318
 msgid "Some media have no descriptions."
-msgstr ""
+msgstr "Iuj plurmedioj ne havas priskribojn."
 
 #: src/components/status.jsx:870
 msgid "Old post (<0>{0}</0>)"
@@ -2092,7 +2092,7 @@ msgstr ""
 
 #: src/components/status.jsx:1053
 msgid "Show Edit History"
-msgstr ""
+msgstr "Montri redaktan historion"
 
 #: src/components/status.jsx:1056
 msgid "Edited: {editedDateText}"
@@ -2198,7 +2198,7 @@ msgstr "{repliesCount, plural, one {# respondo} other {# respondoj}}"
 
 #: src/components/status.jsx:1849
 msgid "Thread{0}"
-msgstr ""
+msgstr "Fadeno{0}"
 
 #: src/components/status.jsx:1925
 #: src/components/status.jsx:1987
@@ -2225,7 +2225,7 @@ msgstr "Komentoj"
 
 #: src/components/status.jsx:2851
 msgid "Edit History"
-msgstr ""
+msgstr "Redaktan historion"
 
 #: src/components/status.jsx:2855
 msgid "Failed to load history"
@@ -2237,23 +2237,23 @@ msgstr "Ŝargante…"
 
 #: src/components/status.jsx:3095
 msgid "HTML Code"
-msgstr ""
+msgstr "HTML-kodo"
 
 #: src/components/status.jsx:3112
 msgid "HTML code copied"
-msgstr ""
+msgstr "HTML-kodo kopiita"
 
 #: src/components/status.jsx:3115
 msgid "Unable to copy HTML code"
-msgstr ""
+msgstr "Ne eblas kopii HTML-kodon"
 
 #: src/components/status.jsx:3127
 msgid "Media attachments:"
-msgstr ""
+msgstr "Plurmediaj aldonaĵoj:"
 
 #: src/components/status.jsx:3149
 msgid "Account Emojis:"
-msgstr ""
+msgstr "Emoĝioj de la konto:"
 
 #: src/components/status.jsx:3180
 #: src/components/status.jsx:3225
@@ -2262,7 +2262,7 @@ msgstr ""
 
 #: src/components/status.jsx:3194
 msgid "Emojis:"
-msgstr ""
+msgstr "Emoĝioj:"
 
 #: src/components/status.jsx:3239
 msgid "Notes:"
@@ -2278,7 +2278,7 @@ msgstr ""
 
 #: src/components/status.jsx:3254
 msgid "Media attachments can be images, videos, audios or any file types."
-msgstr ""
+msgstr "Plurmediaj aldonaĵoj povas esti bildoj, filmetoj, sonaĵoj aŭ ajnaj dosiertipoj."
 
 #: src/components/status.jsx:3260
 msgid "Post could be edited or deleted later."
@@ -2286,12 +2286,13 @@ msgstr "Afiŝo povus esti redaktita aŭ forigita poste."
 
 #: src/components/status.jsx:3266
 msgid "Preview"
-msgstr ""
+msgstr "Antaŭrigardo"
 
 #: src/components/status.jsx:3275
 msgid "Note: This preview is lightly styled."
 msgstr ""
 
+#. [Name] [Visibility icon] boosted
 #: src/components/status.jsx:3517
 msgid "<0/> <1/> boosted"
 msgstr ""
@@ -2341,7 +2342,7 @@ msgstr "Traduki el {sourceLangText} (aŭtomate detektita)"
 
 #: src/components/translation-block.jsx:194
 msgid "Translate from {sourceLangText}"
-msgstr ""
+msgstr "Traduki el {sourceLangText}"
 
 #: src/components/translation-block.jsx:222
 msgid "Auto ({0})"
@@ -2383,7 +2384,7 @@ msgstr "Afiŝoj de la konto"
 
 #: src/pages/account-statuses.jsx:240
 msgid "{accountDisplay} (+ Replies)"
-msgstr ""
+msgstr "{accountDisplay} (+ Respondoj)"
 
 #: src/pages/account-statuses.jsx:242
 msgid "{accountDisplay} (- Boosts)"
@@ -2391,7 +2392,7 @@ msgstr "{accountDisplay} (- Diskonigoj)"
 
 #: src/pages/account-statuses.jsx:244
 msgid "{accountDisplay} (#{tagged})"
-msgstr ""
+msgstr "{accountDisplay} (#{tagged})"
 
 #: src/pages/account-statuses.jsx:246
 msgid "{accountDisplay} (Media)"
@@ -2419,7 +2420,7 @@ msgstr "+ Respondoj"
 
 #: src/pages/account-statuses.jsx:349
 msgid "Showing posts without boosts"
-msgstr ""
+msgstr "Montrante afiŝojn sen diskonigoj"
 
 #: src/pages/account-statuses.jsx:354
 msgid "- Boosts"
@@ -2490,15 +2491,15 @@ msgstr "Agordi kiel defaŭltan"
 
 #: src/pages/accounts.jsx:173
 msgid "Log out <0>@{0}</0>?"
-msgstr ""
+msgstr "Ĉu elsaluti <0>@{0}</0>?"
 
 #: src/pages/accounts.jsx:196
 msgid "Log out…"
-msgstr ""
+msgstr "Elsaluti…"
 
 #: src/pages/accounts.jsx:209
 msgid "Add an existing account"
-msgstr "Aldonu ekzistantan konton"
+msgstr "Aldoni ekzistantan konton"
 
 #: src/pages/accounts.jsx:216
 msgid "Note: <0>Default</0> account will always be used for first load. Switched accounts will persist during the session."
@@ -2574,7 +2575,7 @@ msgstr "Grupoj"
 
 #: src/pages/catchup.jsx:596
 msgid "Showing {selectedFilterCategory, select, all {all posts} original {original posts} replies {replies} boosts {boosts} followedTags {followed tags} groups {groups} filtered {filtered posts}}, {sortBy, select, createdAt {{sortOrder, select, asc {oldest} desc {latest}}} reblogsCount {{sortOrder, select, asc {fewest boosts} desc {most boosts}}} favouritesCount {{sortOrder, select, asc {fewest likes} desc {most likes}}} repliesCount {{sortOrder, select, asc {fewest replies} desc {most replies}}} density {{sortOrder, select, asc {least dense} desc {most dense}}}} first{groupBy, select, account {, grouped by authors} other {}}"
-msgstr ""
+msgstr "Montrante {selectedFilterCategory, select, all {ĉiuj afiŝoj} original {originalaj afiŝoj} replies {respondoj} boosts {diskonigoj} followedTags {sekvitaj etikedoj} groups {grupoj} filtered {filtritaj afiŝoj}}, {sortBy, select, createdAt {{sortOrder, select, asc {plej malnova} desc {lastaj}}} reblogsCount {{sortOrder, select, asc {plej malmultaj diskonigoj} desc {plej multaj diskonigoj}}} favouritesCount {{sortOrder, select, asc {plej malmutaj ŝatataj} desc {plej multaj ŝatataj}}} repliesCount {{sortOrder, select, asc {plej malmultaj respondoj} desc {plej multaj respondoj}}} density {{sortOrder, select, asc {malplej densa} desc {plej densa}}}} first{groupBy, select, account {, grupigitaj per aŭtoroj} other {}}"
 
 #: src/pages/catchup.jsx:882
 #: src/pages/catchup.jsx:906
@@ -2608,7 +2609,7 @@ msgstr ""
 
 #: src/pages/catchup.jsx:944
 msgid "Show me all posts from…"
-msgstr ""
+msgstr "Montri al mi ĉiujn afiŝojn de…"
 
 #: src/pages/catchup.jsx:967
 msgid "until the max"
@@ -2632,7 +2633,7 @@ msgstr ""
 
 #: src/pages/catchup.jsx:1034
 msgid "Previously…"
-msgstr ""
+msgstr "Antaŭe…"
 
 #: src/pages/catchup.jsx:1052
 msgid "{0, plural, one {# post} other {# posts}}"
@@ -2652,11 +2653,11 @@ msgstr ""
 
 #: src/pages/catchup.jsx:1101
 msgid "This might take a while."
-msgstr ""
+msgstr "Ĉi tio eble daŭros iom da tempo."
 
 #: src/pages/catchup.jsx:1136
 msgid "Reset filters"
-msgstr ""
+msgstr "Restartigi filtrilojn"
 
 #: src/pages/catchup.jsx:1144
 #: src/pages/catchup.jsx:1590
@@ -2703,7 +2704,7 @@ msgstr "Montru ĉiujn aŭtorojn"
 
 #: src/pages/catchup.jsx:1553
 msgid "You don't have to read everything."
-msgstr ""
+msgstr "Vi ne devas legi ĉion."
 
 #: src/pages/catchup.jsx:1554
 msgid "That's all."
@@ -2824,11 +2825,11 @@ msgstr "Ne estas ŝlosilvortoj. Aldonu unu."
 
 #: src/pages/filters.jsx:449
 msgid "Add keyword"
-msgstr "Aldonu ŝlosilvorton"
+msgstr "Aldoni ŝlosilvorton"
 
 #: src/pages/filters.jsx:453
 msgid "{0, plural, one {# keyword} other {# keywords}}"
-msgstr ""
+msgstr "{0, plural, one {# ŝlosilvorto} other {# ŝlosilvortoj}}"
 
 #: src/pages/filters.jsx:466
 msgid "Filter from…"
@@ -2840,7 +2841,7 @@ msgstr ""
 
 #: src/pages/filters.jsx:498
 msgid "Status: <0><1/></0>"
-msgstr ""
+msgstr "Stato: <0><1/></0>"
 
 #: src/pages/filters.jsx:507
 msgid "Change expiry"
@@ -2856,11 +2857,11 @@ msgstr ""
 
 #: src/pages/filters.jsx:536
 msgid "minimized"
-msgstr ""
+msgstr "minimumigita"
 
 #: src/pages/filters.jsx:546
 msgid "hidden"
-msgstr ""
+msgstr "kaŝita"
 
 #: src/pages/filters.jsx:563
 msgid "Delete this filter?"
@@ -2896,7 +2897,7 @@ msgstr "Neniuj kradvortoj ankoraŭ sekvis."
 
 #: src/pages/following.jsx:136
 msgid "Nothing to see here."
-msgstr ""
+msgstr "Nenio vidinda ĉi tie."
 
 #: src/pages/following.jsx:137
 #: src/pages/list.jsx:108
@@ -2941,15 +2942,15 @@ msgstr "Sekvita #{hashtag}"
 
 #: src/pages/hashtag.jsx:254
 msgid "Following…"
-msgstr "Sekvante…"
+msgstr "Sekvatoj…"
 
 #: src/pages/hashtag.jsx:282
 msgid "Unfeatured on profile"
-msgstr ""
+msgstr "Nemontrita en profilo"
 
 #: src/pages/hashtag.jsx:296
 msgid "Unable to unfeature on profile"
-msgstr ""
+msgstr "Ne eblas nemontri en profilo"
 
 #: src/pages/hashtag.jsx:305
 #: src/pages/hashtag.jsx:321
@@ -2978,7 +2979,7 @@ msgstr ""
 
 #: src/pages/hashtag.jsx:471
 msgid "This shortcut already exists"
-msgstr ""
+msgstr "Ĉi tiu fulmoklavo jam ekzistas"
 
 #: src/pages/hashtag.jsx:474
 msgid "Hashtag shortcut added"
@@ -2986,7 +2987,7 @@ msgstr ""
 
 #: src/pages/hashtag.jsx:480
 msgid "Add to Shortcuts"
-msgstr ""
+msgstr "Aldoni al fulmoklavoj"
 
 #: src/pages/hashtag.jsx:486
 #: src/pages/public.jsx:139
@@ -3018,7 +3019,7 @@ msgstr ""
 
 #: src/pages/home.jsx:228
 msgid "<0>New</0> <1>Follow Requests</1>"
-msgstr ""
+msgstr "<0>Nova</0> <1>Petoj de sekvado</1>"
 
 #: src/pages/home.jsx:234
 msgid "See all"
@@ -3068,7 +3069,7 @@ msgstr ""
 
 #: src/pages/login.jsx:232
 msgid "e.g. “mastodon.social”"
-msgstr ""
+msgstr "ekz. “mastodon.social”"
 
 #: src/pages/login.jsx:243
 msgid "Failed to log in. Please try again or try another instance."
@@ -3076,15 +3077,15 @@ msgstr ""
 
 #: src/pages/login.jsx:255
 msgid "Continue with {selectedInstanceText}"
-msgstr ""
+msgstr "Daŭrigi per {selectedInstanceText}"
 
 #: src/pages/login.jsx:256
 msgid "Continue"
-msgstr "Daŭrigu"
+msgstr "Daŭrigi"
 
 #: src/pages/login.jsx:264
 msgid "Don't have an account? Create one!"
-msgstr "Ĉu vi ne havas konton? Kreu unu!"
+msgstr "Ĉu vi ankoraŭ ne havas konton? Kreu unu!"
 
 #: src/pages/mentions.jsx:20
 msgid "Private mentions"
@@ -3125,7 +3126,7 @@ msgstr ""
 #: src/pages/notifications.jsx:523
 #: src/pages/notifications.jsx:844
 msgid "Notifications settings"
-msgstr ""
+msgstr "Agordoj pri sciigoj"
 
 #: src/pages/notifications.jsx:541
 msgid "New notifications"
@@ -3133,16 +3134,16 @@ msgstr "Novaj sciigoj"
 
 #: src/pages/notifications.jsx:552
 msgid "{0, plural, one {Announcement} other {Announcements}}"
-msgstr ""
+msgstr "{0, plural, one {Anonco} other {Anoncoj}}"
 
 #: src/pages/notifications.jsx:599
 #: src/pages/settings.jsx:1053
 msgid "Follow requests"
-msgstr ""
+msgstr "Petoj de sekvado"
 
 #: src/pages/notifications.jsx:604
 msgid "{0, plural, one {# follow request} other {# follow requests}}"
-msgstr ""
+msgstr "{0, plural, one {# peto de sekvado} other {# petoj de sekvado}}"
 
 #: src/pages/notifications.jsx:659
 msgid "{0, plural, one {Filtered notifications from # person} other {Filtered notifications from # people}}"
@@ -3242,7 +3243,7 @@ msgstr "Fratara templinio"
 
 #: src/pages/public.jsx:96
 msgid "No one has posted anything yet."
-msgstr ""
+msgstr "Neniu ankoraŭ afiŝis ion."
 
 #: src/pages/public.jsx:123
 msgid "Switch to Federated"
@@ -3309,7 +3310,7 @@ msgstr ""
 
 #: src/pages/settings.jsx:74
 msgid "Settings"
-msgstr ""
+msgstr "Agordoj"
 
 #: src/pages/settings.jsx:83
 msgid "Appearance"
@@ -3336,7 +3337,7 @@ msgstr "Tekstogrando"
 #: src/pages/settings.jsx:198
 #: src/pages/settings.jsx:223
 msgid "A"
-msgstr ""
+msgstr "A"
 
 #: src/pages/settings.jsx:237
 msgid "Display language"
@@ -3473,7 +3474,7 @@ msgstr ""
 
 #: src/pages/settings.jsx:776
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Privateca politiko"
 
 #: src/pages/settings.jsx:783
 msgid "<0>Site:</0> {0}"
@@ -3518,15 +3519,15 @@ msgstr "iu ajn"
 
 #: src/pages/settings.jsx:1012
 msgid "people I follow"
-msgstr ""
+msgstr "homoj, kiujn mi sekvas"
 
 #: src/pages/settings.jsx:1016
 msgid "followers"
-msgstr ""
+msgstr "sekvantoj"
 
 #: src/pages/settings.jsx:1049
 msgid "Follows"
-msgstr ""
+msgstr "Sekvas"
 
 #: src/pages/settings.jsx:1057
 msgid "Polls"
@@ -3558,7 +3559,7 @@ msgstr "Ĉi tiu afiŝo estas de alia nodo (<0>{instance}</0>). Interagoj (respon
 
 #: src/pages/status.jsx:827
 msgid "Error: {e}"
-msgstr ""
+msgstr "Eraro: {e}"
 
 #: src/pages/status.jsx:834
 msgid "Switch to my instance to enable interactions"
@@ -3570,11 +3571,11 @@ msgstr "Ne eblas ŝargi respondojn."
 
 #: src/pages/status.jsx:1048
 msgid "Back"
-msgstr ""
+msgstr "Reen"
 
 #: src/pages/status.jsx:1079
 msgid "Go to main post"
-msgstr ""
+msgstr "Iri al ĉefa afiŝo"
 
 #: src/pages/status.jsx:1102
 msgid "{0} posts above ‒ Go to top"
@@ -3595,7 +3596,7 @@ msgstr "Montri ĉiujn sentemajn enhavojn"
 
 #: src/pages/status.jsx:1232
 msgid "Experimental"
-msgstr ""
+msgstr "Eksperimenta"
 
 #: src/pages/status.jsx:1241
 msgid "Unable to switch"
@@ -3615,15 +3616,15 @@ msgstr "Ne eblas ŝargi afiŝon"
 
 #: src/pages/status.jsx:1426
 msgid "{0, plural, one {# reply} other {<0>{1}</0> replies}}"
-msgstr ""
+msgstr "{0, plural, one {# respondo} other {<0>{1}</0> respondoj}}"
 
 #: src/pages/status.jsx:1444
 msgid "{totalComments, plural, one {# comment} other {<0>{0}</0> comments}}"
-msgstr ""
+msgstr "{totalComments, plural, one {# komento} other {<0>{0}</0> komentoj}}"
 
 #: src/pages/status.jsx:1466
 msgid "View post with its replies"
-msgstr ""
+msgstr "Vidi afiŝon kun siaj respondoj"
 
 #: src/pages/trending.jsx:70
 msgid "Trending ({instance})"
@@ -3651,11 +3652,11 @@ msgstr ""
 
 #: src/pages/welcome.jsx:53
 msgid "A minimalistic opinionated Mastodon web client."
-msgstr ""
+msgstr "Minimuma retkliento por Mastodon, kiu faras aferojn laŭ via maniero."
 
 #: src/pages/welcome.jsx:64
 msgid "Log in with Mastodon"
-msgstr ""
+msgstr "Ensaluti per Mastodon"
 
 #: src/pages/welcome.jsx:70
 msgid "Sign up"
@@ -3663,7 +3664,7 @@ msgstr ""
 
 #: src/pages/welcome.jsx:77
 msgid "Connect your existing Mastodon/Fediverse account.<0/>Your credentials are not stored on this server."
-msgstr ""
+msgstr "Konekti vian ekzistantan Mastodon/Fediverson-konton.<0/>Viaj ensalutiloj ne estas konservitaj en ĉi tiu servilo."
 
 #: src/pages/welcome.jsx:94
 msgid "<0>Built</0> by <1>@cheeaun</1>. <2>Privacy Policy</2>."
@@ -3695,11 +3696,11 @@ msgstr ""
 
 #: src/pages/welcome.jsx:156
 msgid "Screenshot of grouped notifications"
-msgstr ""
+msgstr "Ekrankopio de grupigitaj sciigoj"
 
 #: src/pages/welcome.jsx:160
 msgid "Grouped notifications"
-msgstr ""
+msgstr "Grupigitaj sciigoj"
 
 #: src/pages/welcome.jsx:163
 msgid "Similar notifications are grouped and collapsed to reduce clutter."
@@ -3719,7 +3720,7 @@ msgstr ""
 
 #: src/pages/welcome.jsx:188
 msgid "Screenshot of multi-hashtag timeline with a form to add more hashtags"
-msgstr ""
+msgstr "Ekrankopio de plurkradvorta templinio kun formo por aldoni pliajn kradvortojn"
 
 #: src/pages/welcome.jsx:192
 msgid "Multi-hashtag timeline"
@@ -3727,11 +3728,11 @@ msgstr "Plurkradvorta templinio"
 
 #: src/pages/welcome.jsx:195
 msgid "Up to 5 hashtags combined into a single timeline."
-msgstr ""
+msgstr "Ĝis 5 kradvortoj kombinitaj en ununuran templinion."
 
 #: src/utils/open-compose.js:24
 msgid "Looks like your browser is blocking popups."
-msgstr ""
+msgstr "Ŝajnas, ke via retumilo blokas ŝprucfenestrojn."
 
 #: src/utils/show-compose.js:16
 msgid "A draft post is currently minimized. Post or discard it before creating a new one."
@@ -3739,5 +3740,5 @@ msgstr ""
 
 #: src/utils/show-compose.js:21
 msgid "A post is currently open. Post or discard it before creating a new one."
-msgstr ""
+msgstr "Afiŝo estas nuntempe malfermita. Afiŝu aŭ forĵetu ĝin antaŭ ol krei novan."
 
