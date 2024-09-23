@@ -48,6 +48,8 @@ import Trending from './pages/trending';
 import Welcome from './pages/welcome';
 import {
   api,
+  hasInstance,
+  hasPreferences,
   initAccount,
   initClient,
   initInstance,
@@ -410,18 +412,27 @@ function App() {
         setUIState('loading');
         (async () => {
           try {
-            await initPreferences(client);
-            await initInstance(client, instance);
+            if (hasPreferences() && hasInstance(instance)) {
+              // Non-blocking
+              initPreferences(client);
+              initInstance(client, instance);
+            } else {
+              await Promise.allSettled([
+                initPreferences(client),
+                initInstance(client, instance),
+              ]);
+            }
           } catch (e) {
           } finally {
             setIsLoggedIn(true);
             setUIState('default');
+            __BENCHMARK.end('app-init');
           }
         })();
       } else {
         setUIState('default');
+        __BENCHMARK.end('app-init');
       }
-      __BENCHMARK.end('app-init');
     }
 
     // Cleanup
@@ -442,40 +453,36 @@ function App() {
     return <HttpRoute />;
   }
 
+  if (uiState === 'loading') {
+    return <Loader id="loader-root" />;
+  }
+
   return (
     <>
-      <PrimaryRoutes isLoggedIn={isLoggedIn} loading={uiState === 'loading'} />
+      <PrimaryRoutes isLoggedIn={isLoggedIn} />
       <SecondaryRoutes isLoggedIn={isLoggedIn} />
-      {uiState === 'default' && (
-        <Routes>
-          <Route path="/:instance?/s/:id" element={<StatusRoute />} />
-        </Routes>
-      )}
+      <Routes>
+        <Route path="/:instance?/s/:id" element={<StatusRoute />} />
+      </Routes>
       {isLoggedIn && <ComposeButton />}
       {isLoggedIn && <Shortcuts />}
       <Modals />
       {isLoggedIn && <NotificationService />}
       <BackgroundService isLoggedIn={isLoggedIn} />
-      {uiState !== 'loading' && <SearchCommand onClose={focusDeck} />}
+      <SearchCommand onClose={focusDeck} />
       <KeyboardShortcutsHelp />
     </>
   );
 }
 
-function Root({ isLoggedIn, loading }) {
+function Root({ isLoggedIn }) {
   if (isLoggedIn) {
     __BENCHMARK.end('time-to-isLoggedIn');
   }
-  return isLoggedIn ? (
-    <Home />
-  ) : loading ? (
-    <Loader id="loader-root" />
-  ) : (
-    <Welcome />
-  );
+  return isLoggedIn ? <Home /> : <Welcome />;
 }
 
-const PrimaryRoutes = memo(({ isLoggedIn, loading }) => {
+const PrimaryRoutes = memo(({ isLoggedIn }) => {
   const location = useLocation();
   const nonRootLocation = useMemo(() => {
     const { pathname } = location;
@@ -484,10 +491,7 @@ const PrimaryRoutes = memo(({ isLoggedIn, loading }) => {
 
   return (
     <Routes location={nonRootLocation || location}>
-      <Route
-        path="/"
-        element={<Root isLoggedIn={isLoggedIn} loading={loading} />}
-      />
+      <Route path="/" element={<Root isLoggedIn={isLoggedIn} />} />
       <Route path="/login" element={<Login />} />
       <Route path="/welcome" element={<Welcome />} />
     </Routes>
