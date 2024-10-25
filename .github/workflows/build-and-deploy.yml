@@ -1,0 +1,30 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - phanpy.blaede.family
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    concurrency: ci-${{ github.ref }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build
+        env:
+          PHANPY_GIPHY_API_KEY: ${{ secrets.PHANPY_GIPHY_API_KEY }}
+        run: |
+          npm install
+          PHANPY_CLIENT_NAME="Blaede Phanpy" \
+          PHANPY_WEBSITE=https://phanpy.blaede.family \
+          PHANPY_DEFAULT_INSTANCE=mastodon.blaede.family \
+          PHANPY_DEFAULT_INSTANCE_REGISTRATION_URL=https://mastodon.blaede.family/auth/sign_up \
+          PHANPY_PRIVACY_POLICY_URL=https://mastodon.blaede.family/privacy-policy \
+          npm run build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.4.3
+        with:
+          branch: gh-pages
+          folder: dist
