@@ -381,12 +381,14 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
 }
 
 .timeline.contextual {
-  --default-line-start: 40px;
-  --thread-start: 40px;
-  --line-start: 40px;
+  --indent-large-start: 40px;
+  --indent-small-start: 10px;
+  --thread-start: var(--indent-small-start);
+  --line-start: var(--indent-small-start);
   --line-width: 3px;
   --line-end: calc(var(--line-start) + var(--line-width));
-  --default-line-end: calc(var(--default-line-start) + var(--line-width));
+  --indent-large-end: calc(var(--indent-large-start) + var(--line-width));
+  --indent-small-end: calc(var(--indent-small-start) + var(--line-width));
   --line-margin-end: 16px;
   --line-radius: 10px;
   --line-diameter: calc(var(--line-radius) * 2);
@@ -398,7 +400,13 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
     --line-curve: -45deg;
   }
 
-  .descendant.thread:has(+ .descendant:not(.thread)):after {
+  > li:is(.hero:has(+ .thread), .hero:last-child, .thread, .ancestor) {
+    --thread-start: var(--indent-large-start);
+    --line-start: var(--indent-large-start);
+    --line-end: calc(var(--line-start) + var(--line-width));
+  }
+
+  > li.descendant.thread:has(+ .descendant:not(.thread)):after {
     position: absolute;
     inset-inline-start: 10px;
     bottom: 0;
@@ -453,13 +461,6 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
     background-size: var(--curves-radius);
     background-position: top var(--backward), bottom var(--forward);
   }
-
-  > li.hero:has(+ .descendant:not(.thread)),
-  > li.descendant:not(.thread) {
-    --thread-start: 10px;
-    --line-start: 10px;
-    --line-end: calc(var(--line-start) + var(--line-width));
-  }
 }
 .timeline.contextual > li {
   background-image: linear-gradient(
@@ -471,23 +472,23 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
     transparent var(--line-end),
     transparent
   );
-  &.hero:not(:first-child, :last-child, :only-child) {
+  &.hero:not(:has(+ .thread), :first-child, :only-child, :last-child) {
     background-image: linear-gradient(
         var(--line-dir),
         transparent,
-        transparent var(--line-start),
-        var(--comment-line-color) var(--line-start),
-        var(--comment-line-color) var(--line-end),
-        transparent var(--line-end),
+        transparent var(--indent-small-start),
+        var(--comment-line-color) var(--indent-small-start),
+        var(--comment-line-color) var(--indent-small-end),
+        transparent var(--indent-small-end),
         transparent
       ),
       linear-gradient(
         var(--line-dir),
         transparent,
-        transparent var(--default-line-start),
-        var(--comment-line-color) var(--default-line-start),
-        var(--comment-line-color) var(--default-line-end),
-        transparent var(--default-line-end),
+        transparent var(--indent-large-start),
+        var(--comment-line-color) var(--indent-large-start),
+        var(--comment-line-color) var(--indent-large-end),
+        transparent var(--indent-large-end),
         transparent
       );
     background-size: 100% 50%;
@@ -1394,6 +1395,11 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
   user-select: none;
   width: 100%;
   gap: 16px;
+  --accent-gradient: var(--accent-gradient-light);
+  @media (prefers-color-scheme: dark) {
+    --accent-gradient: var(--accent-gradient-dark);
+  }
+  background-image: linear-gradient(to var(--forward), var(--accent-gradient));
 }
 .carousel::-webkit-scrollbar {
   display: none;
@@ -1408,7 +1414,10 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
   width: 100%;
   height: 100vh;
   height: 100dvh;
-  background-color: var(--accent-alpha-color);
+  background-color: var(--accent-light-color);
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--accent-dark-color);
+  }
   /* background-image: radial-gradient(
     closest-side,
     var(--accent-color) 10%,
@@ -2630,6 +2639,15 @@ ul.link-list li a .icon {
   }
   #columns > * {
     padding: 0 16px;
+
+    &:is(#notifications-page) {
+      padding-inline: 0;
+
+      .timeline-deck > header {
+        margin-inline: 16px;
+      }
+    }
+
     border-inline: var(--hairline-width) solid var(--bg-faded-color);
     /* border-radius: 16px; */
     /* box-shadow: -4px 0 16px -8px var(--drop-shadow-color); */

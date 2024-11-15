@@ -208,6 +208,11 @@ function StatusParent(props) {
   );
 }
 
+// oldest first
+function createdAtSort(a, b) {
+  return new Date(b.created_at) - new Date(a.created_at);
+}
+
 function StatusThread({ id, closeLink = '/', instance: propInstance }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const mediaParam = searchParams.get('media');
@@ -321,9 +326,8 @@ function StatusThread({ id, closeLink = '/', instance: propInstance }) {
         const context = await contextFetch;
         const { ancestors, descendants } = context;
 
-        // Sort oldest first
-        ancestors.sort((a, b) => a.createdAt - b.createdAt);
-        descendants.sort((a, b) => a.createdAt - b.createdAt);
+        ancestors.sort(createdAtSort);
+        descendants.sort(createdAtSort);
 
         totalDescendants.current = descendants?.length || 0;
 
@@ -386,6 +390,16 @@ function StatusThread({ id, closeLink = '/', instance: propInstance }) {
               console.warn('No parent found for', status);
             }
           }
+        });
+
+        // sort hero author to top
+        nestedDescendants.sort((a, b) => {
+          const heroAccountID = heroStatus.account.id;
+          if (a.account.id === heroAccountID && b.account.id !== heroAccountID)
+            return -1;
+          if (b.account.id === heroAccountID && a.account.id !== heroAccountID)
+            return 1;
+          return 0;
         });
 
         console.log({ ancestors, descendants, nestedDescendants });
@@ -1423,130 +1437,151 @@ function SubComments({
     };
   }, []);
 
+  // If not open, delay render replies
+  const [renderReplies, setRenderReplies] = useState(openBefore || open);
+  useEffect(() => {
+    let timer;
+    if (!openBefore && !open) {
+      timer = setTimeout(() => setRenderReplies(true), 100);
+    }
+    return () => clearTimeout(timer);
+  }, [openBefore, open]);
+
+  const Container = open ? 'div' : 'details';
+  const isDetails = Container === 'details';
+
   return (
-    <details
+    <Container
       ref={detailsRef}
       class="replies"
-      open={openBefore || open}
-      onToggle={(e) => {
-        const { open } = e.target;
-        // use first reply as ID
-        cachedRepliesToggle[replies[0].id] = open;
-      }}
+      open={isDetails ? openBefore || open : undefined}
+      onToggle={
+        isDetails
+          ? (e) => {
+              const { open } = e.target;
+              // use first reply as ID
+              cachedRepliesToggle[replies[0].id] = open;
+            }
+          : undefined
+      }
       style={{
         '--comments-level': level,
       }}
       data-comments-level={level}
       data-comments-level-overflow={level > 4}
     >
-      <summary class="replies-summary" hidden={open}>
-        <span class="avatars">
-          {accounts.map((a) => (
-            <Avatar
-              key={a.id}
-              url={a.avatarStatic}
-              title={`${a.displayName} @${a.username}`}
-              squircle={a?.bot}
-            />
-          ))}
-        </span>
-        <span class="replies-counts">
-          <b>
-            <Plural
-              value={replies.length}
-              one="# reply"
-              other={
-                <Trans>
-                  <span title={replies.length}>
-                    {shortenNumber(replies.length)}
-                  </span>{' '}
-                  replies
-                </Trans>
-              }
-            />
-          </b>
-          {!sameCount && totalComments > 1 && (
-            <>
-              {' '}
-              &middot;{' '}
-              <span>
-                <Plural
-                  value={totalComments}
-                  one="# comment"
-                  other={
-                    <Trans>
-                      <span title={totalComments}>
-                        {shortenNumber(totalComments)}
-                      </span>{' '}
-                      comments
-                    </Trans>
-                  }
-                />
-              </span>
-            </>
+      {!open && (
+        <summary class="replies-summary" hidden={open}>
+          <span class="avatars">
+            {accounts.map((a) => (
+              <Avatar
+                key={a.id}
+                url={a.avatarStatic}
+                title={`${a.displayName} @${a.username}`}
+                squircle={a?.bot}
+              />
+            ))}
+          </span>
+          <span class="replies-counts">
+            <b>
+              <Plural
+                value={replies.length}
+                one="# reply"
+                other={
+                  <Trans>
+                    <span title={replies.length}>
+                      {shortenNumber(replies.length)}
+                    </span>{' '}
+                    replies
+                  </Trans>
+                }
+              />
+            </b>
+            {!sameCount && totalComments > 1 && (
+              <>
+                {' '}
+                &middot;{' '}
+                <span>
+                  <Plural
+                    value={totalComments}
+                    one="# comment"
+                    other={
+                      <Trans>
+                        <span title={totalComments}>
+                          {shortenNumber(totalComments)}
+                        </span>{' '}
+                        comments
+                      </Trans>
+                    }
+                  />
+                </span>
+              </>
+            )}
+          </span>
+          <Icon icon="chevron-down" class="replies-summary-chevron" />
+          {!!parentLink && (
+            <Link
+              class="replies-parent-link"
+              to={parentLink.to}
+              onClick={parentLink.onClick}
+              title={t`View post with its replies`}
+            >
+              &raquo;
+            </Link>
           )}
-        </span>
-        <Icon icon="chevron-down" class="replies-summary-chevron" />
-        {!!parentLink && (
-          <Link
-            class="replies-parent-link"
-            to={parentLink.to}
-            onClick={parentLink.onClick}
-            title={t`View post with its replies`}
-          >
-            &raquo;
-          </Link>
-        )}
-      </summary>
-      <ul>
-        {replies.map((r) => (
-          <li key={r.id}>
-            {/* <Link
+        </summary>
+      )}
+      {renderReplies && (
+        <ul>
+          {replies.map((r) => (
+            <li key={r.id}>
+              {/* <Link
               class="status-link"
               to={instance ? `/${instance}/s/${r.id}` : `/s/${r.id}`}
               onClick={() => {
                 resetScrollPosition(r.id);
               }}
             > */}
-            <div class="status-focus" tabIndex={0}>
-              <Status
-                statusID={r.id}
-                instance={instance}
-                withinContext
-                size="s"
-                enableTranslate
-                onMediaClick={handleMediaClick}
-                showActionsBar
-              />
-              {!r.replies?.length && r.repliesCount > 0 && (
-                <div class="replies-link">
-                  <Icon icon="comment2" alt={t`Replies`} />{' '}
-                  <span title={r.repliesCount}>
-                    {shortenNumber(r.repliesCount)}
-                  </span>
-                </div>
+              <div class="status-focus" tabIndex={0}>
+                <Status
+                  statusID={r.id}
+                  instance={instance}
+                  withinContext
+                  size="s"
+                  enableTranslate
+                  onMediaClick={handleMediaClick}
+                  showActionsBar
+                />
+                {!r.replies?.length && r.repliesCount > 0 && (
+                  <div class="replies-link">
+                    <Icon icon="comment2" alt={t`Replies`} />{' '}
+                    <span title={r.repliesCount}>
+                      {shortenNumber(r.repliesCount)}
+                    </span>
+                  </div>
+                )}
+              </div>
+              {/* </Link> */}
+              {r.replies?.length && (
+                <SubComments
+                  instance={instance}
+                  replies={r.replies}
+                  level={r.level}
+                  accWeight={!open ? r.weight : totalWeight}
+                  openAll={openAll}
+                  parentLink={{
+                    to: instance ? `/${instance}/s/${r.id}` : `/s/${r.id}`,
+                    onClick: () => {
+                      resetScrollPosition(r.id);
+                    },
+                  }}
+                />
               )}
-            </div>
-            {/* </Link> */}
-            {r.replies?.length && (
-              <SubComments
-                instance={instance}
-                replies={r.replies}
-                level={r.level}
-                accWeight={!open ? r.weight : totalWeight}
-                openAll={openAll}
-                parentLink={{
-                  to: instance ? `/${instance}/s/${r.id}` : `/s/${r.id}`,
-                  onClick: () => {
-                    resetScrollPosition(r.id);
-                  },
-                }}
-              />
-            )}
-          </li>
-        ))}
-      </ul>
-    </details>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Container>
   );
 }
 
