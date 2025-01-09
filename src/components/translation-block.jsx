@@ -1,6 +1,6 @@
 import './translation-block.css';
 
-import { t, Trans } from '@lingui/macro';
+import { Trans, useLingui } from '@lingui/react/macro';
 import pRetry from 'p-retry';
 import pThrottle from 'p-throttle';
 import { useEffect, useRef, useState } from 'preact/hooks';
@@ -80,6 +80,7 @@ function TranslationBlock({
   mini,
   autoDetected,
 }) {
+  const { t } = useLingui();
   const targetLang = getTranslateTargetLanguage(true);
   const [uiState, setUIState] = useState('default');
   const [pronunciationContent, setPronunciationContent] = useState(null);
@@ -189,10 +190,10 @@ function TranslationBlock({
               {uiState === 'loading'
                 ? t`Translating…`
                 : sourceLanguage && sourceLangText && !detectedLang
-                ? autoDetected
-                  ? t`Translate from ${sourceLangText} (auto-detected)`
-                  : t`Translate from ${sourceLangText}`
-                : t`Translate`}
+                  ? autoDetected
+                    ? t`Translate from ${sourceLangText} (auto-detected)`
+                    : t`Translate from ${sourceLangText}`
+                  : t`Translate`}
             </span>
           </button>
         </summary>
@@ -221,8 +222,8 @@ function TranslationBlock({
                     {l.code === 'auto'
                       ? t`Auto (${detectedLang ?? '…'})`
                       : showCommon
-                      ? `${native} - ${common}`
-                      : native}
+                        ? `${native} - ${common}`
+                        : native}
                   </option>
                 );
               })}

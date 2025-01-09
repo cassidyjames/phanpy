@@ -1,8 +1,8 @@
 import './status.css';
 import '@justinribeiro/lite-youtube';
 
-import { msg, plural, Plural, t, Trans } from '@lingui/macro';
-import { useLingui } from '@lingui/react';
+import { msg, plural } from '@lingui/core/macro';
+import { Trans, useLingui } from '@lingui/react/macro';
 import {
   ControlledMenu,
   Menu,
@@ -308,7 +308,7 @@ function Status({
   showReplyParent,
   mediaFirst,
 }) {
-  const { _ } = useLingui();
+  const { _, t } = useLingui();
 
   if (skeleton) {
     return (
@@ -996,8 +996,8 @@ function Status({
                 {reblogsCount > 0
                   ? shortenNumber(reblogsCount)
                   : reblogged
-                  ? t`Unboost`
-                  : t`Boost…`}
+                    ? t`Unboost`
+                    : t`Boost…`}
               </span>
             </MenuConfirm>
             <MenuItem
@@ -1009,8 +1009,8 @@ function Status({
                 {favouritesCount > 0
                   ? shortenNumber(favouritesCount)
                   : favourited
-                  ? t`Unlike`
-                  : t`Like`}
+                    ? t`Unlike`
+                    : t`Like`}
               </span>
             </MenuItem>
             {supports('@mastodon/post-bookmark') && (
@@ -2967,6 +2967,7 @@ function EditedAtModal({
   fetchStatusHistory = () => {},
   onClose,
 }) {
+  const { t } = useLingui();
   const [uiState, setUIState] = useState('default');
   const [editHistory, setEditHistory] = useState([]);
 
@@ -3167,8 +3168,8 @@ function generateHTMLCode(post, instance, level = 0) {
             } else {
               mediaHTML = `
                 <a href="${sourceMediaURL}">📄 ${
-                description || sourceMediaURL
-              }</a>
+                  description || sourceMediaURL
+                }</a>
               `;
             }
 
@@ -3202,6 +3203,7 @@ function generateHTMLCode(post, instance, level = 0) {
 }
 
 function EmbedModal({ post, instance, onClose }) {
+  const { t } = useLingui();
   const {
     account: {
       url: accountURL,
@@ -3578,7 +3580,7 @@ function FilteredStatus({
   showFollowedTags,
   quoted,
 }) {
-  const { _ } = useLingui();
+  const { _, t } = useLingui();
   const snapStates = useSnapshot(states);
   const {
     id: statusID,
@@ -3625,12 +3627,12 @@ function FilteredStatus({
         quoted
           ? ''
           : isReblog
-          ? group
-            ? 'status-group'
-            : 'status-reblog'
-          : isFollowedTags
-          ? 'status-followed-tags'
-          : ''
+            ? group
+              ? 'status-group'
+              : 'status-reblog'
+            : isFollowedTags
+              ? 'status-followed-tags'
+              : ''
       }
       {...containerProps}
       // title={statusPeekText}

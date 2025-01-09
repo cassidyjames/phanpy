@@ -4,7 +4,7 @@ import { resolve } from 'path';
 
 import { lingui } from '@lingui/vite-plugin';
 import preact from '@preact/preset-vite';
-import { SondaRollupPlugin } from 'sonda';
+import Sonda from 'sonda/vite';
 import { uid } from 'uid/single';
 import { defineConfig, loadEnv, splitVendorChunkPlugin } from 'vite';
 import generateFile from 'vite-plugin-generate-file';
@@ -150,14 +150,16 @@ export default defineConfig({
         type: 'module',
       },
     }),
-    SondaRollupPlugin({
+    Sonda({
       detailed: true,
       brotli: true,
     }),
   ],
   build: {
     sourcemap: true,
-    cssCodeSplit: false,
+    // Note: In Vite 6, if cssCodeSplit = false, it will show error "Cannot read properties of undefined (reading 'includes')"
+    // TODO: Revisit this when this issue is fixed
+    // cssCodeSplit: false,
     rollupOptions: {
       treeshake: false,
       input: {

@@ -2,8 +2,8 @@ import '../components/links-bar.css';
 import './catchup.css';
 
 import autoAnimate from '@formkit/auto-animate';
-import { msg, Plural, select, t, Trans } from '@lingui/macro';
-import { useLingui } from '@lingui/react';
+import { msg, select } from '@lingui/core/macro';
+import { Plural, Trans, useLingui } from '@lingui/react/macro';
 import { getBlurHashAverageColor } from 'fast-blurhash';
 import { Fragment } from 'preact';
 import { memo } from 'preact/compat';
@@ -95,7 +95,7 @@ const DTF = mem(
 );
 
 function Catchup() {
-  const { i18n, _ } = useLingui();
+  const { i18n, _, t } = useLingui();
   const dtf = DTF(i18n.locale);
 
   useTitle(`Catch-up`, '/catchup');
@@ -1730,10 +1730,10 @@ const PostLine = memo(
           group
             ? 'group'
             : reblog
-            ? 'reblog'
-            : isFollowedTags?.length
-            ? 'followed-tags'
-            : ''
+              ? 'reblog'
+              : isFollowedTags?.length
+                ? 'followed-tags'
+                : ''
         } ${isReplyTo ? 'reply-to' : ''} ${
           isFiltered ? 'filtered' : ''
         } visibility-${visibility}`}
@@ -1826,14 +1826,15 @@ function postDensity(post) {
     (mediaAttachments?.length
       ? MEDIA_DENSITY * mediaAttachments.length
       : card?.image
-      ? CARD_DENSITY
-      : 0);
+        ? CARD_DENSITY
+        : 0);
   return density;
 }
 
 const MEDIA_SIZE = 48;
 
 function PostPeek({ post, filterInfo }) {
+  const { t } = useLingui();
   const {
     spoilerText,
     sensitive,
@@ -2048,6 +2049,7 @@ function PostPeek({ post, filterInfo }) {
 }
 
 function PostStats({ post }) {
+  const { t } = useLingui();
   const { reblogsCount, repliesCount, favouritesCount } = post;
   return (
     <span class="post-stats">

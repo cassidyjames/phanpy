@@ -1,7 +1,7 @@
 import './notifications.css';
 
-import { msg, Plural, t, Trans } from '@lingui/macro';
-import { useLingui } from '@lingui/react';
+import { msg } from '@lingui/core/macro';
+import { Plural, Trans, useLingui } from '@lingui/react/macro';
 import { Fragment } from 'preact';
 import { memo } from 'preact/compat';
 import {
@@ -39,6 +39,7 @@ import { getRegistration } from '../utils/push-notifications';
 import shortenNumber from '../utils/shorten-number';
 import showToast from '../utils/show-toast';
 import states, { saveStatus } from '../utils/states';
+import store from '../utils/store';
 import { getCurrentInstance } from '../utils/store-utils';
 import supports from '../utils/supports';
 import usePageVisibility from '../utils/usePageVisibility';
@@ -108,7 +109,7 @@ const NOTIFICATIONS_POLICIES_TEXT = {
 };
 
 function Notifications({ columnMode }) {
-  const { _ } = useLingui();
+  const { _, t } = useLingui();
   useTitle(t`Notifications`, '/notifications');
   const { masto, instance } = api();
   const snapStates = useSnapshot(states);
@@ -408,6 +409,45 @@ function Notifications({ columnMode }) {
   //     })();
   //   }
   // }, [uiState]);
+
+  const [annualReportNotification, setAnnualReportNotification] =
+    useState(null);
+  useEffect(async () => {
+    // Skip this if not in December
+    const date = new Date();
+    if (date.getMonth() !== 11) return;
+
+    // Skip if doesn't support annual report
+    if (!supports('@mastodon/annual-report')) return;
+
+    let annualReportNotification = store.account.get(
+      'annualReportNotification',
+    );
+    if (annualReportNotification) {
+      setAnnualReportNotification(annualReportNotification);
+      return;
+    }
+    const notificationIterator = mastoFetchNotifications({
+      types: ['annual_report'],
+    });
+    try {
+      const notification = await notificationIterator.next();
+      annualReportNotification = notification?.value?.notificationGroups?.[0];
+      const annualReportYear = annualReportNotification?.annualReport?.year;
+      // If same year, show the annual report
+      if (annualReportYear == date.getFullYear()) {
+        console.log(
+          'ANNUAL REPORT',
+          annualReportYear,
+          annualReportNotification,
+        );
+        setAnnualReportNotification(annualReportNotification);
+        store.account.set('annualReportNotification', annualReportNotification);
+      }
+    } catch (e) {
+      console.warn(e);
+    }
+  }, []);
 
   const itemsSelector = '.notification';
   const jRef = useHotkeys('j', () => {
@@ -728,6 +768,13 @@ function Notifications({ columnMode }) {
               </div>
             </div>
           )}
+        {annualReportNotification && (
+          <div class="shazam-container">
+            <div class="shazam-container-inner">
+              <Notification notification={annualReportNotification} />
+            </div>
+          </div>
+        )}
         <div id="mentions-option">
           <label>
             <input
@@ -1126,6 +1173,7 @@ function NotificationRequestModalButton({ request }) {
 }
 
 function NotificationRequestButtons({ request, onChange }) {
+  const { t } = useLingui();
   const { masto } = api();
   const [uiState, setUIState] = useState('default');
   const [requestState, setRequestState] = useState(null); // accept, dismiss
