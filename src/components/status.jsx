@@ -41,6 +41,7 @@ import Modal from '../components/modal';
 import NameText from '../components/name-text';
 import Poll from '../components/poll';
 import { api } from '../utils/api';
+import { langDetector } from '../utils/browser-translator';
 import emojifyText from '../utils/emojify-text';
 import enhanceContent from '../utils/enhance-content';
 import FilterContext from '../utils/filter-context';
@@ -154,7 +155,15 @@ function isTranslateble(content) {
   return !!text;
 }
 
-function getHTMLTextForDetectLang(content) {
+function getHTMLTextForDetectLang(content, emojis) {
+  if (emojis?.length) {
+    const emojisRegex = new RegExp(
+      `:(${emojis.map((e) => e.shortcode).join('|')}):`,
+      'g',
+    );
+    content = content.replace(emojisRegex, '');
+  }
+
   return getHTMLText(content, {
     preProcess: (dom) => {
       // Remove anything that can skew the language detection
@@ -245,7 +254,6 @@ const SIZE_CLASS = {
 };
 
 const detectLang = pmem(async (text) => {
-  const { detectAll } = await import('tinyld/light');
   text = text?.trim();
 
   // Ref: https://github.com/komodojp/tinyld/blob/develop/docs/benchmark.md
@@ -253,7 +261,29 @@ const detectLang = pmem(async (text) => {
   if (text?.length > 500) {
     return null;
   }
+
+  if (langDetector) {
+    const langs = await langDetector.detect(text);
+    console.groupCollapsed(
+      '💬 DETECTLANG BROWSER',
+      langs.slice(0, 3).map((l) => l.detectedLanguage),
+    );
+    console.log(text, langs.slice(0, 3));
+    console.groupEnd();
+    const lang = langs[0];
+    if (lang?.detectedLanguage && lang?.confidence > 0.5) {
+      return lang.detectedLanguage;
+    }
+  }
+
+  const { detectAll } = await import('tinyld/light');
   const langs = detectAll(text);
+  console.groupCollapsed(
+    '💬 DETECTLANG TINYLD',
+    langs.slice(0, 3).map((l) => l.lang),
+  );
+  console.log(text, langs.slice(0, 3));
+  console.groupEnd();
   const lang = langs[0];
   if (lang?.lang && lang?.accuracy > 0.5) {
     // If > 50% accurate, use it
@@ -281,7 +311,8 @@ const checkDifferentLanguage = (
     !contentTranslationHideLanguages.find(
       (l) => language === l || localeMatch([language], [l]),
     );
-  DIFFERENT_LANG_CHECK[language + contentTranslationHideLanguages] = true;
+  if (different)
+    DIFFERENT_LANG_CHECK[language + contentTranslationHideLanguages] = true;
   return different;
 };
 
@@ -402,7 +433,9 @@ function Status({
     if (languageAutoDetected) return;
     let timer;
     timer = setTimeout(async () => {
-      let detected = await detectLang(getHTMLTextForDetectLang(content));
+      let detected = await detectLang(
+        getHTMLTextForDetectLang(content, emojis),
+      );
       setLanguageAutoDetected(detected);
     }, 1000);
     return () => clearTimeout(timer);
@@ -844,16 +877,19 @@ function Status({
   const contentTranslationHideLanguages =
     snapStates.settings.contentTranslationHideLanguages || [];
   const [differentLanguage, setDifferentLanguage] = useState(
-    DIFFERENT_LANG_CHECK[language + contentTranslationHideLanguages]
-      ? checkDifferentLanguage(language, contentTranslationHideLanguages)
-      : false,
+    () =>
+      DIFFERENT_LANG_CHECK[language + contentTranslationHideLanguages] ||
+      checkDifferentLanguage(language, contentTranslationHideLanguages),
   );
   useEffect(() => {
+    if (!language || differentLanguage) {
+      return;
+    }
     if (
-      !language ||
-      differentLanguage ||
+      !differentLanguage &&
       DIFFERENT_LANG_CHECK[language + contentTranslationHideLanguages]
     ) {
+      setDifferentLanguage(true);
       return;
     }
     let timeout = setTimeout(() => {
@@ -2295,13 +2331,15 @@ function Status({
                           </>
                         )
                       }
-                      <time
-                        class="created"
-                        datetime={createdAtDate.toISOString()}
-                        title={createdAtDate.toLocaleString()}
-                      >
-                        {createdDateText}
-                      </time>
+                      {!!createdAt && (
+                        <time
+                          class="created"
+                          datetime={createdAtDate.toISOString()}
+                          title={createdAtDate.toLocaleString()}
+                        >
+                          {createdDateText}
+                        </time>
+                      )}
                     </a>
                     {editedAt && (
                       <>
@@ -2486,7 +2524,7 @@ function Status({
                     </div>
                   }
                 >
-                  {StatusMenuItems}
+                  {StatusMenuItems}{' '}
                 </Menu2>
               </div>
             </>
@@ -3185,7 +3223,7 @@ function generateHTMLCode(post, instance, level = 0) {
         — ${emojifyText(
           displayName,
           accountEmojis,
-        )} (@${acct}) <a href="${url}"><time datetime="${createdAtDate.toISOString()}">${createdAtDate.toLocaleString()}</time></a>
+        )} (@${acct}) ${!!createdAt ? `<a href="${url}"><time datetime="${createdAtDate.toISOString()}">${createdAtDate.toLocaleString()}</time></a>` : ''}
       </footer>
     </blockquote>
   `;
