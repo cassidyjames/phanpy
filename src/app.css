@@ -79,7 +79,11 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
 
 .deck-container,
 .deck.contained {
-  scroll-padding-top: 3em;
+  scroll-padding-top: 4em;
+
+  &:has(~ #shortcuts > .tab-bar) {
+    scroll-padding-top: 7em;
+  }
 }
 
 :is(#home-page, #welcome, #columns, #loader-root) ~ .deck-container {
@@ -1660,7 +1664,7 @@ body:has(.media-modal-container + .status-deck) .media-post-link {
   padding: 16px;
   background-color: var(--button-bg-blur-color);
   /* backdrop-filter: blur(16px); */
-  z-index: 10;
+  z-index: 20;
   box-shadow:
     0 3px 8px -1px var(--drop-shadow-color),
     0 10px 36px -4px var(--button-bg-blur-color);
