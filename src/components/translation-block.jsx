@@ -60,7 +60,9 @@ function _translangTranslate(text, source, target) {
     } else {
       // GET
       fetchPromise = fetch(
-        `https://${instance}/api/v1/translate?sl=${encodeURIComponent(source)}&tl=${encodeURIComponent(target)}&text=${encodeURIComponent(text)}`,
+        `https://${instance}/api/v1/translate?sl=${encodeURIComponent(
+          source,
+        )}&tl=${encodeURIComponent(target)}&text=${encodeURIComponent(text)}`,
         {
           priority: 'low',
           referrerPolicy: 'no-referrer',
@@ -101,6 +103,8 @@ const throttledTranslangTranslate = pmem(throttle(translangTranslate), {
   maxAge: TRANSLATED_MAX_AGE,
 });
 
+const throttledBrowserTranslate = throttle(browserTranslate);
+
 function TranslationBlock({
   forceTranslate,
   sourceLanguage,
@@ -126,7 +130,7 @@ function TranslationBlock({
   if (!onTranslate) {
     onTranslate = async (...args) => {
       if (supportsBrowserTranslator) {
-        const result = await browserTranslate(...args);
+        const result = await throttledBrowserTranslate(...args);
         if (result && !result.error) {
           return result;
         }
