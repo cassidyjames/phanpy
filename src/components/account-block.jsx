@@ -11,6 +11,7 @@ import states from '../utils/states';
 import Avatar from './avatar';
 import EmojiText from './emoji-text';
 import Icon from './icon';
+import RolesTags from './roles-tags';
 
 function AccountBlock({
   skeleton,
@@ -66,6 +67,7 @@ function AccountBlock({
     followersCount,
     createdAt,
     locked,
+    roles,
   } = account;
   let [_, acct1, acct2] = acct.match(/([^@]+)(@.+)/i) || [, acct];
   if (accountInstance) {
@@ -138,6 +140,7 @@ function AccountBlock({
             </>
           )}
         </span>
+        <RolesTags roles={roles} accountUrl={url} />
         {showActivity && (
           <div class="account-block-stats">
             <Trans>Posts: {shortenNumber(statusesCount)}</Trans>

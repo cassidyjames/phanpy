@@ -126,6 +126,7 @@ Prerequisites: Node.js 20+
 - `npm run fetch-instances` - Fetch instances list from [joinmastodon.org/servers](https://joinmastodon.org/servers), save it to `src/data/instances.json`
 - `npm run sourcemap` - Run `source-map-explorer` on the production build
 - `npm run messages:extract` - Extract messages from source files and update the locale message catalogs
+- `npm run git:po-filter` - Configure `git` to use `po-filter` for diffing `.po` files
 
 ## Tech stack
 
@@ -282,6 +283,8 @@ Available variables:
   - API key for [GIPHY](https://developers.giphy.com/). See [API docs](https://developers.giphy.com/docs/api/).
   - If provided, a setting will appear for users to enable the GIF picker in the composer. Disabled by default.
   - This is not self-hosted.
+- `PHANPY_DISALLOW_ROBOTS` (optional, default: not set):
+  - Set to any value (`true`, `1`, etc) to override the robots.txt file and disallow all web crawlers from indexing the site
 
 ### Static site hosting
 
@@ -359,6 +362,7 @@ Costs involved in running and developing this web app:
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/15592209/medium/28f10212dce24e74c25e27ea6d0e9126.png" alt="" width="16" height="16" /> filipesmedeiros (Portuguese)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14277386/medium/29b30d2c73a214000e3941c9978f49e4_default.png" alt="" width="16" height="16" /> Fitik (Esperanto, Hebrew)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14444512/medium/99d0e7a3076deccbdfe0aa0b0612308c.jpeg" alt="" width="16" height="16" /> Freeesia (Japanese)
+- <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/15777621/medium/9e3409aac9c20973984440aa1542b260_default.png" alt="" width="16" height="16" /> gflorian (German)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/12617257/medium/7a0122f352a94d95be10780bb83f63ef.jpg" alt="" width="16" height="16" /> ghose (Galician)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/15248754/medium/0dac6334ea0f4e8d4194a605c0a5594a.jpeg" alt="" width="16" height="16" /> hongminhee (Korean)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16529833/medium/2122d0c5d61c00786ab6d5e5672d4098.png" alt="" width="16" height="16" /> Hugoglyph (Esperanto, Spanish)
@@ -370,6 +374,7 @@ Costs involved in running and developing this web app:
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16529521/medium/ae6add93a901b0fefa2d9b1077920d73.png" alt="" width="16" height="16" /> llun (Thai)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16291756/medium/a662122faa4f9a71b259b0e561f923b4.png" alt="" width="16" height="16" /> lucsdev24 (Occitan, Portuguese, Portuguese, Brazilian)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16640089/medium/4b7d8d275d7a7bff564adde51e09b473_default.png" alt="" width="16" height="16" /> LukeHong (Chinese Traditional)
+- <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17345822/medium/3013b04d3a49336637e51dba33ab1a3d.jpeg" alt="" width="16" height="16" /> mahefa.randimbisoa (French)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/12822971/medium/4ecbe6d1248536084902925beb0b63e4.png" alt="" width="16" height="16" /> Mannivu (Italian)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/13990351/medium/86942d51f67a5f5366c5d6385ea59b77_default.png" alt="" width="16" height="16" /> manuelviens (French)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16537713/medium/825f0bf1a14fc545a76891a52839d86e_default.png" alt="" width="16" height="16" /> marcin.kozinski (Polish)
@@ -392,8 +397,10 @@ Costs involved in running and developing this web app:
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16538605/medium/bcdb6e3286b7d6237923f3a9383eed29.png" alt="" width="16" height="16" /> SadmL (Russian)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16539171/medium/0ce95ef6b3b0566136191fbedc1563d0.png" alt="" width="16" height="16" /> SadmL_AI (Russian)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16121928/medium/b1dd34dc3e93b64b93b94aedca0c5b7d.jpg" alt="" width="16" height="16" /> Schishka71 (Russian)
+- <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17206524/medium/1b0a8f9eafe7326be6968c6aed14c872.png" alt="" width="16" height="16" /> seizeheures (Esperanto)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/12381015/medium/35e3557fd61d85f9a5b84545d9e3feb4.png" alt="" width="16" height="16" /> shuuji3 (Japanese)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14565190/medium/79100599131b7776e9803e4b696915a3_default.png" alt="" width="16" height="16" /> Sky_NiniKo (French)
+- <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17237304/medium/7954dfd36547e9d1f13266a52e9aa1b5_default.png" alt="" width="16" height="16" /> StasZin4 (Ukrainian)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/13143526/medium/30871da23d51d7e41bb02f3c92d7f104.png" alt="" width="16" height="16" /> Steffo99 (Italian)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16532441/medium/1a47e8d80c95636e02d2260f6e233ca5.png" alt="" width="16" height="16" /> Su5hicz (Czech)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/12579488/medium/699394d1acfe986a31532007534c7656.jpg" alt="" width="16" height="16" /> svetlemodry (Czech)

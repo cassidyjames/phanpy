@@ -18,10 +18,14 @@ import Link from '../components/link';
 import Menu2 from '../components/menu2';
 import Timeline from '../components/timeline';
 import { api } from '../utils/api';
+import mem from '../utils/mem';
 import pmem from '../utils/pmem';
 import showToast from '../utils/show-toast';
 import states, { saveStatus } from '../utils/states';
-import { isMediaFirstInstance } from '../utils/store-utils';
+import {
+  getCurrentAccountID,
+  isMediaFirstInstance,
+} from '../utils/store-utils';
 import supports from '../utils/supports';
 import useTitle from '../utils/useTitle';
 
@@ -29,7 +33,7 @@ const LIMIT = 20;
 const MIN_YEAR = 1983;
 const MIN_YEAR_MONTH = `${MIN_YEAR}-01`; // Birth of the Internet
 
-const supportsInputMonth = (() => {
+const supportsInputMonth = mem(() => {
   try {
     const input = document.createElement('input');
     input.setAttribute('type', 'month');
@@ -37,7 +41,7 @@ const supportsInputMonth = (() => {
   } catch (e) {
     return false;
   }
-})();
+});
 
 async function _isSearchEnabled(instance) {
   const { masto } = api({ instance });
@@ -292,6 +296,11 @@ function AccountStatuses() {
 
   const { displayName, acct, emojis } = account || {};
 
+  const isSelf = useMemo(
+    () => account?.id === getCurrentAccountID(),
+    [account?.id],
+  );
+
   const filterBarRef = useRef();
   const TimelineStart = useMemo(() => {
     const filtered =
@@ -392,7 +401,7 @@ function AccountStatuses() {
               </Link>
             ))}
             {searchEnabled &&
-              (supportsInputMonth ? (
+              (supportsInputMonth() ? (
                 <label class={`filter-field ${month ? 'is-active' : ''}`}>
                   <Icon icon="month" size="l" />
                   <input
@@ -593,7 +602,7 @@ function AccountStatuses() {
           </Menu2>
         }
       />
-      {acct && (
+      {acct && !isSelf && (
         <data
           class="compose-data"
           value={JSON.stringify({

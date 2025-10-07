@@ -38,11 +38,11 @@ import getDomain from '../utils/get-domain';
 import htmlContentLength from '../utils/html-content-length';
 import mem from '../utils/mem';
 import niceDateTime from '../utils/nice-date-time';
+import { supportsNativeQuote } from '../utils/quote-utils';
 import shortenNumber from '../utils/shorten-number';
 import showToast from '../utils/show-toast';
 import states, { statusKey } from '../utils/states';
 import statusPeek from '../utils/status-peek';
-import store from '../utils/store';
 import { getCurrentAccountID, getCurrentAccountNS } from '../utils/store-utils';
 import supports from '../utils/supports';
 import { assignFollowedTags } from '../utils/timeline-utils';
@@ -70,6 +70,7 @@ const FILTER_KEYS = {
   original: msg`Original`,
   replies: msg`Replies`,
   boosts: msg`Boosts`,
+  quotes: msg`Quotes`,
   followedTags: msg`Followed tags`,
   groups: msg`Groups`,
   filtered: msg`Filtered`,
@@ -79,6 +80,10 @@ const FILTER_SORTS = [
   'repliesCount',
   'favouritesCount',
   'reblogsCount',
+  // TODO: Add this later when there's enough usage
+  // Sorting by quotes count seems not useful… yet?
+  // And we're combining it with boosts count, so that's even weirder…
+  // 'quotesCount',
   'density',
 ];
 const FILTER_GROUPS = [null, 'account'];
@@ -93,6 +98,10 @@ const DTF = mem(
       minute: 'numeric',
     }),
 );
+
+function hasQuote(quote) {
+  return quote?.id || quote?.quotedStatus?.id;
+}
 
 function Catchup() {
   const { i18n, _, t } = useLingui();
@@ -113,8 +122,7 @@ function Catchup() {
   const supportsPixelfed = supports('@pixelfed/home-include-reblogs');
 
   async function fetchHome({ maxCreatedAt }) {
-    const maxCreatedAtDate = maxCreatedAt ? new Date(maxCreatedAt) : null;
-    console.debug('fetchHome', maxCreatedAtDate);
+    console.debug('fetchHome', maxCreatedAt);
     const allResults = [];
     const homeIterable = masto.v1.timelines.home.list({ limit: 40 });
     const homeIterator = homeIterable.values();
@@ -135,8 +143,8 @@ function Catchup() {
           let addedResults = false;
           for (let i = 0; i < value.length; i++) {
             const item = value[i];
-            const createdAtDate = new Date(item.createdAt);
-            if (!maxCreatedAtDate || createdAtDate >= maxCreatedAtDate) {
+            const createdAtTime = Date.parse(item.createdAt);
+            if (!maxCreatedAt || createdAtTime >= maxCreatedAt) {
               // Filtered
               const selfPost = isSelf(
                 item.reblog?.account?.id || item.account.id,
@@ -304,6 +312,7 @@ function Catchup() {
     let filtered = 0,
       groups = 0,
       boosts = 0,
+      quotes = 0,
       replies = 0,
       followedTags = 0,
       original = 0;
@@ -318,6 +327,9 @@ function Catchup() {
       } else if (post.reblog) {
         boosts++;
         post.__FILTER = 'boosts';
+      } else if (supportsNativeQuote() && hasQuote(post.quote)) {
+        quotes++;
+        post.__FILTER = 'quotes';
       } else if (post._followedTags?.length) {
         followedTags++;
         post.__FILTER = 'followedTags';
@@ -379,6 +391,8 @@ function Catchup() {
       if (a.boosts < b.boosts) return 1;
       if (a.likes > b.likes) return -1;
       if (a.likes < b.likes) return 1;
+      if (a.quotes > b.quotes) return -1;
+      if (a.quotes < b.quotes) return 1;
       return 0;
     });
 
@@ -398,6 +412,7 @@ function Catchup() {
         filtered,
         groups,
         boosts,
+        quotes,
         replies,
         followedTags,
         original,
@@ -599,6 +614,7 @@ function Catchup() {
         original: 'original posts',
         replies: 'replies',
         boosts: 'boosts',
+        quotes: 'quotes',
         followedTags: 'followed tags',
         groups: 'groups',
         filtered: 'filtered posts',
@@ -1434,11 +1450,10 @@ function Catchup() {
                           checked={sortBy === key}
                           onChange={() => {
                             setSortBy(key);
-                            const order = /(replies|favourites|reblogs)/.test(
-                              key,
-                            )
-                              ? 'desc'
-                              : 'asc';
+                            const order =
+                              /(replies|favourites|reblogs|quotes)/.test(key)
+                                ? 'desc'
+                                : 'asc';
                             setSortOrder(order);
                           }}
                         />
@@ -1448,6 +1463,7 @@ function Catchup() {
                             repliesCount: t`Replies`,
                             favouritesCount: t`Likes`,
                             reblogsCount: t`Boosts`,
+                            quotesCount: t`Quotes`,
                             density: t`Density`,
                           }[key]
                         }
@@ -1709,6 +1725,7 @@ const PostLine = memo(
       account,
       group,
       reblog,
+      quote,
       inReplyToId,
       inReplyToAccountId,
       _followedTags: isFollowedTags,
@@ -1734,9 +1751,11 @@ const PostLine = memo(
             ? 'group'
             : reblog
               ? 'reblog'
-              : isFollowedTags?.length
-                ? 'followed-tags'
-                : ''
+              : supportsNativeQuote() && hasQuote(quote)
+                ? 'quote'
+                : isFollowedTags?.length
+                  ? 'followed-tags'
+                  : ''
         } ${isReplyTo ? 'reply-to' : ''} ${
           isFiltered ? 'filtered' : ''
         } visibility-${visibility}`}
@@ -1760,6 +1779,18 @@ const PostLine = memo(
               squircle={reblog.account.bot}
             /> */}
               <NameText account={reblog.account} showAvatar />
+            </span>
+          ) : hasQuote(quote) ? (
+            <span class="post-quote-avatar">
+              <Avatar
+                url={account.avatarStatic || account.avatar}
+                squircle={account.bot}
+              />{' '}
+              <Icon icon="quote" />{' '}
+              <NameText
+                account={quote.quotedStatus?.account || quote.account}
+                showAvatar
+              />
             </span>
           ) : (
             <NameText account={account} showAvatar />
@@ -1838,7 +1869,7 @@ const MEDIA_SIZE = 48;
 
 function PostPeek({ post, filterInfo }) {
   const { t } = useLingui();
-  const {
+  let {
     spoilerText,
     sensitive,
     content,
@@ -1850,9 +1881,19 @@ function PostPeek({ post, filterInfo }) {
     inReplyToAccountId,
     account,
     _thread,
+    quote,
   } = post;
   const isThread =
     (inReplyToId && inReplyToAccountId === account.id) || !!_thread;
+  let theQuote =
+    supportsNativeQuote() && hasQuote(quote)
+      ? quote.quotedStatus || quote
+      : null;
+  if (theQuote?.spoilerText || theQuote?.sensitive) theQuote = null;
+  if (theQuote?.emojis) emojis.push(...theQuote.emojis);
+  if (!mediaAttachments?.length && theQuote?.mediaAttachments?.length) {
+    mediaAttachments = theQuote.mediaAttachments;
+  }
 
   const prefs = getPreferences();
   const readingExpandSpoilers = !!prefs['reading:expand:spoilers'];
@@ -1901,7 +1942,11 @@ function PostPeek({ post, filterInfo }) {
                 {!!content && (
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: emojifyText(content, emojis),
+                      __html:
+                        emojifyText(content, emojis) +
+                        (!!theQuote?.content
+                          ? `<blockquote class="post-peek-quote">${theQuote.content}</blockquote>`
+                          : ''),
                     }}
                   />
                 )}
@@ -2053,7 +2098,7 @@ function PostPeek({ post, filterInfo }) {
 
 function PostStats({ post }) {
   const { t } = useLingui();
-  const { reblogsCount, repliesCount, favouritesCount } = post;
+  const { reblogsCount, repliesCount, favouritesCount, quotesCount } = post;
   return (
     <span class="post-stats">
       {repliesCount > 0 && (
@@ -2068,12 +2113,16 @@ function PostStats({ post }) {
           {shortenNumber(favouritesCount)}
         </span>
       )}
-      {reblogsCount > 0 && (
+      {reblogsCount > 0 || quotesCount > 0 ? (
         <span class="post-stat-boosts">
           <Icon icon="rocket" size="s" alt={t`Boosts`} />{' '}
-          {shortenNumber(reblogsCount)}
+          {reblogsCount > 0 || quotesCount > 0
+            ? `${reblogsCount > 0 ? shortenNumber(reblogsCount) : ''}${
+                reblogsCount > 0 && quotesCount > 0 ? '+' : ''
+              }${quotesCount > 0 ? shortenNumber(quotesCount) : ''}`
+            : shortenNumber(reblogsCount)}
         </span>
-      )}
+      ) : null}
     </span>
   );
 }
@@ -2098,12 +2147,12 @@ function binByTime(data, key, numBins) {
   // Create empty bins and loop through data
   const bins = Array.from({ length: numBins }, () => []);
   data.forEach((item) => {
-    const date = new Date(item[key]);
-    if (date.getTime() > Date.now()) {
+    const dateTime = Date.parse(item[key]);
+    if (dateTime > Date.now()) {
       // Future dates go into the last bin
       bins[bins.length - 1].push(item);
     } else {
-      const normalized = (date.getTime() - minDate.getTime()) / range;
+      const normalized = (dateTime - minDate.getTime()) / range;
       const binIndex = Math.floor(normalized * (numBins - 1));
       bins[binIndex].push(item);
     }

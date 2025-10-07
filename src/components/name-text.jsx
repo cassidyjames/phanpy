@@ -4,11 +4,13 @@ import { useLingui } from '@lingui/react';
 import { memo } from 'preact/compat';
 
 import { api } from '../utils/api';
+import getDomain from '../utils/get-domain';
 import mem from '../utils/mem';
 import states from '../utils/states';
 
 import Avatar from './avatar';
 import EmojiText from './emoji-text';
+import RolesTags from './roles-tags';
 
 const nameCollator = mem((locale) => {
   const options = {
@@ -47,10 +49,13 @@ function NameText({
     emojis,
     bot,
     username,
+    roles,
   } = account;
   const [_, acct1, acct2] = acct.match(ACCT_REGEX) || [, acct];
 
   if (!instance) instance = api().instance;
+
+  const accountInstance = getDomain(url);
 
   const trimmedUsername = username.toLowerCase().trim();
   const trimmedDisplayName = (displayName || '').toLowerCase().trim();
@@ -108,12 +113,18 @@ function NameText({
       {displayName && !short ? (
         <>
           <b dir="auto">
-            <EmojiText text={displayName} emojis={emojis} />
+            <EmojiText text={displayName} emojis={emojis} staticEmoji />
           </b>
           {!showAcct && !hideUsername && (
             <>
               {' '}
               <i class="bidi-isolate">@{username}</i>
+              <RolesTags
+                roles={roles}
+                accountId={id}
+                accountUrl={url}
+                hideSelf
+              />
             </>
           )}
         </>
@@ -130,6 +141,7 @@ function NameText({
             {acct1}
             {!!acct2 && <span class="ib">{acct2}</span>}
           </i>
+          <RolesTags roles={roles} accountUrl={url} />
         </>
       )}
     </a>
