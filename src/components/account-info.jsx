@@ -1,6 +1,6 @@
 import './account-info.css';
 
-import { plural } from '@lingui/core/macro';
+import { msg, plural } from '@lingui/core/macro';
 import { Plural, Trans, useLingui } from '@lingui/react/macro';
 import { MenuDivider, MenuItem } from '@szhsin/react-menu';
 import {
@@ -20,7 +20,7 @@ import pmem from '../utils/pmem';
 import { supportsNativeQuote } from '../utils/quote-utils';
 import shortenNumber from '../utils/shorten-number';
 import showToast from '../utils/show-toast';
-import states from '../utils/states';
+import states, { hideAllModals } from '../utils/states';
 import {
   getAccounts,
   getCurrentAccountID,
@@ -109,6 +109,27 @@ async function fetchPostingStats(accountID, masto) {
 const memFetchPostingStats = pmem(fetchPostingStats, {
   maxAge: ACCOUNT_INFO_MAX_AGE,
 });
+
+const isValidUrl = (string) => {
+  try {
+    new URL(string);
+    return true;
+  } catch (_) {
+    return false;
+  }
+};
+export const handleScannerClick = () => {
+  states.showQrScannerModal = {
+    checkValidity: isValidUrl,
+    actionableText: msg`View profile`,
+    onClose: ({ text } = {}) => {
+      if (text) {
+        hideAllModals();
+        location.hash = `/${text}`;
+      }
+    },
+  };
+};
 
 function AccountInfo({
   account,
@@ -596,6 +617,24 @@ function AccountInfo({
                         <Trans>Copy handle</Trans>
                       </span>
                     </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        states.showQrCodeModal = {
+                          text: url,
+                          arena: avatarStatic,
+                          backgroundMask: headerStatic,
+                          caption: acct.includes('@')
+                            ? acct
+                            : `${acct}@${instance}`,
+                          onScannerClick: handleScannerClick,
+                        };
+                      }}
+                    >
+                      <Icon icon="qrcode" />
+                      <span>
+                        <Trans>QR code</Trans>
+                      </span>
+                    </MenuItem>
                     <MenuItem href={url} target="_blank">
                       <Icon icon="external" />
                       <span>
@@ -881,6 +920,14 @@ function AccountInfo({
                     // onClick={() => {
                     //   states.showAccount = false;
                     // }}
+                    onClick={
+                      import.meta.env.DEV && standalone
+                        ? () => {
+                            // Debug: undo back
+                            setPostingStats(null);
+                          }
+                        : undefined
+                    }
                   >
                     <div class="shazam-container">
                       <div class="shazam-container-inner">
@@ -944,47 +991,73 @@ function AccountInfo({
                                     other: `Last ${postingStats.total} posts in the past year(s)`,
                                   })}
                             </div>
-                            <div
-                              class="posting-stats-bar"
-                              style={{
-                                // [originals | replies | boosts]
-                                '--originals-percentage': `${
-                                  (postingStats.originals /
-                                    postingStats.total) *
-                                  100
-                                }%`,
-                                '--replies-percentage': `${
-                                  ((postingStats.originals +
-                                    postingStats.replies) /
-                                    postingStats.total) *
-                                  100
-                                }%`,
-                                '--quotes-percentage': `${
-                                  ((postingStats.originals +
-                                    postingStats.replies +
-                                    postingStats.quotes) /
-                                    postingStats.total) *
-                                  100
-                                }%`,
-                              }}
-                            />
+                            <div class="posting-stats-bar">
+                              {postingStats.originals > 0 && (
+                                <div
+                                  class="posting-stats-bar-section posting-stats-bar-originals"
+                                  style={{
+                                    '--percentage': `${
+                                      (postingStats.originals /
+                                        postingStats.total) *
+                                      100
+                                    }%`,
+                                  }}
+                                />
+                              )}
+                              {postingStats.replies > 0 && (
+                                <div
+                                  class="posting-stats-bar-section posting-stats-bar-replies"
+                                  style={{
+                                    '--percentage': `${
+                                      (postingStats.replies /
+                                        postingStats.total) *
+                                      100
+                                    }%`,
+                                  }}
+                                />
+                              )}
+                              {postingStats.quotes > 0 && (
+                                <div
+                                  class="posting-stats-bar-section posting-stats-bar-quotes"
+                                  style={{
+                                    '--percentage': `${
+                                      (postingStats.quotes /
+                                        postingStats.total) *
+                                      100
+                                    }%`,
+                                  }}
+                                />
+                              )}
+                              {postingStats.boosts > 0 && (
+                                <div
+                                  class="posting-stats-bar-section posting-stats-bar-boosts"
+                                  style={{
+                                    '--percentage': `${
+                                      (postingStats.boosts /
+                                        postingStats.total) *
+                                      100
+                                    }%`,
+                                  }}
+                                />
+                              )}
+                            </div>
                             <div class="posting-stats-legends">
                               <span class="ib">
-                                <span class="posting-stats-legend-item posting-stats-legend-item-originals" />{' '}
+                                <span class="posting-stats-legend-item posting-stats-bar-originals" />{' '}
                                 <Trans>Original</Trans>
                               </span>{' '}
                               <span class="ib">
-                                <span class="posting-stats-legend-item posting-stats-legend-item-replies" />{' '}
+                                <span class="posting-stats-legend-item posting-stats-bar-replies" />{' '}
                                 <Trans>Replies</Trans>
                               </span>{' '}
                               {supportsNativeQuote() && (
                                 <span class="ib">
-                                  <span class="posting-stats-legend-item posting-stats-legend-item-quotes" />{' '}
+                                  <span class="posting-stats-legend-item posting-stats-bar-quotes" />{' '}
                                   <Trans>Quotes</Trans>
                                 </span>
                               )}
                               <span class="ib">
-                                <span class="posting-stats-legend-item posting-stats-legend-item-boosts" />{' '}
+                                <span class="posting-stats-legend-item posting-stats-bar-boosts" />{' '}
                                 <Trans>Boosts</Trans>
                               </span>
                             </div>
@@ -1014,21 +1087,9 @@ function AccountInfo({
                           }}
                         >
                           <div
-                            class={`posting-stats-bar posting-stats-icon ${
+                            class={`posting-stats-icon ${
                               postingStatsUIState === 'loading' ? 'loading' : ''
                             }`}
-                            style={
-                              supportsNativeQuote()
-                                ? {
-                                    '--originals-percentage': '25%',
-                                    '--replies-percentage': '50%',
-                                    '--quotes-percentage': '75%',
-                                  }
-                                : {
-                                    '--originals-percentage': '33%',
-                                    '--replies-percentage': '66%',
-                                  }
-                            }
                           />
                           <Trans>View post stats</Trans>{' '}
                           {/* <Loader

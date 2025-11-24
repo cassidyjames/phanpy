@@ -30,6 +30,9 @@ const platformFeatures = {
 
 const supportsCache = {};
 
+const semverExtract = /^\d+\.\d+(\.\d+)?/;
+const atSoftwareSlashMatch = /^@([a-z]+)\//i;
+
 function supports(feature) {
   try {
     let { version, domain } = getCurrentInstance();
@@ -47,19 +50,38 @@ function supports(feature) {
       return (supportsCache[key] = platformFeatures[feature].test(version));
     }
 
+    const featureMatch = feature.match(atSoftwareSlashMatch);
+    if (!featureMatch) {
+      // Only software match, e.g. supports('@mastodon')
+      const software = feature.replace(/^@/, '');
+      return (supportsCache[key] = softwareName === software);
+    }
+
     const range = features[feature];
     if (!range) return false;
 
     // '@mastodon/blah' => 'mastodon'
-    const featureSoftware = feature.match(/^@([a-z]+)\//)[1];
+    const featureSoftware = featureMatch[1];
 
     const doesSoftwareMatch = featureSoftware === softwareName.toLowerCase();
-    return (supportsCache[key] =
-      doesSoftwareMatch &&
-      satisfies(version, range, {
-        includePrerelease: true,
-        loose: true,
-      }));
+    let satisfiesRange = satisfies(version, range, {
+      includePrerelease: true,
+      loose: true,
+    });
+    if (!satisfiesRange) {
+      try {
+        // E.g. "4.2.1 (compatible; Iceshrimp 2023.12.14-dev-046d237af)" is invalid semver 😅
+        // This regex extracts numbers with dots out and tries again
+        // Hopefully this doesn't break anything
+        satisfiesRange = satisfies(version.match(semverExtract)?.[0], range, {
+          includePrerelease: true,
+          loose: false,
+        });
+      } catch (e) {
+        // Ignore
+      }
+    }
+    return (supportsCache[key] = doesSoftwareMatch && satisfiesRange);
   } catch (e) {
     return false;
   }

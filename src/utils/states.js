@@ -34,6 +34,7 @@ const states = proxy({
   reloadScheduledPosts: 0,
   spoilers: {},
   spoilersMedia: {},
+  revealedQuotes: {},
   scrollPositions: {},
   unfurledLinks: {},
   statusQuotes: {},
@@ -55,6 +56,9 @@ const states = proxy({
   showMediaAlt: false,
   showEmbedModal: false,
   showReportModal: false,
+  showQrCodeModal: false,
+  showQrScannerModal: false,
+  showImportExportAccounts: false,
   // Shortcuts
   shortcuts: [],
   // Settings
@@ -71,7 +75,6 @@ const states = proxy({
     mediaAltGenerator: false,
     composerGIFPicker: false,
     cloakMode: false,
-    groupedNotificationsAlpha: false,
   },
 });
 
@@ -106,8 +109,6 @@ export function initStates() {
   states.settings.composerGIFPicker =
     store.account.get('settings-composerGIFPicker') ?? false;
   states.settings.cloakMode = store.account.get('settings-cloakMode') ?? false;
-  states.settings.groupedNotificationsAlpha =
-    store.account.get('settings-groupedNotificationsAlpha') ?? false;
 }
 
 subscribeKey(states, 'notificationsLast', (v) => {
@@ -157,9 +158,6 @@ subscribe(states, (changes) => {
     if (path.join('.') === 'settings.cloakMode') {
       store.account.set('settings-cloakMode', !!value);
     }
-    if (path.join('.') === 'settings.groupedNotificationsAlpha') {
-      store.account.set('settings-groupedNotificationsAlpha', !!value);
-    }
   }
 });
 
@@ -175,6 +173,10 @@ export function hideAllModals() {
   states.showGenericAccounts = false;
   states.showMediaAlt = false;
   states.showEmbedModal = false;
+  states.showReportModal = false;
+  states.showQrCodeModal = false;
+  states.showQrScannerModal = false;
+  states.showImportExportAccounts = false;
 }
 
 export function statusKey(id, instance) {

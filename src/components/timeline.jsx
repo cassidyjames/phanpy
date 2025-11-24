@@ -285,20 +285,8 @@ function Timeline({
   const headerRef = useRef();
   // const [hiddenUI, setHiddenUI] = useState(false);
   const [nearReachStart, setNearReachStart] = useState(false);
-  const { resetScrollDirection } = useScrollFn(
-    {
-      scrollableRef,
-      distanceFromEnd: 2,
-      scrollThresholdStart: 44,
-    },
-    ({
-      scrollDirection,
-      nearReachStart,
-      // nearReachEnd,
-      reachStart,
-      // reachEnd,
-    }) => {
-      // setHiddenUI(scrollDirection === 'end' && !nearReachEnd);
+  const scrollFnCallback = useCallback(
+    ({ scrollDirection, nearReachStart, reachStart }) => {
       if (headerRef.current) {
         const hiddenUI = scrollDirection === 'end' && !nearReachStart;
         headerRef.current.hidden = hiddenUI;
@@ -307,11 +295,16 @@ function Timeline({
       if (reachStart) {
         loadItems(true);
       }
-      // else if (nearReachEnd || (reachEnd && showMore)) {
-      //   loadItems();
-      // }
     },
-    [],
+    [setNearReachStart, loadItems],
+  );
+  const { resetScrollDirection } = useScrollFn(
+    {
+      scrollableRef,
+      distanceFromEnd: 2,
+      scrollThresholdStart: 44,
+    },
+    scrollFnCallback,
   );
 
   useEffect(() => {
@@ -877,27 +870,8 @@ const TimelineItem = memo(
 function StatusCarousel({ title, class: className, children }) {
   const { t } = useLingui();
   const carouselRef = useRef();
-  // const { reachStart, reachEnd, init } = useScroll({
-  //   scrollableRef: carouselRef,
-  //   direction: 'horizontal',
-  // });
   const startButtonRef = useRef();
   const endButtonRef = useRef();
-  // useScrollFn(
-  //   {
-  //     scrollableRef: carouselRef,
-  //     direction: 'horizontal',
-  //     init: true,
-  //   },
-  //   ({ reachStart, reachEnd }) => {
-  //     if (startButtonRef.current) startButtonRef.current.disabled = reachStart;
-  //     if (endButtonRef.current) endButtonRef.current.disabled = reachEnd;
-  //   },
-  //   [],
-  // );
-  // useEffect(() => {
-  //   init?.();
-  // }, []);
 
   const [render, setRender] = useState(false);
   useEffect(() => {
