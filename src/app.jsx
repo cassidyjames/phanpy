@@ -78,6 +78,9 @@ const Sandbox =
     ? lazy(() => import('./pages/sandbox'))
     : () => null;
 
+// Lazy load YearInPosts component
+const YearInPosts = lazy(() => import('./pages/year-in-posts'));
+
 // QR Scan Test component for development
 function QrScanTest() {
   useEffect(() => {
@@ -387,6 +390,7 @@ if (import.meta.env.DEV) {
 const isPWA =
   window.matchMedia('(display-mode: standalone)').matches ||
   window.navigator.standalone === true;
+const PATH_RESTORE_TIME_LIMIT = 1 * 60 * 60 * 1000; // 1 hour, should be good enough
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -546,13 +550,13 @@ function App() {
       if (isRootPath(location.pathname)) {
         store.local.del(lastPathKey);
       } else {
-        store.local.set(lastPathKey, {
-          path: location.pathname,
+        store.local.setJSON(lastPathKey, {
+          path: location.pathname + location.search,
           lastAccessed: Date.now(),
         });
       }
     }
-  }, [location.pathname, isLoggedIn]);
+  }, [location.pathname, location.search, isLoggedIn]);
 
   // Restore last page on PWA reopen
   useEffect(() => {
@@ -560,11 +564,15 @@ function App() {
     const isRootPath = !location.pathname || location.pathname === '/';
     if (!isRootPath) return;
     if (isPWA && isLoggedIn && uiState === 'default') {
-      const lastPath = store.local.get(lastPathKey);
+      const lastPath = store.local.getJSON(lastPathKey);
       if (lastPath) {
         setTimeout(() => {
           if (lastPath?.path) {
-            window.location.hash = lastPath.path;
+            const timeSinceLastAccess =
+              Date.now() - (lastPath.lastAccessed || 0);
+            if (timeSinceLastAccess < PATH_RESTORE_TIME_LIMIT) {
+              window.location.hash = lastPath.path;
+            }
           }
           store.local.del(lastPathKey);
         }, 300);
@@ -683,6 +691,25 @@ function SecondaryRoutes({ isLoggedIn }) {
           <Route path="/sp" element={<ScheduledPosts />} />
           <Route path="/ft" element={<Filters />} />
           <Route path="/catchup" element={<Catchup />} />
+          <Route
+            path="/yip"
+            element={
+              <Suspense
+                fallback={
+                  <div
+                    id="year-in-posts-page"
+                    class="deck-container"
+                    tabIndex="-1"
+                  >
+                    {/* Prevent flash of no background as this is lazy-loaded */}
+                    <Loader />
+                  </div>
+                }
+              >
+                <YearInPosts />
+              </Suspense>
+            }
+          />
           <Route path="/annual_report/:year" element={<AnnualReport />} />
         </>
       )}
