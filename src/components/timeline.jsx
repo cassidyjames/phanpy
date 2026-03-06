@@ -20,7 +20,11 @@ import showToast from '../utils/show-toast';
 import states, { statusKey } from '../utils/states';
 import statusPeek from '../utils/status-peek';
 import { isMediaFirstInstance } from '../utils/store-utils';
-import { groupBoosts, groupContext } from '../utils/timeline-utils';
+import {
+  filterHiddenStatuses,
+  groupBoosts,
+  groupContext,
+} from '../utils/timeline-utils';
 import useInterval from '../utils/useInterval';
 import usePageVisibility from '../utils/usePageVisibility';
 import useScroll from '../utils/useScroll';
@@ -102,6 +106,7 @@ function Timeline({
               [[], []],
             );
             value = otherPosts;
+            value = filterHiddenStatuses(value, filterContext);
             if (allowGrouping) {
               if (boostsCarousel) {
                 value = groupBoosts(value);
@@ -244,11 +249,34 @@ function Timeline({
 
   const oRef = useHotkeys(
     ['enter', 'o'],
-    () => {
+    (e, handler) => {
       // open active status
       const activeItem = document.activeElement;
       if (activeItem?.matches(itemsSelector)) {
-        activeItem.click();
+        // find first media link and click it (not inside status-card)
+        const isO = handler.keys.join('') === 'o';
+        if (isO) {
+          const mediaLink = activeItem.querySelector(
+            'a.media:not(.status-card a.media)',
+          );
+          if (mediaLink) {
+            // if link is ?media-only=1, change to media=1 and go to it
+            const url = mediaLink.getAttribute('href');
+            if (/media\-only=/i.test(url)) {
+              const newURL = url.replace(/media\-only=/i, 'media=');
+              setTimeout(() => {
+                // Need timeout to prevent propagate to the o key handler in pages/status.jsx
+                location.hash = newURL;
+              }, 100);
+            } else {
+              mediaLink.click();
+            }
+          } else {
+            activeItem.click();
+          }
+        } else {
+          activeItem.click();
+        }
       }
     },
     {

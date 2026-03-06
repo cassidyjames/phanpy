@@ -173,6 +173,7 @@ Users can change the language in the settings, which sets the `localStorage` key
   - [`Intl.RelativeTimeFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat) - e.g. "2 days ago", "in 2 days"
   - [`Intl.NumberFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) - e.g. "1,000", "10K"
   - [`Intl.DisplayNames`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DisplayNames) - e.g. "English" (`en`) in Traditional Chinese (`zh-Hant`) is "英文"
+  - [`Intl.ListFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat) - e.g. "A, B, and C"
   - [`Intl.Locale`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) (with polyfill for older browsers)
   - [`Intl.Segmenter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Segmenter) (with polyfill for older browsers)
 
@@ -208,12 +209,16 @@ Two ways (choose one):
 
 ### Easy way
 
+❌ NOT recommended.
+
 Go to [Releases](https://github.com/cheeaun/phanpy/releases) and download the latest `phanpy-dist.zip` or `phanpy-dist.tar.gz`. It's pre-built so don't need to run any install/build commands. Extract it. Serve the folder of extracted files.
 
 > [!IMPORTANT]
 > Text translations connect to an **external service** (`translang.phanpy.social`).
 
 ### Custom-build way
+
+✅ Recommended.
 
 Requires [Node.js](https://nodejs.org/).
 
@@ -332,9 +337,11 @@ These are self-hosted by other wonderful folks.
 - [phanpy.vmst.io](https://phanpy.vmst.io/) by [@vmstan@vmst.io](https://vmst.io/@vmstan)
 - [phanpy.linuxusers.in](https://phanpy.linuxusers.in) by [@dharmik@linuxusers.in](https://linuxusers.in/dharmik)
 - [phanpy.blablalinux.be](https://phanpy.blablalinux.be) by [@blablalinux@mastodon.blablalinux.be](https://mastodon.blablalinux.be/@blablalinux)
-- [fedi.woodpeckersnest.space](https://fedi.woodpeckersnest.space) by [@roughnecks@social.woodpeckersnest.space](https://social.woodpeckersnest.space/@roughnecks)
+- [fedi.woodpeckersnest.space](https://fedi.woodpeckersnest.space) by [@roughnecks@mastodon.social](https://mastodon.social/@roughnecks)
 
 > Note: Add yours by creating a pull request.
+
+There's also a mobile app wrapper by [@fantinel@hachyderm.io](https://hachyderm.io/@fantinel) called **iPhanpy**: https://github.com/matfantinel/iphanpy
 
 ## Costs
 
@@ -373,14 +380,16 @@ Costs involved in running and developing this web app:
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16533843/medium/ac7af8776858a992d992cf6702d1aaae.jpg" alt="" width="16" height="16" /> Dizro (Italian)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16574625/medium/f2ac3a4f32f104a3a6d4085d4bcb3924_default.png" alt="" width="16" height="16" /> Drift6944 (Czech)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/12618120/medium/ccb11bd042bbf4c7189033f7af2dbd32_default.png" alt="" width="16" height="16" /> drydenwu (Chinese Traditional)
+- <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17546228/medium/eadc9392e2a3507d514b70d5b1b34a26.jpeg" alt="" width="16" height="16" /> edazzn (Turkish)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/13557465/medium/8feebf3677fa80c01e8c54c4fbe097e0_default.png" alt="" width="16" height="16" /> elissarc (French)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16528627/medium/9036f6eced0257f4e1ea4c5bd499de2d_default.png" alt="" width="16" height="16" /> ElPamplina (Spanish)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/15592209/medium/28f10212dce24e74c25e27ea6d0e9126.png" alt="" width="16" height="16" /> filipesmedeiros (Portuguese)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14277386/medium/29b30d2c73a214000e3941c9978f49e4_default.png" alt="" width="16" height="16" /> Fitik (Esperanto, Hebrew)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/15791971/medium/1790a2101ceb13f61816b8fe6fbe6d90.jpeg" alt="" width="16" height="16" /> fracl (Italian)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14444512/medium/99d0e7a3076deccbdfe0aa0b0612308c.jpeg" alt="" width="16" height="16" /> Freeesia (Japanese)
+- <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17552004/medium/fe9bd4ca3aa6ffa44ae5e51511fe6170_default.png" alt="" width="16" height="16" /> GabrielSouzaNeves (Portuguese, Brazilian)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/15777621/medium/9e3409aac9c20973984440aa1542b260_default.png" alt="" width="16" height="16" /> gflorian (German)
-- <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/12617257/medium/7a0122f352a94d95be10780bb83f63ef.jpg" alt="" width="16" height="16" /> ghose (Galician)
+- <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/12617257/medium/fd3cbcc369ed87f67537447a053d5974_default.png" alt="" width="16" height="16" /> ghose (Galician)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/15248754/medium/0dac6334ea0f4e8d4194a605c0a5594a.jpeg" alt="" width="16" height="16" /> hongminhee (Korean)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16529833/medium/2122d0c5d61c00786ab6d5e5672d4098.png" alt="" width="16" height="16" /> Hugoglyph (Esperanto, Spanish)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/13454728/medium/1f78b7124b3c962bc4ae55e8d701fc91_default.png" alt="" width="16" height="16" /> isard (Catalan)
@@ -402,6 +411,7 @@ Costs involved in running and developing this web app:
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14158861/medium/ba1ff31dc5743b067ea6685f735229a5_default.png" alt="" width="16" height="16" /> MrWillCom (Chinese Simplified)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/15652333/medium/7f36f289f9e2fe41d89ad534a1047f0e.png" alt="" width="16" height="16" /> nclm (French)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17450186/medium/6f5768f64963379c7ddfdccd53572c60.jpeg" alt="" width="16" height="16" /> NiklasA95 (German)
+- <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17520602/medium/884e58f3a2e7c836f594759b9dee40bf_default.png" alt="" width="16" height="16" /> Nortix08 (German)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/15000639/medium/ebbf0bb7d5027a1903d11b7f5f34f65b.jpeg" alt="" width="16" height="16" /> nycterent (Lithuanian)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16539461/medium/2f41b9f0b802c1d200a6ab62167a7229_default.png" alt="" width="16" height="16" /> pazpi (Italian)
 - <img src="https://crowdin-static.cf-downloads.crowdin.com/avatar/15399796/medium/d7fd8457394d2c795771b72396b75099.png" alt="" width="16" height="16" /> poesty (Chinese Simplified)
@@ -477,6 +487,7 @@ And here I am. Building a Mastodon web client.
   - [Masto-FE (🦥 flavour)](https://masto-fe.superseriousbusiness.org)
 - [pl-fe](https://pl.mkljczk.pl)
 - [Mangane](https://github.com/BDX-town/Mangane)
+- [Fedideck](https://fedideck.app/)
 - [TheDesk](https://github.com/cutls/TheDesk) (archived)
 - [More...](https://github.com/hueyy/awesome-mastodon/#clients)
 

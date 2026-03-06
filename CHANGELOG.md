@@ -294,7 +294,7 @@ For non-Mastodon servers:
 
 📢 https://mastodon.social/@cheeaun/113272683452140213
 
-- 💬 5 new languages: Dutch, Esperanto, Galician, Italian, Japanese
+- 💬 4 new languages: Dutch, Esperanto, Italian, Japanese
 - 🐛 Bug fixes
 
 Recap: Mastodon v4.3 features (https://github.com/mastodon/mastodon/releases/tag/v4.3.0) already supported on Phanpy:
@@ -390,6 +390,33 @@ Recap: Mastodon v4.3 features (https://github.com/mastodon/mastodon/releases/tag
 - 🤳 QR code for profiles and shortcuts settings
 - 🔃 Import/export accounts
 - 📸 Extract description from attached image metadata
+- 🐛 Bug fixes
+
+## January 7, 2026
+
+📢 https://mastodon.social/@cheeaun/115853890477340137
+
+- 🗓️ Experimental "Year In Posts"
+- 🐛 Bug fixes
+
+## January 31, 2026
+
+📢 https://mastodon.social/@cheeaun/115989883020173120
+
+- ⌨️ More sequential hotkeys, g>s (Settings), g>p (Profile), g>b (Bookmarks)
+- 💈 Redesigned poll
+- 🛬 Redesigned landing page
+- 🐛 Bug fixes
+
+## February 24, 2026
+
+📢 https://mastodon.social/@cheeaun/116126267334672277
+
+- 📤 Allow receiving shared data with the Web Share Target API
+- 🔐 Timeline access controls
+- 👤 New shortcut: "Profile"
+- 📝 "Only followings" filter for Mentions
+- ↕️ Preliminary support for vertical-lr writing mode
 - 🐛 Bug fixes
 
 <!--

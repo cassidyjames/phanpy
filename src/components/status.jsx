@@ -78,6 +78,7 @@ import RelativeTime from './relative-time';
 import StatusButton from './status-button';
 import StatusCard from './status-card';
 import StatusCompact from './status-compact';
+import StatusTags from './status-tags';
 import SubMenu2 from './submenu2';
 import ThreadBadge from './thread-badge';
 import TranslationBlock from './translation-block';
@@ -105,15 +106,9 @@ const REACTIONS_LIMIT = 80;
 
 function getPollText(poll) {
   if (!poll?.options?.length) return '';
-  return `📊:\n${poll.options
-    .map(
-      (option) =>
-        `- ${option.title}${
-          option.votesCount >= 0 ? ` (${option.votesCount})` : ''
-        }`,
-    )
-    .join('\n')}`;
+  return `📊:\n${poll.options.map((option) => `- ${option.title}`).join('\n')}`;
 }
+
 function getPostText(status, opts) {
   const {
     maskCustomEmojis,
@@ -130,8 +125,8 @@ function getPostText(status, opts) {
     );
     content = content.replace(emojisRegex, '⬚');
   }
-  return (
-    (spoilerText ? `${spoilerText}\n\n` : '') +
+  const fullText = [
+    spoilerText || '',
     getHTMLText(content, {
       ...htmlTextOpts,
       preProcess:
@@ -154,9 +149,12 @@ function getPostText(status, opts) {
             }
           }
         }),
-    }) +
-    getPollText(poll)
-  );
+    }),
+    getPollText(poll),
+  ]
+    .join('\n\n')
+    .trim();
+  return fullText;
 }
 
 function forgivingQSA(selectors = [], dom = document) {
@@ -500,7 +498,7 @@ function Status({
   if (mediaFirst && hasMediaAttachments) size = 's';
 
   const currentAccount = getCurrentAccID();
-  const isSelf = currentAccount && currentAccount === accountId;
+  const isSelf = currentAccount && currentAccount == accountId;
 
   const filterContext = useContext(FilterContext);
   const filterInfo =
@@ -735,7 +733,7 @@ function Status({
     0,
   );
 
-  const unauthInteractionErrorMessage = t`Sorry, your current logged-in instance can't interact with this post from another instance.`;
+  const unauthInteractionErrorMessage = t`Sorry, your current logged-in server can't interact with this post from another server.`;
 
   const textWeight = useCallback(
     () =>
@@ -2287,16 +2285,15 @@ function Status({
                           other: '# replies',
                         })}
                       />
-                    ) : (
-                      visibility !== 'public' &&
-                      visibility !== 'direct' && (
-                        <Icon
-                          icon={visibilityIconsMap[visibility]}
-                          alt={_(visibilityText[visibility])}
-                          size="s"
-                        />
-                      )
-                    )}{' '}
+                    ) : visibility !== 'public' && visibility !== 'direct' ? (
+                      <Icon
+                        icon={visibilityIconsMap[visibility]}
+                        alt={_(visibilityText[visibility])}
+                        size="s"
+                      />
+                    ) : editedAt && size === 's' ? (
+                      <Icon icon="pencil" size="s" alt={t`Edited`} />
+                    ) : null}{' '}
                     <RelativeTime datetime={createdAtDate} format="micro" />
                     {!previewMode && !readOnly && (
                       <Icon icon="more2" class="more" alt={t`More`} />
@@ -2355,16 +2352,15 @@ function Status({
                           other: '# replies',
                         })}
                       />
-                    ) : (
-                      visibility !== 'public' &&
-                      visibility !== 'direct' && (
-                        <Icon
-                          icon={visibilityIconsMap[visibility]}
-                          alt={_(visibilityText[visibility])}
-                          size="s"
-                        />
-                      )
-                    )}{' '}
+                    ) : visibility !== 'public' && visibility !== 'direct' ? (
+                      <Icon
+                        icon={visibilityIconsMap[visibility]}
+                        alt={_(visibilityText[visibility])}
+                        size="s"
+                      />
+                    ) : editedAt && size === 's' ? (
+                      <Icon icon="pencil" size="s" alt={t`Edited`} />
+                    ) : null}{' '}
                     <RelativeTime datetime={createdAtDate} format="micro" />
                   </span>
                 ))}
@@ -2573,8 +2569,7 @@ function Status({
                         })
                         .then((pollResponse) => {
                           states.statuses[sKey].poll = pollResponse;
-                        })
-                        .catch((e) => {}); // Silently fail
+                        });
                     }}
                   />
                 )}
@@ -2727,6 +2722,7 @@ function Status({
                       instance={currentInstance}
                     />
                   )}
+                {size !== 's' && <StatusTags tags={tags} content={content} />}
               </>
             )}
           </div>
@@ -2753,10 +2749,7 @@ function Status({
                   </span>
                 ) : (
                   <>
-                    {/* <Icon
-                      icon={visibilityIconsMap[visibility]}
-                      alt={visibilityText[visibility]}
-                    /> */}
+                    <Icon icon={visibilityIconsMap[visibility]} alt="" />{' '}
                     <span>{_(visibilityText[visibility])}</span> &bull;{' '}
                     <a href={url} target="_blank" rel="noopener">
                       {

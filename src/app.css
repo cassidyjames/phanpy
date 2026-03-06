@@ -31,6 +31,8 @@ a.mention span {
   text-decoration-color: inherit;
   text-decoration-thickness: 2px;
   text-underline-offset: 2px;
+}
+a.mention:not(.hashtag) {
   font-variant-numeric: slashed-zero;
   font-feature-settings: 'ss01';
 }
@@ -1092,7 +1094,9 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
     outline-offset: -2px;
   }
 }
-.status-link:active:not(:has(:is(.media, button):active)) {
+.status-link:active:not(
+    :has(:is(.media, .poll, .card, .status-card-link, button):active)
+  ) {
   filter: brightness(0.95);
 }
 
@@ -1116,7 +1120,8 @@ a[href^='http'][rel*='nofollow']:visited:not(:has(div)) {
       ellipse 50% 32px at bottom center,
       var(--carousel-faded-color),
       transparent
-    ), linear-gradient(to top, var(--bg-color) 8px, transparent 64px);
+    ),
+    linear-gradient(to top, var(--bg-color) 8px, transparent 64px);
   background-repeat: no-repeat;
   background-position: bottom center;
 }
@@ -1971,7 +1976,6 @@ body:has(.media-modal-container + .status-deck) .media-post-link {
   scroll-timeline: --sheet-scroll;
   overflow: auto;
   overflow-x: hidden;
-  overscroll-behavior: contain;
   padding: 16px 16px;
   padding-left: max(16px, env(safe-area-inset-left));
   padding-right: max(16px, env(safe-area-inset-right));
