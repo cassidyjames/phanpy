@@ -1,2 +1,0 @@
-import{At as e,u as t,ut as n,y as r}from"./loader-BZb-em9R.js";var{PHANPY_CLIENT_NAME:i}={PHANPY_CLIENT_NAME:`Blaede Phanpy`};function a(a,o){function s(){let{currentLocation:e}=t,r=Array.isArray(o),s=r?o:[];!r&&/:?\w+\?/.test(o)&&(s.push(o.replace(/(:\w+)\?/g,`$1`)),s.push(o.replace(/\/?:\w+\?/g,``)));let c=!1;s.length?c=s.some(t=>n(t,e)):o&&(c=n(o,e)),c&&(document.title=a?`${a} / ${i}`:i)}e(()=>{let e=r(t,`currentLocation`,s);return s(),e},[a,o])}export{a as t};
-//# sourceMappingURL=useTitle-h5qlxBbM.js.map

@@ -1,0 +1,2 @@
+import{S as e,_ as t}from"./loader-CBCZAnAx.js";async function n(t){let{masto:n}=e({instance:t});return!!(await n.v2.search.list({q:`from:me`,type:`statuses`,limit:1}))?.statuses?.length}var r=t(n);export{r as t};
+//# sourceMappingURL=is-search-enabled-Dt2YNPC6.js.map
