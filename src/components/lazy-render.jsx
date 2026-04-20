@@ -1,4 +1,5 @@
-import { useLayoutEffect, useRef } from 'preact/hooks';
+import { Children } from 'preact/compat';
+import { useRef, useMemo } from 'preact/hooks';
 import { useOnInView } from 'react-intersection-observer';
 
 // The sticky header, usually at the top
@@ -9,45 +10,43 @@ export default function LazyRender({
   id,
   class: className,
   children,
+  renderIfHasChildren = true,
   ...props
 }) {
   const rootRef = useRef(null);
 
+  const hasChildren = useMemo(
+    () => Children.toArray(children).filter((child) => !!child).length > 0,
+    [children],
+  );
+
   const observerRef = useOnInView(
-    (inView) => {
-      if (inView && rootRef.current) {
-        console.log('💥', {
-          id,
-          root: rootRef.current,
-        });
-        rootRef.current.classList.remove('hidden');
+    (inView, entry) => {
+      if (!rootRef.current) return;
+      const node = rootRef.current;
+      if (inView) {
+        console.log('💥', { id, root: node });
+        node.classList.remove('hidden');
+      } else if (entry.boundingClientRect.bottom <= TOP) {
+        // Element is above the fold (already scrolled past)
+        if (hasChildren && renderIfHasChildren) {
+          // Don't need to observe if has children
+          observerRef(null);
+          // Debugging
+          if (import.meta.env.DEV) {
+            node.dataset.rectBottom = entry.boundingClientRect.bottom;
+          }
+        } else {
+          node.classList.add('hidden');
+        }
       }
     },
     {
       rootMargin: `-${TOP}px 0px 0px 0px`,
       triggerOnce: true,
+      skip: !hasChildren,
     },
   );
-
-  useLayoutEffect(() => {
-    if (!rootRef.current) return;
-    const rect = rootRef.current.getBoundingClientRect();
-    if (rect.bottom <= TOP) {
-      const childElementCount = rootRef.current.childElementCount;
-      const hasChildren = childElementCount > 0;
-      if (hasChildren) {
-        // Don't need to observe if has children
-        observerRef(null);
-        // Debugging
-        if (import.meta.env.DEV) {
-          rootRef.current.dataset.rectBottom = rect.bottom;
-          rootRef.current.dataset.childElementCount = childElementCount;
-        }
-      } else {
-        rootRef.current.classList.add('hidden');
-      }
-    }
-  }, []);
 
   return (
     <Root
